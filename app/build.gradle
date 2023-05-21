@@ -42,7 +42,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // for json to deserialize
+    // for json to be deserialize
     implementation 'com.google.code.gson:gson:2.10.1'
 
     // for coroutine
