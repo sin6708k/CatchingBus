@@ -1,4 +1,4 @@
-package com.example.catchingbus.view
+package com.example.catchingbus.ui.view
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -60,7 +60,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home,container,false)
-
+        /*
         mapView = view.findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
@@ -68,6 +68,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             onMapReady(googleMap)
         }
         Log.d("problem","홈프래그먼트")
+         */
         return view
     }
     override fun onResume() {
@@ -123,7 +124,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     ) {
         Log.d("problem","위치권한을 요청합니다..")
         when(requestCode){
-            REQUEST_LOCATION_PERMISSION->{
+            REQUEST_LOCATION_PERMISSION ->{
                 if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                     showCurrentLocationOnMap()
                 }

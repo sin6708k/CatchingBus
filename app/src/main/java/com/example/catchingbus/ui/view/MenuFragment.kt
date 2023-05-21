@@ -1,4 +1,4 @@
-package com.example.catchingbus.view
+package com.example.catchingbus.ui.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
