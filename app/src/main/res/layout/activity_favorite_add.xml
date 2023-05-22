@@ -277,7 +277,7 @@
         app:layout_constraintStart_toStartOf="@+id/view_favorite"
         app:layout_constraintTop_toTopOf="@id/view_favorite"
         app:layout_constraintVertical_bias="0.25"
-        app:srcCompat="@drawable/ic_bookmark" />
+        app:srcCompat="@drawable/ic_after_bookmark" />
 
     <ImageView
         android:id="@+id/imageView_back"

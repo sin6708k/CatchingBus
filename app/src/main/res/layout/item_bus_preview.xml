@@ -8,7 +8,7 @@
         android:id="@+id/book_mark"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_bookmark"
+        android:src="@drawable/ic_after_bookmark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.2"

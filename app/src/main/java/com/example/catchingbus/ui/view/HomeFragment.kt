@@ -61,6 +61,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home,container,false)
         /*
+
         mapView = view.findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
