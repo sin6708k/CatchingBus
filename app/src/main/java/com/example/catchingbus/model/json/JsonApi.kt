@@ -1,5 +1,6 @@
 package com.example.catchingbus.model.json
 
+import android.util.Log
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import java.io.BufferedReader
@@ -25,11 +26,19 @@ abstract class JsonApi(endPoint: String, func: String) {
 
             buffer.toString()
         } catch (e: Exception) {
+            Log.e("Exception", "Exception occurred: ${e.javaClass.simpleName}, Message: ${e.message}")
             ""
         }
     }
 
     fun parse(jsonString: String): JsonElement {
+        //Log.d("problem","오류발생 : ${jsonString}")
+        /*
+        if (jsonString.isNullOrEmpty()) {
+            Log.d("problem","오류 발생: ${jsonString}")
+            throw IllegalArgumentException("Invalid JSON string: $jsonString")
+        }
+         */
         val whole = JsonParser.parseString(jsonString).asJsonObject
         val response = whole.get("response").asJsonObject
         val body = response.get("body").asJsonObject
