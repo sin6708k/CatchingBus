@@ -4,9 +4,7 @@ import com.example.catchingbus.model.ArrivalInfo
 import com.example.catchingbus.model.Bus
 import com.example.catchingbus.model.Station
 import org.junit.Test
-
 import org.junit.Assert.*
-
 
 class SearchTest {
     private val tempStation = Station(
@@ -23,7 +21,7 @@ class SearchTest {
     )
 
     @Test
-    fun search_isNotEmpty() {
+    fun searchStations_isNotEmpty() {
         val stations = Station.search("경북대학교북문")
         assertTrue(stations.isNotEmpty())
         stations.forEach { println(it) }
