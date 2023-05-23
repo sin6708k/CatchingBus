@@ -3,27 +3,37 @@ package com.example.catchingbus.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.catchingbus.databinding.ItemStationPreviewBinding
 import com.example.catchingbus.model.Station
 
+
 class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(StationDiffcallback){
 
+    private var onItemClickListener : OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationSearchViewHolder {
-        Log.d("problem","oncreateViewHolder")
-        return StationSearchViewHolder(
-            ItemStationPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        )
+        val binding = ItemStationPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val viewHolder = StationSearchViewHolder(binding)
+        //viewHolder.setItemClickListener(onItemClickListener)
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: StationSearchViewHolder, position: Int) {
-        val station = currentList[position]
-        Log.d("problem","station : ${currentList[position].name}")
-        Log.d("problem","station의 크기 , ${currentList.size}")
-        holder.bind(station)
+        val station = getItem(position) //station은 list중에서 position을 반환
+        holder.bind(station) //반환된 station을 연결함.
+        holder.setItemClickListener(onItemClickListener,station)
     }
 
+    fun setOnItemClickListener(listener : OnItemClickListener){
+        Log.d("problem","setOnItemClickListener")
+        onItemClickListener = listener
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(station: Station)
+    }
     companion object {
         private val StationDiffcallback = object : DiffUtil.ItemCallback<Station>(){
             //리사이클러뷰에서 데이터를 감지하는거 DiffUtil

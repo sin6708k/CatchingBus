@@ -1,5 +1,6 @@
 package com.example.catchingbus.ui.adapter
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catchingbus.databinding.ItemStationPreviewBinding
 import com.example.catchingbus.model.Station
@@ -18,4 +19,16 @@ class StationSearchViewHolder(
             binding.stationName.text=name
         }
     }
+
+    fun setItemClickListener(
+        listener: StationSearchAdapter.OnItemClickListener?,
+        station: Station
+    ) {
+        itemView.setOnClickListener {
+            listener?.onItemClick(station)
+            Log.d("problem","station : ${station.name}")
+            //여기서 station name을 넘겨줘야하는데.
+        }
+    }
+
 }
