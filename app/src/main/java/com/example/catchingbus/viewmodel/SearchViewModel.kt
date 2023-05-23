@@ -32,9 +32,24 @@ class SearchViewModel: ViewModel() {
         MutableLiveData(listOf())
     }
 
+    /*
     fun searchStations() {
         viewModelScope.launch {
             _stations.value = Station.search(searchWord.value.orEmpty())
+        }
+    }
+
+     */
+    fun searchStations() {
+        viewModelScope.launch {
+            val searchResult = Station.search(searchWord.value.orEmpty())
+            _stations.value = searchResult
+
+            // 검색 결과가 초기화된 후에 필요한 추가 작업 수행
+            if (!searchResult.isNullOrEmpty()) {
+                // 추가 작업 수행 코드
+                Log.d("problem","결과 : ${searchResult}")
+            }
         }
     }
 
