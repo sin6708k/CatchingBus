@@ -9,7 +9,7 @@ data class Station(
     val longitude: Double
 ) {
     companion object {
-        fun search(word: String): List<Station> {
+        suspend fun search(word: String): List<Station> {
             val jsons = StationJsonApi.request("22", word)
             return jsons.map {
                 Station(it.nodeid, it.nodenm, it.gpslati, it.gpslong)

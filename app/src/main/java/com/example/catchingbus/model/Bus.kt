@@ -10,7 +10,7 @@ data class Bus(
     val type: String
 ) {
     companion object {
-        fun search(station: Station): List<Bus> {
+        suspend fun search(station: Station): List<Bus> {
             val busByStationJsons = BusByStationJsonApi.request("22", station.id)
             val busJsons = busByStationJsons.map {
                 BusJsonApi.request("22", it.routeid).first()

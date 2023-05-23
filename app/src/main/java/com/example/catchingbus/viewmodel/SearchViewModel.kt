@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.catchingbus.model.ArrivalInfo
 import com.example.catchingbus.model.Bus
 import com.example.catchingbus.model.Station
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {
@@ -25,7 +24,7 @@ class SearchViewModel: ViewModel() {
 
     init {
         selectedStation.observeForever { station ->
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 if (station != null) {
                     buses = Bus.search(station)
                 }
@@ -34,13 +33,13 @@ class SearchViewModel: ViewModel() {
     }
 
     fun searchStations() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             _stations.value = Station.search(searchWord.value.orEmpty())
         }
     }
 
     fun refresh() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val station = selectedStation.value
             if (station != null) {
                 _arrivalInfoes.value = buses.map { bus ->

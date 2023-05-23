@@ -18,7 +18,7 @@ data class ArrivalInfo(
     }
 
     companion object {
-        fun search(station: Station, bus: Bus): ArrivalInfo {
+        suspend fun search(station: Station, bus: Bus): ArrivalInfo {
             val jsons = ArrivalJsonApi.request("22", station.id, bus.id)
             val remainingTimes = jsons.map { it.arrtime.toDuration(DurationUnit.SECONDS) }
             return ArrivalInfo(station, bus, remainingTimes)

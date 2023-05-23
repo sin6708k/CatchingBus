@@ -3,9 +3,12 @@ package com.example.catchingbus
 import com.example.catchingbus.model.ArrivalInfo
 import com.example.catchingbus.model.Bus
 import com.example.catchingbus.model.Station
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.*
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SearchTest {
     private val tempStation = Station(
         "DGB7021025800",
@@ -21,19 +24,21 @@ class SearchTest {
     )
 
     @Test
-    fun searchStations_isNotEmpty() {
+    fun searchStations_isNotEmpty() = runTest {
         val stations = Station.search("경북대학교북문")
         assertTrue(stations.isNotEmpty())
         stations.forEach { println(it) }
     }
+
     @Test
-    fun searchBuses_isNotEmpty() {
+    fun searchBuses_isNotEmpty() = runTest {
         val buses = Bus.search(tempStation)
         assertTrue(buses.isNotEmpty())
         buses.forEach { println(it) }
     }
+
     @Test
-    fun searchArrivalInfo_isNotEmpty() {
+    fun searchArrivalInfo_isNotEmpty() = runTest {
         val arrivalInfo = ArrivalInfo.search(tempStation, tempBus)
         assertTrue(arrivalInfo.remainingTimes.isNotEmpty())
         print(arrivalInfo)
