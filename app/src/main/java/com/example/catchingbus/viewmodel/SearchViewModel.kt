@@ -24,27 +24,25 @@ class SearchViewModel: ViewModel() {
 
     init {
         selectedStation.observeForever { station ->
-            viewModelScope.launch {
-                if (station != null) {
-                    buses = Bus.search(station)
-                }
+            if (station != null) {
+                onSelectStation(station)
             }
         }
     }
 
-    fun searchStations() {
-        viewModelScope.launch {
-            _stations.value = Station.search(searchWord.value.orEmpty())
-        }
+    fun searchStations() = viewModelScope.launch {
+        _stations.value = Station.search(searchWord.value.orEmpty())
     }
 
-    fun refresh() {
-        viewModelScope.launch {
-            val station = selectedStation.value
-            if (station != null) {
-                _arrivalInfoes.value = buses.map { bus ->
-                    ArrivalInfo.search(station, bus)
-                }
+    private fun onSelectStation(station: Station) = viewModelScope.launch {
+        buses = Bus.search(station)
+    }
+
+    fun refresh() = viewModelScope.launch {
+        val station = selectedStation.value
+        if (station != null) {
+            _arrivalInfoes.value = buses.map { bus ->
+                ArrivalInfo.search(station, bus)
             }
         }
     }
