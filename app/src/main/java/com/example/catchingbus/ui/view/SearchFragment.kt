@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
+import com.example.catchingbus.ui.adapter.StationSearchAdapter
 import com.example.catchingbus.viewmodel.SearchViewModel
 import com.google.android.material.textfield.TextInputEditText
 
@@ -38,7 +40,8 @@ class SearchFragment : Fragment() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var stationSearchViewModel: SearchViewModel
 
-    private lateinit var buSearchAdapter: BusSearchAdapter
+    //private lateinit var buSearchAdapter: BusSearchAdapter
+    private lateinit var stationSearchAdapter: StationSearchAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,6 +56,11 @@ class SearchFragment : Fragment() {
         mainBinding = mainActivity.binding
         stationSearchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         search()
+        setupRecyclerView()
+        stationSearchViewModel.stations.observe(viewLifecycleOwner){ newStations->
+            //Log.d("problem","값 변화 : ${newStations[0]}")
+            stationSearchAdapter.submitList(newStations)
+        }
         return binding.root
     }
 
@@ -65,13 +73,38 @@ class SearchFragment : Fragment() {
                 stationSearchViewModel.searchWord.value = searchText
 
                 Log.d("problem","${stationSearchViewModel.searchWord.value.toString()}")
+                //stationSearchViewModel.searchStations()
+                //setupRecyclerView() //리사이클러뷰 만들기.
                 stationSearchViewModel.searchStations()
+                /*
+                stationSearchViewModel.stations.observe(viewLifecycleOwner, Observer {
+                    Log.d("problem","searchStations이 완료됩니다")
+                    setupRecyclerView() // 리사이클러뷰 만들기.
+                })
+
+                 */
+                //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
                 true
             }
             else{
                 false
             }
          }
+    }
+    private fun setupRecyclerView(){ //리사이클러뷰 규성.
+        Log.d("problem","리사이클러뷰구성합니다.")
+        stationSearchAdapter = StationSearchAdapter()
+        binding.stationRecyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+            adapter=stationSearchAdapter
+        }
     }
     override fun onDestroyView() {
         _binding = null

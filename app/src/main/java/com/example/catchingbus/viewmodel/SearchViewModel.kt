@@ -1,5 +1,6 @@
 package com.example.catchingbus.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.catchingbus.model.Bus
 import com.example.catchingbus.model.Station
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchViewModel: ViewModel() {
 
@@ -40,12 +42,22 @@ class SearchViewModel: ViewModel() {
         }
     }
 
+    /*
     fun searchStations() {
         viewModelScope.launch(Dispatchers.IO) {
             _stations.value = Station.search(searchWord.value.orEmpty())
         }
     }
-
+     */
+    fun searchStations() { //수정된 함수.
+        viewModelScope.launch(Dispatchers.IO) {
+            val searchResult = Station.search(searchWord.value.orEmpty())
+            withContext(Dispatchers.Main) {
+                _stations.value = searchResult
+                Log.d("problem","검색결과 : ${searchResult}")
+            }
+        }
+    }
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             val station = selectedStation.value
