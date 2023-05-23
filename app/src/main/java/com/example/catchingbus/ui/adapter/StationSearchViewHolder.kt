@@ -6,9 +6,11 @@ import com.example.catchingbus.databinding.ItemStationPreviewBinding
 import com.example.catchingbus.model.Station
 
 class StationSearchViewHolder(
-    private  val binding : ItemStationPreviewBinding
+    private  val binding : ItemStationPreviewBinding,
+    private val listener: StationSearchAdapter.OnItemClickListener?
 ) :RecyclerView.ViewHolder(binding.root) {
 
+    private lateinit var station: Station
     fun bind(station : Station){
         val name = station.name //정류장 이름
         val longitude = station.longitude //경도
@@ -19,7 +21,6 @@ class StationSearchViewHolder(
             binding.stationName.text=name
         }
     }
-
     fun setItemClickListener(
         listener: StationSearchAdapter.OnItemClickListener?,
         station: Station

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
+import com.example.catchingbus.model.Station
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
 import com.example.catchingbus.viewmodel.SearchViewModel
@@ -32,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding get() = _binding!!
@@ -109,5 +110,9 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onItemClick(station: Station) {
+        Log.d("problem", "Clicked on station: ${station.name}")
     }
 }

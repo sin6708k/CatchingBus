@@ -15,9 +15,9 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     private var onItemClickListener : OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationSearchViewHolder {
         val binding = ItemStationPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        val viewHolder = StationSearchViewHolder(binding)
+        //val viewHolder = StationSearchViewHolder(binding,onItemClickListener)
         //viewHolder.setItemClickListener(onItemClickListener)
-        return viewHolder
+        return StationSearchViewHolder(binding,onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: StationSearchViewHolder, position: Int) {
