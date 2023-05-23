@@ -1,5 +1,6 @@
 package com.example.catchingbus.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,10 +33,20 @@ class SearchViewModel: ViewModel() {
 
     fun searchStations() = viewModelScope.launch {
         _stations.value = Station.search(searchWord.value.orEmpty())
+
+        Log.d("problem", "searchViewModel.searchStations")
+        stations.value?.forEach {
+            Log.d("problem", it.toString())
+        }
     }
 
     private fun onSelectStation(station: Station) = viewModelScope.launch {
         buses = Bus.search(station)
+
+        Log.d("problem", "SearchViewModel.onSelectStation")
+        buses.forEach {
+            Log.d("problem", it.toString())
+        }
     }
 
     fun refresh() = viewModelScope.launch {
@@ -44,6 +55,11 @@ class SearchViewModel: ViewModel() {
             _arrivalInfoes.value = buses.map { bus ->
                 ArrivalInfo.search(station, bus)
             }
+        }
+
+        Log.d("problem", "SearchViewModel.refresh")
+        arrivalInfoes.value?.forEach {
+            Log.d("problem", it.toString())
         }
     }
 }
