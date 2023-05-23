@@ -18,11 +18,11 @@ abstract class JsonApi(endPoint: String, func: String) {
             val buffer = StringBuffer()
 
             withContext(Dispatchers.IO) {
-                url.openConnection().getInputStream()
-            }.use { stream ->
-                InputStreamReader(stream).use { streamReader ->
-                    BufferedReader(streamReader).use { bufferReader ->
-                        while (true) buffer.append(bufferReader.readLine() ?: break)
+                url.openConnection().getInputStream().use { stream ->
+                    InputStreamReader(stream).use { streamReader ->
+                        BufferedReader(streamReader).use { bufferReader ->
+                            while (true) buffer.append(bufferReader.readLine() ?: break)
+                        }
                     }
                 }
             }
