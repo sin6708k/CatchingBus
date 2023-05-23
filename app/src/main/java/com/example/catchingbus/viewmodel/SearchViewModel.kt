@@ -12,23 +12,16 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {
 
-    val searchWord: MutableLiveData<String> by lazy {
-        MutableLiveData("")
-    }
+    val searchWord by lazy { MutableLiveData("") }
 
     val stations: LiveData<List<Station>> get() = _stations
-    private val _stations: MutableLiveData<List<Station>> by lazy {
-        MutableLiveData(listOf())
-    }
+    private val _stations by lazy { MutableLiveData(listOf<Station>()) }
 
     val selectedStation: MutableLiveData<Station?> = MutableLiveData(null)
-
-    private var buses: List<Bus> = listOf()
+    private var buses = listOf<Bus>()
 
     val arrivalInfoes: LiveData<List<ArrivalInfo>> get() = _arrivalInfoes
-    private val _arrivalInfoes: MutableLiveData<List<ArrivalInfo>> by lazy {
-        MutableLiveData(listOf())
-    }
+    private val _arrivalInfoes by lazy { MutableLiveData(listOf<ArrivalInfo>()) }
 
     init {
         selectedStation.observeForever { station ->
