@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_favorite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundTint="#404040">
+
+    <!--알림시간 추가(프레그먼트)에 대한 뷰입니다.-->
+
+
+    <!--정류장, 버스의 배경이 되는 이미지-->
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="340dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="14dp"
+        android:elevation="15dp"
+        android:src="@drawable/rounded_rec_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!--알림시간이 표시되는 배경 이미지-->
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="339dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="116dp"
+        android:src="@drawable/rounded_rec_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+
+    <!--알림추가 버튼의 주변 배경이 되는 이미지-->
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="339dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/rounded_rec_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.284" />
+
+    <!--알림추가 아이콘-->
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundTint="#000000"
+        android:src="@android:drawable/ic_menu_add"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.938" />
+
+
+    <!--리스트뷰에서 선택된 정류장 텍스트-->
+    <TextView
+        android:id="@+id/stationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="selectedStation"
+        android:textSize="20sp"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <!--리스트뷰에서 선택된 버스 텍스트-->
+    <TextView
+        android:id="@+id/busText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="16dp"
+        android:text="selectedBus"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.384" />
+
+    <!--알림시작시간을 보여주는 텍스트-->
+    <TextView
+        android:id="@+id/StartText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="80dp"
+        android:elevation="16dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toStartOf="@+id/WaveText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.481" />
+
+
+    <!--물결모양 텍스트-->
+    <TextView
+        android:id="@+id/WaveText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="16dp"
+        android:text="~"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.481" />
+
+
+    <!--알림종료시간 텍스트-->
+    <TextView
+        android:id="@+id/TextView001"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:elevation="16dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/WaveText"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintVertical_bias="0.481" />
+
+    <!--x 모양 아이콘-->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_x" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
