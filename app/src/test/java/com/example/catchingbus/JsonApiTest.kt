@@ -3,6 +3,7 @@ package com.example.catchingbus
 import com.example.catchingbus.model.json.ArrivalJsonApi
 import com.example.catchingbus.model.json.BusByStationJsonApi
 import com.example.catchingbus.model.json.BusJsonApi
+import com.example.catchingbus.model.json.CityJsonApi
 import com.example.catchingbus.model.json.StationJsonApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -11,6 +12,15 @@ import org.junit.Assert.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class JsonApiTest {
+
+    @Test
+    fun requestCityJsons_isNotEmpty() = runTest {
+        val jsons = CityJsonApi.request()
+        assertTrue(jsons.isNotEmpty())
+
+        val message = jsons.joinToString("\n")
+        println(message)
+    }
 
     @Test
     fun requestStationJsons_isNotEmpty() = runTest {
