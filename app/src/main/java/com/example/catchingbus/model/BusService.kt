@@ -5,6 +5,9 @@ import com.example.catchingbus.data.City
 import com.example.catchingbus.data.Station
 import com.example.catchingbus.model.json.BusByStationJsonApi
 import com.example.catchingbus.model.json.BusJsonApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 object BusService {
     suspend fun search(
@@ -12,8 +15,10 @@ object BusService {
         city: City = City.default
     ): List<Bus> {
         val busByStationJsons = BusByStationJsonApi.request(city.code.toString(), station.id)
-        val busJsons = busByStationJsons.map {
-            BusJsonApi.request(city.code.toString(), it.routeid).first()
+        val busJsons = coroutineScope {
+            busByStationJsons.map {
+                async { BusJsonApi.request(city.code.toString(), it.routeid).first() }
+            }.awaitAll()
         }
         return busJsons.map {
             Bus(it.routeid, it.routeno, it.intervaltime, it.routetp)
