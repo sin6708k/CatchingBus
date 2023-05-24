@@ -1,8 +1,10 @@
 package com.example.catchingbus
 
-import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Bus
 import com.example.catchingbus.data.Station
+import com.example.catchingbus.model.ArrivalInfoService
+import com.example.catchingbus.model.BusService
+import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -25,22 +27,27 @@ class SearchTest {
 
     @Test
     fun searchStations_isNotEmpty() = runTest {
-        val stations = Station.search("경북대학교북문")
+        val stations = StationService.search("경북대학교북문")
         assertTrue(stations.isNotEmpty())
-        stations.forEach { println(it) }
+
+        val message = stations.joinToString("\n")
+        println(message)
     }
 
     @Test
     fun searchBuses_isNotEmpty() = runTest {
-        val buses = Bus.search(tempStation)
+        val buses = BusService.search(tempStation)
         assertTrue(buses.isNotEmpty())
-        buses.forEach { println(it) }
+
+        val message = buses.joinToString("\n")
+        println(message)
     }
 
     @Test
     fun searchArrivalInfo_isNotEmpty() = runTest {
-        val arrivalInfo = ArrivalInfo.search(tempStation, tempBus)
+        val arrivalInfo = ArrivalInfoService.search(tempStation, tempBus)
         assertTrue(arrivalInfo.remainingTimes.isNotEmpty())
-        print(arrivalInfo)
+
+        println(arrivalInfo)
     }
 }

@@ -16,27 +16,35 @@ class JsonApiTest {
     fun requestStationJsons_isNotEmpty() = runTest {
         val jsons = StationJsonApi.request("22", "경북대학교북문")
         assertTrue(jsons.isNotEmpty())
-        jsons.forEach { println(it) }
+
+        val message = jsons.joinToString("\n")
+        println(message)
     }
 
     @Test
     fun requestBusByStationJsons_isNotEmpty() = runTest {
         val jsons = BusByStationJsonApi.request("22", "DGB7021025800")
         assertTrue(jsons.isNotEmpty())
-        jsons.forEach { println(it) }
+
+        val message = jsons.joinToString("\n")
+        println(message)
     }
 
     @Test
     fun requestBusJsons_isNotEmpty() = runTest {
         val jsons = BusJsonApi.request("22", "DGB3000719000")
         assertTrue(jsons.isNotEmpty())
-        jsons.forEach { println(it) }
+
+        val message = jsons.joinToString("\n")
+        println(message)
     }
 
     @Test
     fun requestArrivalJsons_isNotEmpty() = runTest {
         val jsons = ArrivalJsonApi.request("22", "DGB7021025800", "DGB3000719000")
         assertTrue(jsons.isNotEmpty())
-        jsons.forEach { println(it) }
+
+        val message = jsons.joinToString("\n")
+        println(message)
     }
 }

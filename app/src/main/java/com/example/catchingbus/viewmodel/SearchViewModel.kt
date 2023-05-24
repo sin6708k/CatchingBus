@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Bus
 import com.example.catchingbus.data.Station
+import com.example.catchingbus.model.ArrivalInfoService
+import com.example.catchingbus.model.BusService
+import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {
@@ -32,7 +35,7 @@ class SearchViewModel: ViewModel() {
     }
 
     fun searchStations() = viewModelScope.launch {
-        _stations.value = Station.search(searchWord.value.orEmpty())
+        _stations.value = StationService.search(searchWord.value.orEmpty())
 
         Log.d("problem", "searchViewModel.searchStations")
         stations.value?.forEach {
@@ -41,7 +44,7 @@ class SearchViewModel: ViewModel() {
     }
 
     private fun onSelectStation(station: Station) = viewModelScope.launch {
-        buses = Bus.search(station)
+        buses = BusService.search(station)
 
         Log.d("problem", "SearchViewModel.onSelectStation")
         buses.forEach {
@@ -53,7 +56,7 @@ class SearchViewModel: ViewModel() {
         val station = selectedStation.value
         if (station != null) {
             _arrivalInfoes.value = buses.map { bus ->
-                ArrivalInfo.search(station, bus)
+                ArrivalInfoService.search(station, bus)
             }
         }
 

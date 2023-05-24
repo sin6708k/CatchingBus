@@ -17,7 +17,7 @@ class ArrivalUpdater(
     val alarmMessage by lazy { Channel<AlarmMessage>() }
 
     override suspend fun run(): RepeatCommand {
-        val new = ArrivalInfo.search(station, bus)
+        val new = ArrivalInfoService.search(station, bus)
 
         if (alarm != null) {
             if (new.remainingTimes.first() < alarm.time) {
