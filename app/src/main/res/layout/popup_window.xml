@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_rec_white"
+    android:padding="10dp">
+
+    <!--알림시간 추가시 생성되는 팝업 윈도우의 뷰입니다.-->
+    <!--해당 팝업윈도우는 프래그먼트의 코틀린파일(Fav_list_addTime)-->
+    <!--에서 XOR모양 아이콘을 누르면 생성됩니다.-->
+
+    <!--닫기 아이콘-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        </LinearLayout>
+
+    <!--Create Alarm Text-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Alarm"
+        android:layout_gravity="center"
+        android:textAppearance="?attr/textAppearanceHeadline5" />
+
+
+    <!--Start Text-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_rec_gray">
+
+
+            <TextView
+                android:id="@+id/start_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!--알림 시작 시간을 입력하는 텍스트에디트-->
+        <EditText
+            android:id="@+id/enterStart"
+            android:layout_width="93dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_rec_gray"
+            android:hint="Enter time"
+            android:inputType="time" />
+
+
+    </LinearLayout>
+
+    <!--End Text-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_rec_gray">
+
+            <TextView
+                android:id="@+id/end_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+
+
+                android:text=" End  "
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <!--알림 종료시간을 입력하는 텍스트에딧-->
+        <EditText
+            android:id="@+id/enterEnd"
+            android:layout_width="93dp"
+            android:layout_height="40dp"
+            android:hint="Enter time"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_rec_gray"
+            android:inputType="time" />
+
+    </LinearLayout>
+
+
+    <!--ADD텍스트와 그것의 배경이미지-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/submit_button"
+            android:layout_width="238dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_rec_gray"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD"
+            app:layout_constraintBottom_toBottomOf="@+id/submit_button"
+            app:layout_constraintEnd_toEndOf="@+id/submit_button"
+            app:layout_constraintStart_toStartOf="@+id/submit_button"
+            app:layout_constraintTop_toTopOf="@+id/submit_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
