@@ -14,6 +14,9 @@ import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {
+    companion object {
+        const val TAG = "problem"
+    }
 
     val searchWord by lazy { MutableLiveData("") }
 
@@ -27,42 +30,38 @@ class SearchViewModel: ViewModel() {
     private val _arrivalInfoes by lazy { MutableLiveData(listOf<ArrivalInfo>()) }
 
     init {
-        selectedStation.observeForever { station ->
-            if (station != null) {
-                onSelectStation(station)
+        selectedStation.observeForever {
+            if (it != null) {
+                onSelectStation(it)
             }
         }
     }
 
     fun searchStations() = viewModelScope.launch {
-        _stations.value = StationService.search(searchWord.value.orEmpty())
+        val stations = StationService.search(searchWord.value.orEmpty())
+        _stations.value = stations
 
-        Log.d("problem", "searchViewModel.searchStations")
-        stations.value?.forEach {
-            Log.d("problem", it.toString())
-        }
+        val message = stations.joinToString("\n", "searchStations")
+        Log.d(TAG, message)
     }
 
     private fun onSelectStation(station: Station) = viewModelScope.launch {
         buses = BusService.search(station)
 
-        Log.d("problem", "SearchViewModel.onSelectStation")
-        buses.forEach {
-            Log.d("problem", it.toString())
-        }
+        val message = buses.joinToString("\n", "onSelectStation\n")
+        Log.d(TAG, message)
     }
 
     fun refresh() = viewModelScope.launch {
         val station = selectedStation.value
         if (station != null) {
-            _arrivalInfoes.value = buses.map { bus ->
-                ArrivalInfoService.search(station, bus)
+            val arrivalInfoes = buses.map {
+                ArrivalInfoService.search(station, it)
             }
-        }
+            _arrivalInfoes.value = arrivalInfoes
 
-        Log.d("problem", "SearchViewModel.refresh")
-        arrivalInfoes.value?.forEach {
-            Log.d("problem", it.toString())
+            val message = arrivalInfoes.joinToString("\n", "refresh\n")
+            Log.d(TAG, message)
         }
     }
 }
