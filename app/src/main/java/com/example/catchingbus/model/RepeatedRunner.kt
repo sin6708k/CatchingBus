@@ -2,7 +2,7 @@ package com.example.catchingbus.model
 
 import kotlinx.coroutines.delay
 
-abstract class Runnable(
+abstract class RepeatedRunner(
     private val activeSchedules: List<Schedule>
 ) {
     suspend fun start() {
