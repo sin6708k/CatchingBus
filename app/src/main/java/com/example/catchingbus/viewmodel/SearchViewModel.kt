@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.catchingbus.model.ArrivalInfo
-import com.example.catchingbus.model.Bus
-import com.example.catchingbus.model.Station
+import com.example.catchingbus.data.ArrivalInfo
+import com.example.catchingbus.data.Bus
+import com.example.catchingbus.data.Station
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel() {

@@ -1,8 +1,8 @@
-package com.example.catchingbus.model
+package com.example.catchingbus.data
 
 import java.time.LocalTime
 
-class Schedule(
+data class Schedule(
     val startTime: LocalTime,
     val endTime: LocalTime
 )

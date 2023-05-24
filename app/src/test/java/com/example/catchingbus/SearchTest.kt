@@ -1,8 +1,8 @@
 package com.example.catchingbus
 
-import com.example.catchingbus.model.ArrivalInfo
-import com.example.catchingbus.model.Bus
-import com.example.catchingbus.model.Station
+import com.example.catchingbus.data.ArrivalInfo
+import com.example.catchingbus.data.Bus
+import com.example.catchingbus.data.Station
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

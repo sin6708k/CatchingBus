@@ -1,4 +1,4 @@
-package com.example.catchingbus.model
+package com.example.catchingbus.data
 
 import com.example.catchingbus.model.json.StationJsonApi
 

@@ -1,5 +1,6 @@
 package com.example.catchingbus.model
 
+import com.example.catchingbus.data.Schedule
 import kotlinx.coroutines.delay
 
 abstract class RepeatedRunner(

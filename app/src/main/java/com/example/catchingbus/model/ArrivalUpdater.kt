@@ -1,5 +1,8 @@
 package com.example.catchingbus.model
 
+import com.example.catchingbus.data.ArrivalInfo
+import com.example.catchingbus.data.Bus
+import com.example.catchingbus.data.Station
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 
@@ -8,7 +11,7 @@ class ArrivalUpdater(
     private val bus: Bus,
     private val alarm: TimeAlarm? = null
 
-): Runnable(alarm?.activeSchedules ?: listOf()) {
+): RepeatedRunner(alarm?.activeSchedules ?: listOf()) {
 
     val latest by lazy { MutableSharedFlow<ArrivalInfo>() }
     val alarmMessage by lazy { Channel<AlarmMessage>() }
