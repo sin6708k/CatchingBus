@@ -42,15 +42,11 @@ class SearchViewModel: ViewModel() {
             Log.d(TAG, it.joinToString("\n   ", "On stations.setValue()\n"))
         }
         selectedStation.observeForever {
-            if (it != null) {
-                onSelectStation(it)
-            }
+            onSelectStation(it)
         }
         buses.observeForever {
             Log.d(TAG, it.joinToString("\n   ", "On buses.setValue()\n"))
-            if (it != null) {
-                refresh()
-            }
+            refresh()
         }
         arrivalInfoes.observeForever {
             Log.d(TAG, it.joinToString("\n   ", "On arrivalInfoes.setValue()\n"))
@@ -62,8 +58,12 @@ class SearchViewModel: ViewModel() {
         _stations.value = StationService.search(searchWord.value.orEmpty())
     }
 
-    private fun onSelectStation(station: Station) = viewModelScope.launch {
-        _buses.value = BusService.search(station)
+    private fun onSelectStation(station: Station?) = viewModelScope.launch {
+        _buses.value = if (station != null) {
+            BusService.search(station)
+        } else {
+            listOf()
+        }
     }
 
     // View에서 새로고침 버튼을 누를 때마다 이 function을 호출해야 한다
