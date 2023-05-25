@@ -23,7 +23,7 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     override fun onBindViewHolder(holder: StationSearchViewHolder, position: Int) {
         val station = getItem(position) //station은 list중에서 position을 반환
         holder.bind(station) //반환된 station을 연결함.
-        holder.setItemClickListener(onItemClickListener,station)
+        //holder.setItemClickListener(onItemClickListener,station)
     }
 
     fun setOnItemClickListener(listener : OnItemClickListener){

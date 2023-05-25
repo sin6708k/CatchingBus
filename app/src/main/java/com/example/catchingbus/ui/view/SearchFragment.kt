@@ -40,7 +40,6 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
     private lateinit var  mainActivity: MainActivity
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var stationSearchViewModel: SearchViewModel
-
     //private lateinit var buSearchAdapter: BusSearchAdapter
     private lateinit var stationSearchAdapter: StationSearchAdapter
 
@@ -74,16 +73,7 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
                 stationSearchViewModel.searchWord.value = searchText
 
                 Log.d("problem","${stationSearchViewModel.searchWord.value.toString()}")
-                //stationSearchViewModel.searchStations()
-                //setupRecyclerView() //리사이클러뷰 만들기.
                 stationSearchViewModel.searchStations()
-                /*
-                stationSearchViewModel.stations.observe(viewLifecycleOwner, Observer {
-                    Log.d("problem","searchStations이 완료됩니다")
-                    setupRecyclerView() // 리사이클러뷰 만들기.
-                })
-
-                 */
                 //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
                 true
             }
@@ -111,7 +101,6 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         _binding = null
         super.onDestroyView()
     }
-
     override fun onItemClick(station: Station) {
         Log.d("problem", "Clicked on station: ${station.name}")
     }

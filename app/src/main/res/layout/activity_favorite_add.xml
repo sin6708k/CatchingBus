@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-
     <View
         android:id="@+id/view_bgr"
         android:layout_width="383dp"

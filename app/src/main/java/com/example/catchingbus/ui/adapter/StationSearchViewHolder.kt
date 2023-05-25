@@ -21,15 +21,17 @@ class StationSearchViewHolder(
             binding.stationName.text=name
         }
     }
+    /*
     fun setItemClickListener(
         listener: StationSearchAdapter.OnItemClickListener?,
         station: Station
     ) {
         itemView.setOnClickListener {
             listener?.onItemClick(station)
-            Log.d("problem","station : ${station.name}")
+            Log.d("problem","viewHolder : station : ${station.name}")
             //여기서 station name을 넘겨줘야하는데.
         }
     }
+     */
 
 }
