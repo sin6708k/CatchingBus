@@ -19,23 +19,23 @@ class SearchViewModel: ViewModel() {
     }
 
     // View에서 검색 창에 입력할 때마다 이 field를 그 String으로 설정해야 한다
-    val searchWord by lazy { MutableLiveData("") }
+    val searchWord = MutableLiveData("")
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 Station들을 갱신해야 한다
     val stations: LiveData<List<Station>> get() = _stations
-    private val _stations by lazy { MutableLiveData(listOf<Station>()) }
+    private val _stations = MutableLiveData(listOf<Station>())
 
     // View에서 Station을 선택할 때마다 이 field를 그 Station로 설정해야 한다
-    val selectedStation: MutableLiveData<Station?> = MutableLiveData(null)
+    val selectedStation: MutableLiveData<Station?> = MutableLiveData()
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 Bus들을 갱신해야 한다
     // 그러나 View에서 ArrivalInfo를 보여주는 것만으로 충분하면 하지 않아도 된다
     val buses: LiveData<List<Bus>> get() = _buses
-    private val _buses by lazy { MutableLiveData(listOf<Bus>()) }
+    private val _buses = MutableLiveData(listOf<Bus>())
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 ArrivalInfo들을 갱신해야 한다
     val arrivalInfoes: LiveData<List<ArrivalInfo>> get() = _arrivalInfoes
-    private val _arrivalInfoes by lazy { MutableLiveData(listOf<ArrivalInfo>()) }
+    private val _arrivalInfoes = MutableLiveData(listOf<ArrivalInfo>())
 
     init {
         stations.observeForever {
