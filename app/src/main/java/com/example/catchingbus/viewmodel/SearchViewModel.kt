@@ -39,7 +39,7 @@ class SearchViewModel: ViewModel() {
 
     init {
         stations.observeForever {
-            Log.d(TAG, it.joinToString("\n  ", "On stations.setValue()\n"))
+            Log.d(TAG, it.joinToString("\n   ", "On stations.setValue()\n"))
         }
         selectedStation.observeForever {
             if (it != null) {
@@ -48,6 +48,9 @@ class SearchViewModel: ViewModel() {
         }
         buses.observeForever {
             Log.d(TAG, it.joinToString("\n   ", "On buses.setValue()\n"))
+            if (it != null) {
+                refresh()
+            }
         }
         arrivalInfoes.observeForever {
             Log.d(TAG, it.joinToString("\n   ", "On arrivalInfoes.setValue()\n"))
