@@ -41,7 +41,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var fusedLocationClient:FusedLocationProviderClient
-    /*
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -49,7 +49,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-     */
+
 
     companion object{
         private const val REQUEST_LOCATION_PERMISSION = 1
@@ -60,7 +60,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home,container,false)
-        /*
+
 
         mapView = view.findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             onMapReady(googleMap)
         }
         Log.d("problem","홈프래그먼트")
-         */
+
         return view
     }
     override fun onResume() {
@@ -135,7 +135,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             }
         }
     }
-    /*
+
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         Log.d("problem","현재 위치를 파악하고있습니다")
@@ -162,7 +162,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             }
         }
     }
-     */
+
     @SuppressLint("MissingPermission")
     private fun showCurrentLocationOnMap() {
         googleMap?.isMyLocationEnabled = true
