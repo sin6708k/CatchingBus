@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rec_white"
+    android:paddingTop="0dp"
+    android:paddingBottom="10dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!--ListView의 각항목들에 대한 뷰입니다.-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="18dp">
+        <!--항목을 삭제할때 사용되는 x 입니다.-->
+        <ImageView
+            android:id="@+id/imageViewX"
+            android:layout_width="27dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_x" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--(임시)데이터의 정류소 이름을 표시하는 텍스트-->
+    <TextView
+        android:id="@+id/StationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="버스정류장"
+        android:textColorHint="@color/black"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <!--(임시)데이터의 버스 번호을 표시하는 텍스트-->
+    <TextView
+        android:id="@+id/BusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="버스번호"
+        android:textColorHint="@color/black"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+</LinearLayout>
+

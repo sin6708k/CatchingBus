@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.MenuFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- 여기에 activity_favorite_add -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Menu fragment"
-        android:textSize="50sp"
-        android:gravity="center"
-        />
+        android:layout_height="match_parent">
+
+        <!-- 안에넣으시면 될거같습니다 -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
