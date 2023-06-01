@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.viewmodel.SearchViewModel
@@ -13,9 +14,12 @@ import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var busSearchViewModel: SearchViewModel
+    //private lateinit var busSearchViewModel: SearchViewModel
     val binding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
+    }
+    private val sharedViewModel: SearchViewModel by lazy {
+        ViewModelProvider(this).get(SearchViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +30,6 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState==null){ //앱이 처음 실행된 상태라면 구글맵이 포함된 화면을 보여줄거임.
             binding.bottomNavigationView.selectedItemId=R.id.fragment_menu
         }
-
-        //val editText = findViewById<TextInputEditText>(R.id.search_text)
-
         binding.searchText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 // 포커스를 얻었을 때의 동작을 여기에 작성합니다.
@@ -39,7 +40,6 @@ class MainActivity : AppCompatActivity() {
                 ).commit()
             }
         }
-        //edit text -> viewmodel ->
     }
     private fun setBottomNavigationView(){ //바텀 네비게이션 작업. 아이콘 누르면 화면 이동.
         Log.d("problem","바텀네비게이션")

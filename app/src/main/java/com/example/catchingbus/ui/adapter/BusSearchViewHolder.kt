@@ -1,10 +1,8 @@
 package com.example.catchingbus.ui.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.catchingbus.R
+import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.databinding.ItemBusPreviewBinding
-import com.example.catchingbus.model.ArrivalInfo
-import com.example.catchingbus.model.Bus
 
 class BusSearchViewHolder(
     private val binding : ItemBusPreviewBinding

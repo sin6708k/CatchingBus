@@ -1,8 +1,5 @@
 package com.example.catchingbus
 
-import com.example.catchingbus.model.ArrivalInfo
-import com.example.catchingbus.model.Bus
-import com.example.catchingbus.model.Station
 import org.junit.Test
 import org.junit.Assert.*
 

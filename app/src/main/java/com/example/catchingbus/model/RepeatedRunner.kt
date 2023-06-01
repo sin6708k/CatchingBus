@@ -1,8 +1,9 @@
 package com.example.catchingbus.model
 
+import com.example.catchingbus.data.Schedule
 import kotlinx.coroutines.delay
 
-abstract class Runnable(
+abstract class RepeatedRunner(
     private val activeSchedules: List<Schedule>
 ) {
     suspend fun start() {
@@ -11,6 +12,5 @@ abstract class Runnable(
             delay(repeatCommand.delay)
         }
     }
-
     abstract suspend fun run(): RepeatCommand?
 }
