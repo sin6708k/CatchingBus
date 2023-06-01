@@ -2,26 +2,22 @@ package com.example.catchingbus.ui.view
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
+import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
-import com.example.catchingbus.model.Station
-import com.example.catchingbus.ui.adapter.BusSearchAdapter
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
 import com.example.catchingbus.viewmodel.SearchViewModel
-import com.google.android.material.textfield.TextInputEditText
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,8 +51,10 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         mainBinding = mainActivity.binding
         stationSearchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+
         search()
         setupRecyclerView()
+        stationSearchAdapter.setOnItemClickListener(this)
         stationSearchViewModel.stations.observe(viewLifecycleOwner){ newStations->
             //Log.d("problem","값 변화 : ${newStations[0]}")
             stationSearchAdapter.submitList(newStations)
@@ -66,7 +64,7 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
 
     private fun search(){
         Log.d("problem","search를 합니다")
-        mainBinding.searchText.setOnEditorActionListener { _, actionId, _, ->
+        mainBinding.searchText.setOnEditorActionListener { _, actionId, _ ->
             if(actionId==EditorInfo.IME_ACTION_DONE) {
                 val searchText = mainBinding.searchText.text.toString()
                 Log.d("problem","검색 텍스트는 ${searchText}")
@@ -78,9 +76,10 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
                 true
             }
             else{
+                Log.d("problem","검색실패")
                 false
             }
-         }
+        }
     }
     private fun setupRecyclerView(){ //리사이클러뷰 규성.
         Log.d("problem","리사이클러뷰구성합니다.")
@@ -102,6 +101,18 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         super.onDestroyView()
     }
     override fun onItemClick(station: Station) {
-        Log.d("problem", "Clicked on station: ${station.name}")
+        // 아이템뷰 클릭 이벤트 처리
+
+        Log.d("problem","아이템 클릭 , ${station.name}")
+        stationSearchViewModel.selectedStation.value=station
+        //하면 여기서 넘어가야함.
+
+        //val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        //transaction.replace(R.id.search_fragment,AfterSearchFragment()).commit()
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, AfterSearchFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }

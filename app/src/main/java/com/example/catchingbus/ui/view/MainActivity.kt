@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.viewmodel.SearchViewModel
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     val binding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -22,6 +25,19 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigationView()
         if(savedInstanceState==null){ //앱이 처음 실행된 상태라면 구글맵이 포함된 화면을 보여줄거임.
             binding.bottomNavigationView.selectedItemId=R.id.fragment_menu
+        }
+
+        //val editText = findViewById<TextInputEditText>(R.id.search_text)
+
+        binding.searchText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                // 포커스를 얻었을 때의 동작을 여기에 작성합니다.
+                // 예시: 클릭되었을 때의 동작
+                Toast.makeText(this, "EditText 클릭됨", Toast.LENGTH_SHORT).show()
+                supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
+                    SearchFragment()
+                ).commit()
+            }
         }
         //edit text -> viewmodel ->
     }
@@ -43,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         SearchFragment()
                     ).commit()
-                        true
+                    true
                 }
                 R.id.fragment_menu->{ //메뉴버튼
                     Toast.makeText(this,"메뉴튼을 눌렀습니다",Toast.LENGTH_SHORT).show()
@@ -55,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else->false //다른버튼 누르면 안댐.
             }
-         }
+        }
 
     }
 }

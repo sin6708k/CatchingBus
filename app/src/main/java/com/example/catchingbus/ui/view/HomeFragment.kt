@@ -44,10 +44,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
 
@@ -152,15 +148,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             .addOnFailureListener{
                 e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
             }
-    }
-    @SuppressLint("MissingPermission")
-    private fun showCurrentLocationOnMap(){
-        googleMap?.isMyLocationEnabled=true
-        getCurrentLocation{ location->
-            location?.let{
-                val
-            }
-        }
     }
 
     @SuppressLint("MissingPermission")

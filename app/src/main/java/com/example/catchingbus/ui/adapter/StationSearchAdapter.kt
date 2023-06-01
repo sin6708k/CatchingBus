@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ItemStationPreviewBinding
-import com.example.catchingbus.model.Station
 
 
 class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(StationDiffcallback){
@@ -23,7 +23,10 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     override fun onBindViewHolder(holder: StationSearchViewHolder, position: Int) {
         val station = getItem(position) //station은 list중에서 position을 반환
         holder.bind(station) //반환된 station을 연결함.
-        //holder.setItemClickListener(onItemClickListener,station)
+        holder.itemView.setOnClickListener {
+            Log.d("problem","클릭클릭")
+            onItemClickListener?.onItemClick(station)
+        }
     }
 
     fun setOnItemClickListener(listener : OnItemClickListener){
@@ -34,6 +37,7 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     interface OnItemClickListener{
         fun onItemClick(station: Station)
     }
+
     companion object {
         private val StationDiffcallback = object : DiffUtil.ItemCallback<Station>(){
             //리사이클러뷰에서 데이터를 감지하는거 DiffUtil
