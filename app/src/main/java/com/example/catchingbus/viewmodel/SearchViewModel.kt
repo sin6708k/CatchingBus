@@ -5,67 +5,73 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.catchingbus.model.ArrivalInfo
-import com.example.catchingbus.model.Bus
-import com.example.catchingbus.model.Station
-import kotlinx.coroutines.Dispatchers
+import com.example.catchingbus.data.ArrivalInfo
+import com.example.catchingbus.data.Bus
+import com.example.catchingbus.data.Station
+import com.example.catchingbus.model.ArrivalInfoService
+import com.example.catchingbus.model.BusService
+import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchViewModel: ViewModel() {
-
-    val searchWord: MutableLiveData<String> by lazy {
-        MutableLiveData("")
+    companion object {
+        const val TAG = "problem"
     }
 
+    // View에서 검색 창에 입력할 때마다 이 field를 그 String으로 설정해야 한다
+    val searchWord = MutableLiveData("")
+
+    // 이 field의 값이 바뀔 때마다 View에서 보여주는 Station들을 갱신해야 한다
     val stations: LiveData<List<Station>> get() = _stations
-    private val _stations: MutableLiveData<List<Station>> by lazy {
-        MutableLiveData(listOf())
-    }
+    private val _stations = MutableLiveData(listOf<Station>())
 
-    val selectedStation: MutableLiveData<Station?> = MutableLiveData(null)
+    // View에서 Station을 선택할 때마다 이 field를 그 Station로 설정해야 한다
+    val selectedStation: MutableLiveData<Station?> = MutableLiveData()
 
-    private var buses: List<Bus> = listOf()
+    // 이 field의 값이 바뀔 때마다 View에서 보여주는 Bus들을 갱신해야 한다
+    // 그러나 View에서 ArrivalInfo를 보여주는 것만으로 충분하면 하지 않아도 된다
+    val buses: LiveData<List<Bus>> get() = _buses
+    private val _buses = MutableLiveData(listOf<Bus>())
 
+    // 이 field의 값이 바뀔 때마다 View에서 보여주는 ArrivalInfo들을 갱신해야 한다
     val arrivalInfoes: LiveData<List<ArrivalInfo>> get() = _arrivalInfoes
-    private val _arrivalInfoes: MutableLiveData<List<ArrivalInfo>> by lazy {
-        MutableLiveData(listOf())
-    }
+    private val _arrivalInfoes = MutableLiveData(listOf<ArrivalInfo>())
 
     init {
-        selectedStation.observeForever { station ->
-            viewModelScope.launch(Dispatchers.IO) {
-                if (station != null) {
-                    buses = Bus.search(station)
-                }
-            }
+        stations.observeForever {
+            Log.d(TAG, it.joinToString("\n   ", "On stations.setValue()\n"))
+        }
+        selectedStation.observeForever {
+            onSelectStation(it)
+        }
+        buses.observeForever {
+            Log.d(TAG, it.joinToString("\n   ", "On buses.setValue()\n"))
+            refresh()
+        }
+        arrivalInfoes.observeForever {
+            Log.d(TAG, it.joinToString("\n   ", "On arrivalInfoes.setValue()\n"))
         }
     }
 
-    /*
-    fun searchStations() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _stations.value = Station.search(searchWord.value.orEmpty())
+    // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
+    fun searchStations() = viewModelScope.launch {
+        _stations.value = StationService.search(searchWord.value.orEmpty())
+    }
+
+    private fun onSelectStation(station: Station?) = viewModelScope.launch {
+        _buses.value = if (station != null) {
+            BusService.search(station)
+        } else {
+            listOf()
         }
     }
-     */
-    fun searchStations() { //수정된 함수.
-        viewModelScope.launch(Dispatchers.IO) {
-            val searchResult = Station.search(searchWord.value.orEmpty())
-            withContext(Dispatchers.Main) {
-                _stations.value = searchResult
-                Log.d("problem","검색결과 : ${searchResult}")
-            }
-        }
-    }
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val station = selectedStation.value
-            if (station != null) {
-                _arrivalInfoes.value = buses.map { bus ->
-                    ArrivalInfo.search(station, bus)
-                }
-            }
+
+    // View에서 새로고침 버튼을 누를 때마다 이 function을 호출해야 한다
+    fun refresh() = viewModelScope.launch {
+        selectedStation.value?.let { station ->
+            _arrivalInfoes.value = buses.value?.map { bus ->
+                ArrivalInfoService.search(station, bus)
+            } ?: listOf()
         }
     }
 }
