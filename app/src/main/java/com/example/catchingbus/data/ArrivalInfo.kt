@@ -6,7 +6,7 @@ import kotlin.time.Duration
 data class ArrivalInfo(
     val station: Station,
     val bus: Bus,
-    val remainingTimes: List<Duration>,
+    val remainingTimes: List<Duration>, //영어 한글로 처리.
 ) {
     val creationTime = LocalDateTime.now()
 

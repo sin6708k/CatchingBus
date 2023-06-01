@@ -46,6 +46,7 @@ class AfterSearchFragment : Fragment() {
         _binding = FragmentAfterSearchBinding.inflate(inflater, container, false)
         SetupRecyclerView()
 
+        //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
         sharedViewModel.arrivalInfoes.observe(viewLifecycleOwner) { arriveinfo ->
             Log.d("problem","값 변화 : ${arriveinfo}")
          busSearchAdapter.submitList(arriveinfo)
@@ -55,9 +56,7 @@ class AfterSearchFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
-
     private fun SetupRecyclerView(){
         Log.d("problem","after search 리사이클러뷰 만들거")
         busSearchAdapter = BusSearchAdapter() //어뎁터 연결
@@ -72,24 +71,5 @@ class AfterSearchFragment : Fragment() {
             )
             adapter =  busSearchAdapter
         }
-    }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AfterSearch.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AfterSearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
