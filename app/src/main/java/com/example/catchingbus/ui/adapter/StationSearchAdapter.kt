@@ -15,8 +15,7 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     private var onItemClickListener : OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationSearchViewHolder {
         val binding = ItemStationPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        //val viewHolder = StationSearchViewHolder(binding,onItemClickListener)
-        //viewHolder.setItemClickListener(onItemClickListener)
+
         return StationSearchViewHolder(binding,onItemClickListener)
     }
 
@@ -37,7 +36,6 @@ class StationSearchAdapter : ListAdapter<Station, StationSearchViewHolder>(Stati
     interface OnItemClickListener{
         fun onItemClick(station: Station)
     }
-
     companion object {
         private val StationDiffcallback = object : DiffUtil.ItemCallback<Station>(){
             //리사이클러뷰에서 데이터를 감지하는거 DiffUtil

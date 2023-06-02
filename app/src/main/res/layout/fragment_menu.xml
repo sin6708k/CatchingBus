@@ -10,18 +10,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <!--    배경,회색-->
         <View
             android:id="@+id/view_bgr"
-            android:layout_width="383dp"
-            android:layout_height="585dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="1"
             android:background="@drawable/rounded_rec_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.90999997" />
+            />
 
 
         <!-- "즐겨찾기" 텍스트 -->

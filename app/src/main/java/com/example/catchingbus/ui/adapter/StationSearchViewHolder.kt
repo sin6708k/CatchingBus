@@ -16,6 +16,7 @@ class StationSearchViewHolder(
 
     private lateinit var station: Station
     private lateinit var stationSearchViewModel: SearchViewModel
+
     fun bind(station : Station){
         val name = station.name //정류장 이름
         val longitude = station.longitude //경도
@@ -26,6 +27,7 @@ class StationSearchViewHolder(
             binding.stationName.text=name
         }
     }
+
     fun setItemClickListener(
         listener: StationSearchAdapter.OnItemClickListener?,
         station: Station
@@ -37,6 +39,4 @@ class StationSearchViewHolder(
             //여기서 station name을 넘겨줘야하는데.
         }
     }
-
-
 }

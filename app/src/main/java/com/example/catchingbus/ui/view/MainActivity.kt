@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun setBottomNavigationView(){ //바텀 네비게이션 작업. 아이콘 누르면 화면 이동.
         Log.d("problem","바텀네비게이션")
         binding.bottomNavigationView.setOnItemSelectedListener { item->
