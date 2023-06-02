@@ -7,6 +7,10 @@ android {
     namespace 'com.example.catchingbus'
     compileSdk 33
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.catchingbus"
         minSdk 26
@@ -57,5 +61,4 @@ dependencies {
     //구글맵 API
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
-
 }

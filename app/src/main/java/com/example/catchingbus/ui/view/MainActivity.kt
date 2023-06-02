@@ -1,5 +1,6 @@
 package com.example.catchingbus.ui.view
 
+import MenuFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
