@@ -1,6 +1,6 @@
 package com.example.catchingbus.data
 
-import java.time.LocalTime
+import kotlinx.datetime.LocalTime
 
 data class Schedule(
     val startTime: LocalTime,
