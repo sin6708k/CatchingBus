@@ -18,26 +18,28 @@ class BusSearchViewHolder(
 
     fun bind(bus : ArrivalInfo){
         val num  = bus.bus.name.toString()
-        if(bus.remainingTimes.size==2) {
-            val first_arrive = bus.remainingTimes[0] //첫차 도착시간
-            val second_arrive = bus.remainingTimes[1] //뒷차 도착시간
-            itemView.apply{
-                binding.busNum.text = num
-                binding.firstArrive.text = first_arrive.toString()
-                binding.secondArrive.text= second_arrive.toString()
-                //binding.circle.setImageResource(R.drawable.ic_green_circle) 임의로 초록색을 넣었음.
+        var first_arrive : Duration= Duration.ZERO
+        var second_arrive :Duration=Duration.ZERO
+        if(bus.remainingTimes.size==2) { //버스가 두 대일떄는 정상적으로 받음.
+            first_arrive = bus.remainingTimes[0] //첫차 도착시간
+            second_arrive = bus.remainingTimes[1] //뒷차 도착시간
+        }
+        else //남은 버스가 하나일때.
+            first_arrive=bus.remainingTimes[0]
+        itemView.apply{
+            binding.busNum.text = num
+            binding.firstArrive.text = first_arrive.toString()
+            binding.secondArrive.text= second_arrive.toString()
+            //binding.circle.setImageResource(R.drawable.ic_green_circle) 임의로 초록색을 넣었음.
+            binding.bookMark.setOnClickListener{// 상태에 따라 선택자 리소스 적용
+                    binding.bookMark.isSelected = !binding.bookMark.isSelected
+                Log.d("problem","북마크클릭")
             }
         }
-        else{ //size가 1일대.
-            val first_arrive=bus.remainingTimes[0]
-            val second_arrive = ""
-            itemView.apply{
-                binding.busNum.text = num
-                binding.firstArrive.text = first_arrive.toString()
-                binding.secondArrive.text= second_arrive.toString()
-                //binding.circle.setImageResource(R.drawable.ic_green_circle) 임의로 초록색을 넣었음.
-            }
-        }
+        if (first_arrive == Duration.ZERO)  //초기화한값 그대로라면, 시간이 없으므로, 버스 없음을 출력.
+            binding.firstArrive.text="버스 없음"
+        if (second_arrive == Duration.ZERO)
+            binding.secondArrive.text="버스 없음"
         //val velocity = bus.velocity.toString() //아마 속도의 빠르기가 들어갈거임.
     }
     fun setItemClickListener(

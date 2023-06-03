@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("problem","oncreate")
         setBottomNavigationView()
         if(savedInstanceState==null){ //앱이 처음 실행된 상태라면 구글맵이 포함된 화면을 보여줄거임.
-            binding.bottomNavigationView.selectedItemId=R.id.fragment_menu
+            binding.bottomNavigationView.selectedItemId=R.id.fragment_home
         }
         binding.searchText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {

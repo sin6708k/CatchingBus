@@ -66,7 +66,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
             googleMap=map
-            onMapReady(googleMap)
+            onMapReady(googleMap!!)
         }
 
         //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
@@ -108,9 +108,9 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback {
         mapView.onDestroy()
     }
 
-    override fun onMapReady(map: GoogleMap?) {
+    override fun onMapReady(p0: GoogleMap) {
         Log.d("problem","지도호출")
-        googleMap = map
+        googleMap = p0
         showCustomLocationOnMap()
     }
     @SuppressLint("MissingPermission")
@@ -137,7 +137,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback {
                 callback(location) // 콜백 함수에 위치 정보 전달
             }
             .addOnFailureListener {
-                    e -> Toast.makeText(context, "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    e -> Toast.makeText(requireContext(), "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
                 callback(null) // 콜백 함수에 null 전달
             }
     }

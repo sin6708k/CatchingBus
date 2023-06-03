@@ -22,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -60,7 +61,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
             googleMap=map
-            onMapReady(googleMap)
+            onMapReady(googleMap!!)
         }
         Log.d("problem","홈프래그먼트")
 
@@ -85,11 +86,13 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         super.onLowMemory()
         mapView.onLowMemory()
     }
-    override fun onMapReady(map: GoogleMap?) {
+    override fun onMapReady(p0: GoogleMap) {
         Log.d("problem","지도호출")
-        googleMap = map
-        checkLocationPermission()
-        showCurrentLocationOnMap()
+        googleMap = p0
+            //getCurrentLocation()
+//        checkLocationPermission() //위치권환 확인
+    //showCurrentLocationOnMap() //
+        showCustomLocationOnMap()
     }
     private fun checkLocationPermission(){
         Log.d("problem","위치권한 확인")
@@ -101,10 +104,10 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         ) {
             // 위치 권한이 있는경우
             Log.d("problem","위치권한이 있습니다")
-            showCurrentLocationOnMap()
+           // showCurrentLocationOnMap()
         } else {
             // 위치 권한이 없는 경우 권한 요청
-            ActivityCompat.requestPermissions(
+                ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
@@ -112,7 +115,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         }
     }
 
-    override fun onRequestPermissionsResult(
+    override fun onRequestPermissionsResult( //위치권한 요청
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
@@ -121,10 +124,10 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         when(requestCode){
             REQUEST_LOCATION_PERMISSION ->{
                 if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    showCurrentLocationOnMap()
+                   // showCurrentLocationOnMap()
                 }
                 else{
-
+                    Log.d("problem","위치권한이 없어요!")
                 }
             }
         }
@@ -148,6 +151,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             }
     }
 
+    /*
     @SuppressLint("MissingPermission")
     private fun showCurrentLocationOnMap() {
         googleMap?.isMyLocationEnabled = true
@@ -160,6 +164,23 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             }
         }
     }
+     */
+    @SuppressLint("MissingPermission")
+    private fun showCustomLocationOnMap() {
+        val latitude = 35.888085 // 지정할 위도 값
+        val longitude = 128.611408 // 지정할 경도 값
+
+        val customLatLng = LatLng(latitude!!, longitude!!)
+        Log.d("problem","위도 : $latitude, 경도 : $longitude")
+
+        val cameraPosition = CameraPosition.Builder()
+            .target(customLatLng)
+            .zoom(15f)
+            .build()
+
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        googleMap?.addMarker(MarkerOptions().position(customLatLng).title("지정한 위치"))
+    }
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation(callback: (Location?) -> Unit) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -168,7 +189,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
                 callback(location) // 콜백 함수에 위치 정보 전달
             }
             .addOnFailureListener {
-                    e -> Toast.makeText(context, "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    e -> Toast.makeText(requireContext(), "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
                 callback(null) // 콜백 함수에 null 전달
             }
     }
