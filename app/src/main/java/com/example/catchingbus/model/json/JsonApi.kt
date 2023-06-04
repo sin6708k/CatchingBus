@@ -1,6 +1,7 @@
 package com.example.catchingbus.model.json
 
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,11 +35,23 @@ abstract class JsonApi(endPoint: String, func: String) {
     }
 
     fun parse(jsonString: String): JsonElement {
-        val whole = JsonParser.parseString(jsonString).asJsonObject
-        val response = whole.get("response").asJsonObject
-        val body = response.get("body").asJsonObject
-        val items = body.get("items").asJsonObject
-        return items.get("item")
+        val whole = JsonParser.parseString(jsonString)
+        val response = whole.asJsonObject.get("response")
+        val header = response.asJsonObject.get("header")
+
+        val resultCode = header.asJsonObject.get("resultCode")
+        if (resultCode.asInt != 0) {
+            return JsonNull.INSTANCE
+        }
+
+        val body = response.asJsonObject.get("body")
+        val items = body.asJsonObject.get("items")
+
+        return if (items.isJsonObject) {
+            items.asJsonObject.get("item")
+        } else {
+            JsonNull.INSTANCE
+        }
     }
 
     companion object {
