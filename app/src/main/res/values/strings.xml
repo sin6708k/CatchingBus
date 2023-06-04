@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Catching Bus</string>
-    <string name="search">버스 정류장 검색</string>
+    <string name="search">검색</string>
     <string name="home">홈</string>
     <string name="menu">메뉴</string>
     <!-- TODO: Remove or change this placeholder text -->
