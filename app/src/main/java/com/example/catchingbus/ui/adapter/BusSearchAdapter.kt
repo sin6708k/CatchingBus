@@ -3,8 +3,10 @@ package com.example.catchingbus.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.catchingbus.R
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ItemBusPreviewBinding
@@ -14,7 +16,7 @@ import com.example.catchingbus.databinding.ItemStationPreviewBinding
 
 class BusSearchAdapter : ListAdapter<ArrivalInfo, BusSearchViewHolder>(BusDiffcallback){
 
-    private var onBusClickListener : BusSearchAdapter.OnBusClickListener? = null
+    private var onBusClickListener : OnBusClickListener? = null
 
     override fun onCreateViewHolder(parent:ViewGroup, viewType: Int): BusSearchViewHolder{
         Log.d("problem","bussearch 어뎁터야")
@@ -29,10 +31,17 @@ class BusSearchAdapter : ListAdapter<ArrivalInfo, BusSearchViewHolder>(BusDiffca
         Log.d("problem","${Arrive} : ${position}")
         holder.bind(Arrive) //반환된 station을 연결함.
 
+        //
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.book_mark)
+        /*
         holder.itemView.setOnClickListener {
-            Log.d("problem","클릭클릭")
             onBusClickListener?.onBusClick(Arrive)
-            Log.d("problem","${Arrive}")
+       }
+         */
+        imageView.setOnClickListener{
+            Log.d("problem","이미지클")
+            imageView.isSelected = !imageView.isSelected
+            onBusClickListener?.onBusClick(Arrive)
         }
     }
     fun setOnBusClickListener(listener : BusSearchAdapter.OnBusClickListener){

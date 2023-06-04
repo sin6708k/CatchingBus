@@ -18,6 +18,7 @@ import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
+import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
 
@@ -37,13 +38,8 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
     private val binding: FragmentSearchBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
     private lateinit var mainBinding: ActivityMainBinding
-    //private lateinit var stationSearchViewModel: SearchViewModel
-    private val sharedViewModel: SearchViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
-    }
-
-
-    //private lateinit var buSearchAdapter: BusSearchAdapter
+    private lateinit var sharedViewModel : SearchViewModel
+    private lateinit var favoriteViewModel : FavoriteViewModel
     private lateinit var stationSearchAdapter: StationSearchAdapter
 
     override fun onAttach(context: Context) {
@@ -57,6 +53,8 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+        favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
         mainBinding = mainActivity.binding
         // = ViewModelProvider(this).get(SearchViewModel::class.java)
 
@@ -113,7 +111,6 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
 
     override fun onItemClick(station: Station) {
         // 아이템뷰 클릭 이벤트 처리
-
         Log.d("problem", "아이템 클릭 , ${station.name}")
         mainBinding.searchText.setText(station.name)
         sharedViewModel.selectedStation.value = station

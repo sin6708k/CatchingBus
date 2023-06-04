@@ -12,7 +12,8 @@ import com.example.catchingbus.model.FavoriteRepo
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalTime
+//import kotlinx.datetime.LocalTime
+import java.time.LocalTime
 
 class FavoriteViewModel: ViewModel() {
     companion object {

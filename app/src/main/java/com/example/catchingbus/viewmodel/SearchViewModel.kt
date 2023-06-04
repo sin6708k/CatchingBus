@@ -64,7 +64,12 @@ class SearchViewModel: ViewModel() {
             Log.d(TAG, it.joinToString("\n * ", "on arrivalInfoes.setValue()\n * "))
         }
         favorites.observeForever {
-            Log.d(TAG, it.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
+            //Log.d(TAG, it.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
+            if (it != null) {
+                Log.d(TAG, it.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
+            } else {
+                Log.d(TAG, "favorites is null")
+            }
         }
     }
 
@@ -112,18 +117,45 @@ class SearchViewModel: ViewModel() {
     }
 
     // View에서 각 Bus의 즐겨찾기 버튼을 누를 때마다 이 function을 호출해야 한다
+
     fun addOrRemoveFavorite(bus: Bus) = viewModelScope.launch {
+
         selectedStation.value?.let { station ->
             favorites.value?.let { favorites ->
                 favorites[bus].let {
                     if (it == null) {
                         val favorite = Favorite(station, bus)
+                        Log.d("problem","즐겨찾기 추가 : ${Favorite(station, bus)}")
                         FavoriteRepo.add(favorite)
                     } else {
+                        Log.d("problem","즐겨찾기 삭제 : ${Favorite(station, bus)}")
                         FavoriteRepo.remove(it)
                     }
                 }
             }
         }
     }
+
+    /* 제가 잠시 짠 코든데 안되서 원래걸로 주석풀어놨습니다.
+    fun addOrRemoveFavorite(bus: Bus) = viewModelScope.launch {
+        selectedStation.value?.let { station ->
+            favorites.value?.let { favorites ->
+                val favoriteToRemove = favorites.entries.find { it.key == bus }?.value
+                if (favoriteToRemove != null) {
+                    // 이미 추가된 즐겨찾기 버스인 경우
+                    Log.d("problem", "이미 즐겨찾기에 추가된 버스입니다.")
+                    Log.d("problem", "즐겨찾기 삭제: $favoriteToRemove")
+                    FavoriteRepo.remove(favoriteToRemove)
+                    // 처리할 로직 작성
+                } else {
+                    // 중복이 없는 경우, 버스를 즐겨찾기에 추가
+                    val favorite = Favorite(station, bus)
+                    Log.d("problem", "즐겨찾기 추가: $favorite")
+                    FavoriteRepo.add(favorite)
+                }
+            }
+        }
+    }
+
+     */
 }

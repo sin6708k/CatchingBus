@@ -10,13 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
+import com.example.catchingbus.data.ArrivalInfo
+import com.example.catchingbus.data.Favorite
+import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.FragmentAfterSearchBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
+import com.example.catchingbus.ui.adapter.StationSearchAdapter
+import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -38,16 +44,27 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AfterSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AfterSearchFragment : Fragment(),OnMapReadyCallback {
+class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBusClickListener {
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var fusedLocationClient:FusedLocationProviderClient
 
     private var _binding: FragmentAfterSearchBinding? = null
     private val binding: FragmentAfterSearchBinding get() = _binding!!
+    /*
     private val sharedViewModel: SearchViewModel by lazy {
         ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
     }
+     */
+    /*
+    private val favoriteViewModel: FavoriteViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
+    }
+     */
+    private lateinit var sharedViewModel : SearchViewModel
+    private lateinit var favoriteViewModel : FavoriteViewModel
+
+
     private lateinit var busSearchAdapter: BusSearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +77,10 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAfterSearchBinding.inflate(inflater, container, false)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+        favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
         SetupRecyclerView()
-
+        busSearchAdapter.setOnBusClickListener(this)
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
@@ -75,6 +94,11 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback {
             busSearchAdapter.submitList(arriveinfo)
         }
         return binding.root
+    }
+
+    override fun onBusClick(arrivalInfo: ArrivalInfo) { // 아이템뷰 클릭 이벤트 처리
+        Log.d("problem","즐겨찾기 추가할래!")
+        sharedViewModel.addOrRemoveFavorite(arrivalInfo.bus) //즐겨찾기 추가 혹은 있으면 제거
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
