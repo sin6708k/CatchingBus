@@ -9,7 +9,6 @@ data class ArrivalInfo(
     val remainingTimes: List<Duration>, //영어 한글로 처리.
 ) {
     val creationTime = LocalDateTime.now()
-
     val velocity: Velocity by lazy {
         Velocity.UNDETERMINED
     }
