@@ -1,3 +1,4 @@
+/*
 package com.example.catchingbus.ui.view
 
 import Dummy
@@ -150,3 +151,5 @@ class FavoriteFragment : Fragment() {
             }
     }
 }
+
+ */

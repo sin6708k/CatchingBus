@@ -1,4 +1,4 @@
-
+/*
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -42,3 +42,6 @@ class MenuAdapter(
 
     override fun getItemCount() = items.size
 }
+
+
+ */
