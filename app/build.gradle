@@ -30,6 +30,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    // for unit-test
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -47,10 +53,12 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.4.0'
 
     // for coroutine
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0'
 
     // for view-model
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+
+    // for unit-test
+    testImplementation 'io.kotest:kotest-runner-junit5:5.6.2'
 }
