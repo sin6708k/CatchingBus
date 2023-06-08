@@ -5,4 +5,16 @@ data class Bus(
     val name: String,
     val intervalTime: Int,
     val type: String
-)
+) {
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Bus) {
+            this.id == other.id
+        } else {
+            false
+        }
+    }
+}
