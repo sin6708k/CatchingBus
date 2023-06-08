@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.MenuFragment">
+    tools:context=".ui.view.MenuFragment"
+    android:id="@+id/container">
 
-    <!-- 여기에 activity_favorite_add -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -72,7 +72,54 @@
 
             app:layout_constraintVertical_bias="0.543" />
 
-        <!-- 안에넣으시면 될거같습니다 -->
+        <View
+            android:id="@+id/view_bgr"
+            android:layout_width="383dp"
+            android:layout_height="585dp"
+            android:background="@drawable/rounded_rec_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.90999997" />
+
+        <TextView
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="즐겨찾기"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_bgr"
+            app:layout_constraintEnd_toEndOf="@+id/view_bgr"
+            app:layout_constraintHorizontal_bias="0.467"
+            app:layout_constraintStart_toStartOf="@+id/view_bgr"
+            app:layout_constraintTop_toTopOf="@+id/view_bgr"
+            app:layout_constraintVertical_bias="0.025" />
+
+        <ImageView
+            android:id="@+id/imageView_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="340dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_bgr"
+            app:layout_constraintEnd_toEndOf="@+id/view_bgr"
+            app:layout_constraintHorizontal_bias="0.906"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view_bgr"
+            app:layout_constraintVertical_bias="0.025"
+            app:srcCompat="@drawable/ic_back" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="339dp"
+            android:layout_height="482dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/view_bgr"
+            app:layout_constraintEnd_toEndOf="@+id/view_bgr"
+            app:layout_constraintStart_toStartOf="@+id/view_bgr"
+            app:layout_constraintTop_toTopOf="@+id/view_bgr"
+            app:layout_constraintVertical_bias="0.543" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
