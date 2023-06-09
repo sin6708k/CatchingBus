@@ -62,7 +62,7 @@
 
         <!--알림 시작 시간을 입력하는 텍스트에디트-->
         <EditText
-            android:id="@+id/enterStart"
+            android:id="@+id/Start_time_text"
             android:layout_width="93dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
@@ -105,7 +105,7 @@
 
         <!--알림 종료시간을 입력하는 텍스트에딧-->
         <EditText
-            android:id="@+id/enterEnd"
+            android:id="@+id/end_time_text"
             android:layout_width="93dp"
             android:layout_height="40dp"
             android:hint="Enter time"

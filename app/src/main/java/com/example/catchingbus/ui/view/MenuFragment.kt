@@ -95,6 +95,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
 
     override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 화면 누를때.
         Log.d("problem","즐겨찾기 클릭")
+        favoriteViewModel.selectedFavorite.value=favorite
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.frame_layout, ScheduleFragment())

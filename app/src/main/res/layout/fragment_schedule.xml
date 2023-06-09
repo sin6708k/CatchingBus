@@ -14,7 +14,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.15"
         android:id="@+id/title"
         android:background="@drawable/round_view"
         android:gravity="center_horizontal"
@@ -52,12 +53,11 @@
             android:layout_height="40dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/schedule_recycler"
-            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

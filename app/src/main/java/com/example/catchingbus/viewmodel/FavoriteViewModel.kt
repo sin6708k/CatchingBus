@@ -78,5 +78,7 @@ class FavoriteViewModel: ViewModel() {
 
     private fun updateSchedules(favorite: Favorite?) = viewModelScope.launch {
         _schedules.value = favorite?.alarmActiveSchedules
+        Log.d("problem","업데이트 스케쥴  : ${_schedules.value}")
+        Log.d("problem","즐겨찾기 : ${favorite}")
     }
 }

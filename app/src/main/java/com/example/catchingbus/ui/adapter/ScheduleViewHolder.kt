@@ -13,6 +13,7 @@ class ScheduleViewHolder(
 
     private lateinit var favoriteViewModel: FavoriteViewModel
     fun bind(item: Schedule) {
+        Log.d("problem","bind : ${item}")
         val start_time = item.startTime
         val end_time = item.endTime
 
