@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
+import com.example.catchingbus.data.Schedule
 import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentScheduleBinding
@@ -39,7 +40,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ScheduleFragment : Fragment() {
+class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListener {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentScheduleBinding? = null
     private val binding: FragmentScheduleBinding get() = _binding!!
@@ -64,6 +65,7 @@ class ScheduleFragment : Fragment() {
         mainBinding = mainActivity.binding
 
         setupRecyclerView()
+        scheduleAdapter.setRemoveScheduleClickListener(this)
         binding.addAlarm.setOnClickListener {
             showDialog()
         }
@@ -72,6 +74,7 @@ class ScheduleFragment : Fragment() {
         favoriteViewModel.schedules.observe(viewLifecycleOwner) { newSchedule ->
             Log.d("problem", "값 변화: $newSchedule")
             scheduleAdapter.submitList(newSchedule)
+            scheduleAdapter.notifyDataSetChanged() // 변경된 부분
         }
         return binding.root
     }
@@ -94,15 +97,15 @@ class ScheduleFragment : Fragment() {
             Log.d("problem","ADD버튼")
             Log.d("problem","시간 : ${startTime}, ${endTime}")
             favoriteViewModel.addSchedule(startTime,endTime)
-            val newScheduleList = favoriteViewModel.schedules.value.orEmpty()
-            scheduleAdapter.submitScheduleList(newScheduleList)
+            //val newScheduleList = favoriteViewModel.schedules.value.orEmpty()
+            //scheduleAdapter.submitScheduleList(newScheduleList)
             dialog?.dismiss()
         }
         dialog?.window?.setLayout(1000, 1000)
     }
     private fun setupRecyclerView() { //리사이클러뷰 규성.
         Log.d("problem", "스케쥴 리사이클러뷰구성합니다.")
-        scheduleAdapter =ScheduleAdapter()
+        scheduleAdapter = ScheduleAdapter()
         binding.scheduleRecycler.apply {
             setHasFixedSize(true)
             layoutManager =
@@ -122,4 +125,8 @@ class ScheduleFragment : Fragment() {
         super.onDestroyView()
     }
 
+    override fun onScheduleRemoveClick(schedule: Schedule) {
+        Log.d("problem","스케줄프래그먼트, 삭제스케줄")
+        favoriteViewModel.removeSchedule(schedule)
+    }
 }

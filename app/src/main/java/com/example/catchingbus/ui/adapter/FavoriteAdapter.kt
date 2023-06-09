@@ -33,7 +33,6 @@ class FavoriteAdapter: ListAdapter<Favorite, FavoriteViewHolder>(FavoriteDiffcal
         val imageView = holder.itemView.findViewById<ImageView>(R.id.delete_favorite)
         imageView.setOnClickListener{
             Log.d("problem","즐겨찾기 제거하기")
-            //removeItem(position)
             onFavoriteRemoveClickListener?.onFavoriteRemoveClick(favorite)//
         }
         holder.itemView.setOnClickListener {

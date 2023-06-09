@@ -69,6 +69,7 @@ class FavoriteViewModel: ViewModel() {
 
     // View에서 Schedule 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeSchedule(schedule: Schedule) = viewModelScope.launch {
+        Log.d("problem","스케줄 삭제 ${schedule}")
         selectedFavorite.value?.let {
             it.alarmActiveSchedules.remove(schedule)
             FavoriteRepo.update(it)
@@ -79,6 +80,5 @@ class FavoriteViewModel: ViewModel() {
     private fun updateSchedules(favorite: Favorite?) = viewModelScope.launch {
         _schedules.value = favorite?.alarmActiveSchedules
         Log.d("problem","업데이트 스케쥴  : ${_schedules.value}")
-        Log.d("problem","즐겨찾기 : ${favorite}")
     }
 }
