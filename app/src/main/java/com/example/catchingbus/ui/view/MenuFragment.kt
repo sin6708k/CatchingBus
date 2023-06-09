@@ -93,7 +93,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         super.onDestroyView()
     }
 
-    override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 x 누를때
+    override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 화면 누를때.
         Log.d("problem","즐겨찾기 클릭")
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()

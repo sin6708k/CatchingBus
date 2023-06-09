@@ -60,6 +60,7 @@ class FavoriteViewModel: ViewModel() {
 
     private fun onSelectFavorite(favorite: Favorite?) = viewModelScope.launch {
         _schedules.value = favorite?.alarmActiveSchedules
+        Log.d("problem","스케쥴벨류 : ${_schedules.value}")
     }
 
     // View에서 Schedule 등록 버튼을 누를 때마다 이 function을 호출해야 한다.

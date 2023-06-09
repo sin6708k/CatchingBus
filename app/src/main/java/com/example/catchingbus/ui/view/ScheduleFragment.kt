@@ -82,7 +82,12 @@ class ScheduleFragment : Fragment() {
         dialog?.setContentView(dialogBinding.root)
         dialog?.setCancelable(false)
         dialog?.show()
+        dialogBinding.closePopup.setOnClickListener {  //닫기버튼
+            dialog?.dismiss()
+        }
         dialog?.window?.setLayout(1000, 1000)
+
+
     }
 
     private fun setupRecyclerView() { //리사이클러뷰 규성.
