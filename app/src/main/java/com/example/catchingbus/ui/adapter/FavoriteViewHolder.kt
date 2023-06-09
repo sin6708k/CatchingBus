@@ -19,8 +19,6 @@ class FavoriteViewHolder(
 ) :RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var favoriteViewModel : FavoriteViewModel
-
-
     fun bind(item : Favorite){
         val station_name : String = item.station.name
         val bus_num : String = item.bus.name

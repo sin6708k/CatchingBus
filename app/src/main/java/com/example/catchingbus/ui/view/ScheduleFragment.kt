@@ -1,11 +1,13 @@
 package com.example.catchingbus.ui.view
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -14,12 +16,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
-import com.example.catchingbus.data.Favorite
 import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ActivityMainBinding
-import com.example.catchingbus.databinding.FragmentMenuBinding
+import com.example.catchingbus.databinding.FragmentScheduleBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
-import com.example.catchingbus.ui.adapter.FavoriteAdapter
+import com.example.catchingbus.databinding.PopupWindowBinding
+import com.example.catchingbus.ui.adapter.ScheduleAdapter
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
 import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
@@ -35,17 +37,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,FavoriteAdapter.OnFavoriteRemoveClickListener {
+class ScheduleFragment : Fragment() {
     // TODO: Rename and change types of parameters
-
-    private var _binding: FragmentMenuBinding? = null
-    private val binding: FragmentMenuBinding get() = _binding!!
+    private var _binding: FragmentScheduleBinding? = null
+    private val binding: FragmentScheduleBinding get() = _binding!!
     private lateinit var mainActivity: MainActivity
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var sharedViewModel : SearchViewModel
     private lateinit var favoriteViewModel : FavoriteViewModel
-    private lateinit var FavoriteAdapter: FavoriteAdapter
-    private lateinit  var onFavoriteRemoveClickListener: FavoriteAdapter.OnFavoriteRemoveClickListener
+    private lateinit var ScheduleAdapter : ScheduleAdapter
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -56,25 +57,38 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMenuBinding.inflate(inflater, container, false)
+        _binding = FragmentScheduleBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
         favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
         mainBinding = mainActivity.binding
+
         setupRecyclerView()
-        FavoriteAdapter.setOnFavoriteClickListener(this)
-        FavoriteAdapter.setRemoveFavoriteClickListener(this)
-        favoriteViewModel.favorites.observe(viewLifecycleOwner) { newFavorite ->
-            //Log.d("problem","값 변화 : ${newStations[0]}")
-            FavoriteAdapter.submitList(newFavorite)
+        binding.addAlarm.setOnClickListener {
+            showDialog()
         }
+        //stationSearchAdapter.setOnItemClickListener(this)
+        /*
+        sharedViewModel.stations.observe(viewLifecycleOwner) { newStations ->
+            //Log.d("problem","값 변화 : ${newStations[0]}")
+            stationSearchAdapter.submitList(newStations)
+        }
+         */
         return binding.root
     }
-
+    fun showDialog(){
+        var dialogBinding = PopupWindowBinding.inflate(layoutInflater)
+        var dialog = this.context?.let { Dialog(it) }
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setContentView(dialogBinding.root)
+        dialog?.setCancelable(false)
+        dialog?.show()
+        dialog?.window?.setLayout(1000, 1000)
+    }
 
     private fun setupRecyclerView() { //리사이클러뷰 규성.
         Log.d("problem", "리사이클러뷰구성합니다.")
-        FavoriteAdapter = FavoriteAdapter()
-        binding.favoriteRecycler.apply {
+        ScheduleAdapter = ScheduleAdapter()
+        binding.scheduleRecycler.apply {
             setHasFixedSize(true)
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -84,7 +98,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
                     DividerItemDecoration.VERTICAL
                 )
             )
-            adapter = FavoriteAdapter
+            adapter = ScheduleAdapter
         }
     }
 
@@ -93,17 +107,4 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         super.onDestroyView()
     }
 
-    override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 x 누를때
-        Log.d("problem","즐겨찾기 클릭")
-        val fragmentManager = requireActivity().supportFragmentManager
-        fragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, ScheduleFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-    override fun onFavoriteRemoveClick(favorite: Favorite) {
-        Log.d("problem","삭제")
-        favoriteViewModel.removeFavorite(favorite)
-        //TODO("Not yet implemented")
-    }
 }

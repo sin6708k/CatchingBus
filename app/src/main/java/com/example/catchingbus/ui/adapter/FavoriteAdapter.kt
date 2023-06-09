@@ -33,7 +33,11 @@ class FavoriteAdapter: ListAdapter<Favorite, FavoriteViewHolder>(FavoriteDiffcal
         val imageView = holder.itemView.findViewById<ImageView>(R.id.delete_favorite)
         imageView.setOnClickListener{
             Log.d("problem","즐겨찾기 제거하기")
-            removeItem(position)
+            //removeItem(position)
+            onFavoriteRemoveClickListener?.onFavoriteRemoveClick(favorite)//
+        }
+        holder.itemView.setOnClickListener {
+            onFavoriteClickListener?.onFavoriteClick(favorite)
         }
     }
     interface OnFavoriteRemoveClickListener {
@@ -43,9 +47,12 @@ class FavoriteAdapter: ListAdapter<Favorite, FavoriteViewHolder>(FavoriteDiffcal
         // 데이터셋에서 아이템 삭제
         val favorite = getItem(position)
         onFavoriteRemoveClickListener?.onFavoriteRemoveClick(favorite) //아이템 삭제하고 프래그먼트에도 말하기
+
         notifyItemRemoved(position) // 데이터셋을 업데이트하고 삭제된 아이템을 알림
     }
-
+    fun setRemoveFavoriteClickListener(listener: OnFavoriteRemoveClickListener){
+        onFavoriteRemoveClickListener=listener
+    }
     fun setOnFavoriteClickListener(listener : OnFavoriteClickListener){
         Log.d("problem","setOnItemClickListener")
         onFavoriteClickListener = listener
