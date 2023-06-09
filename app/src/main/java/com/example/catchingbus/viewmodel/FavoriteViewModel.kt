@@ -12,8 +12,7 @@ import com.example.catchingbus.model.FavoriteRepo
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-//import kotlinx.datetime.LocalTime
-import java.time.LocalTime
+import kotlinx.datetime.LocalTime
 
 class FavoriteViewModel: ViewModel() {
     companion object {
@@ -28,7 +27,7 @@ class FavoriteViewModel: ViewModel() {
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 Schedule들을 갱신해야 한다.
     val schedules: LiveData<List<Schedule>> get() = _schedules
-    private val _schedules = MutableLiveData(listOf<Schedule>())
+    private val _schedules = MutableLiveData<List<Schedule>>(emptyList())
 
     init {
         viewModelScope.launch {
@@ -38,7 +37,7 @@ class FavoriteViewModel: ViewModel() {
             Log.d(TAG, it.joinToString("\n   ", "on favorites.setValue()\n"))
         }
         selectedFavorite.observeForever {
-            onSelectFavorite(it)
+            updateSchedules(it)
         }
         schedules.observeForever {
             Log.d(TAG, it.joinToString("\n   ", "on schedules.setValue()\n"))
@@ -58,18 +57,13 @@ class FavoriteViewModel: ViewModel() {
         FavoriteRepo.remove(favorite)
     }
 
-    private fun onSelectFavorite(favorite: Favorite?) = viewModelScope.launch {
-        _schedules.value = favorite?.alarmActiveSchedules
-        Log.d("problem","스케쥴벨류 : ${_schedules.value}")
-    }
-
     // View에서 Schedule 등록 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun addSchedule(startTime: LocalTime, endTime: LocalTime) = viewModelScope.launch {
         selectedFavorite.value?.let {
             val schedule = Schedule(startTime, endTime)
             it.alarmActiveSchedules.add(schedule)
             FavoriteRepo.update(it)
-            onSelectFavorite(it)
+            updateSchedules(it)
         }
     }
 
@@ -78,7 +72,11 @@ class FavoriteViewModel: ViewModel() {
         selectedFavorite.value?.let {
             it.alarmActiveSchedules.remove(schedule)
             FavoriteRepo.update(it)
-            onSelectFavorite(it)
+            updateSchedules(it)
         }
+    }
+
+    private fun updateSchedules(favorite: Favorite?) = viewModelScope.launch {
+        _schedules.value = favorite?.alarmActiveSchedules
     }
 }
