@@ -16,9 +16,10 @@
         android:background="@drawable/rounded_rec_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90999997" />
+        app:layout_constraintVertical_bias="0.89" />
 
     <TextView
         android:id="@+id/favorite"
@@ -29,7 +30,6 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view_bgr"
         app:layout_constraintEnd_toEndOf="@+id/view_bgr"
-        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="@+id/view_bgr"
         app:layout_constraintTop_toTopOf="@+id/view_bgr"
         app:layout_constraintVertical_bias="0.025" />
@@ -92,7 +92,7 @@
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="@+id/view_bgr"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <ImageView
         android:id="@+id/imageView11"
