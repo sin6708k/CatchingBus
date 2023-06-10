@@ -40,7 +40,6 @@ abstract class JsonFileRepo<T : Any>(
         }
         save()
     }
-
     suspend fun add(element: T) {
         mutex.withLock {
             if (dataValue.indexOf(element) == -1) {
