@@ -26,14 +26,16 @@ object ArrivalAlarm {
 
     private suspend fun run(delayTime: Duration) {
         while (true) {
-            val now = LocalTime.now().toKotlinLocalTime()
-            val activeSchedules = ScheduleRepo.data.value.filter {
-                now > it.startTime && now < it.endTime
-            }
-            activeSchedules.forEach {
-                _alarmMessage.emit(AlarmMessage(
-                    arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
-                ))
+            val now = LocalTime.now()?.toKotlinLocalTime()
+            if (now != null) {
+                val activeSchedules = ScheduleRepo.data.value.filter {
+                    now > it.startTime && now < it.endTime
+                }
+                activeSchedules.forEach {
+                    _alarmMessage.emit(AlarmMessage(
+                        arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
+                    ))
+                }
             }
             delay(delayTime)
         }

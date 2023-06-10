@@ -8,7 +8,7 @@ data class ArrivalInfo(
     val bus: Bus,
     val remainingTimes: List<Duration>,
 ) {
-    val creationTime = LocalDateTime.now()
+    val creationTime = LocalDateTime.now() ?: null
 
     val velocity: Velocity by lazy {
         if (remainingTimes.size >= 2) {
