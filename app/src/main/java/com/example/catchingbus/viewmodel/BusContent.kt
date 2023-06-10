@@ -7,5 +7,5 @@ import com.example.catchingbus.data.Favorite
 data class BusContent(
     val bus: Bus,
     val arrivalInfo: ArrivalInfo?,
-    val favorite: Favorite?
+    var favorite: Favorite? //내가고침
 )

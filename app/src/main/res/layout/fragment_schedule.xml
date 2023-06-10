@@ -15,7 +15,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintHeight_percent="0.2"
         android:id="@+id/title"
         android:background="@drawable/round_view"
         android:gravity="center_horizontal"
