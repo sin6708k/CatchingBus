@@ -111,12 +111,9 @@ class SearchViewModel: ViewModel() {
 
     private fun collectFavorites() = viewModelScope.launch {
         FavoriteRepo.data.collectLatest {
-            Log.d(TAG, it.joinToString("\n * ", "collectFavorite() start\n * "))
-
             favorites = it.associateBy { favorite ->
                 favorite.bus
             }
-            Log.d(TAG, "collectFavorite() end")
         }
     }
 

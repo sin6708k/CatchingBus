@@ -55,7 +55,6 @@ class FavoriteViewModel: ViewModel() {
         Log.d(TAG, "addSchedule() start")
 
         selectedFavorite.value?.let {
-            Log.d(TAG, "addSchedule($startTime, $endTime)")
             val schedule = Schedule(it, startTime, endTime)
             ScheduleRepo.add(schedule)
             updateSchedules(it, ScheduleRepo.data.value)
@@ -68,7 +67,6 @@ class FavoriteViewModel: ViewModel() {
         Log.d(TAG, "removeSchedule() start")
 
         selectedFavorite.value?.let {
-            Log.d(TAG, "removeSchedule()")
             ScheduleRepo.remove(schedule)
             updateSchedules(it, ScheduleRepo.data.value)
         }
