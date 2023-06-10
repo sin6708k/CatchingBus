@@ -9,8 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.catchingbus.data.Favorite
 import com.example.catchingbus.data.Schedule
 import com.example.catchingbus.model.FavoriteRepo
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import com.example.catchingbus.model.ScheduleRepo
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 
@@ -30,25 +29,14 @@ class FavoriteViewModel: ViewModel() {
     private val _schedules = MutableLiveData<List<Schedule>>(emptyList())
 
     init {
-        viewModelScope.launch {
-            FavoriteRepo.load()
-        }
         favorites.observeForever {
-            Log.d(TAG, it.joinToString("\n   ", "on favorites.setValue()\n"))
+            Log.d(TAG, it.joinToString("\n * ", "on favorites.setValue()\n * "))
         }
         selectedFavorite.observeForever {
-            updateSchedules(it)
+            updateSchedules(it, ScheduleRepo.data.value)
         }
         schedules.observeForever {
-            Log.d(TAG, it.joinToString("\n   ", "on schedules.setValue()\n"))
-        }
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    override fun onCleared() {
-        super.onCleared()
-        GlobalScope.launch {
-            FavoriteRepo.save()
+            Log.d(TAG, it.joinToString("\n * ", "on schedules.setValue()\n * "))
         }
     }
 
@@ -60,23 +48,23 @@ class FavoriteViewModel: ViewModel() {
     // View에서 Schedule 등록 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun addSchedule(startTime: LocalTime, endTime: LocalTime) = viewModelScope.launch {
         selectedFavorite.value?.let {
-            val schedule = Schedule(startTime, endTime)
-            it.alarmActiveSchedules.add(schedule)
-            FavoriteRepo.update(it)
-            updateSchedules(it)
+            val schedule = Schedule(it, startTime, endTime)
+            ScheduleRepo.add(schedule)
+            updateSchedules(it, ScheduleRepo.data.value)
         }
     }
 
     // View에서 Schedule 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeSchedule(schedule: Schedule) = viewModelScope.launch {
         selectedFavorite.value?.let {
-            it.alarmActiveSchedules.remove(schedule)
-            FavoriteRepo.update(it)
-            updateSchedules(it)
+            ScheduleRepo.remove(schedule)
+            updateSchedules(it, ScheduleRepo.data.value)
         }
     }
 
-    private fun updateSchedules(favorite: Favorite?) = viewModelScope.launch {
-        _schedules.value = favorite?.alarmActiveSchedules
+    private fun updateSchedules(favorite: Favorite?, allSchedules: List<Schedule>) {
+        _schedules.value = allSchedules.filter { schedule ->
+            schedule.favorite == favorite
+        }
     }
 }

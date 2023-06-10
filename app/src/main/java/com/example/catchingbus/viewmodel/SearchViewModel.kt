@@ -13,8 +13,6 @@ import com.example.catchingbus.model.ArrivalInfoService
 import com.example.catchingbus.model.BusService
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.StationService
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.properties.Delegates.observable
@@ -49,9 +47,6 @@ class SearchViewModel: ViewModel() {
     }
 
     init {
-        viewModelScope.launch {
-            FavoriteRepo.load()
-        }
         stations.observeForever {
             Log.d(TAG, it.joinToString("\n * ", "on stations.setValue()\n * "))
         }
@@ -59,14 +54,6 @@ class SearchViewModel: ViewModel() {
             searchBuses(it)
         }
         updateFavorites()
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    override fun onCleared() {
-        super.onCleared()
-        GlobalScope.launch {
-            FavoriteRepo.save()
-        }
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
@@ -103,16 +90,16 @@ class SearchViewModel: ViewModel() {
     }
 
     private fun updateFavorites() = viewModelScope.launch {
-        FavoriteRepo.data.collectLatest { new ->
-            favorites = new.associateBy { favorite ->
+        FavoriteRepo.data.collectLatest {
+            favorites = it.associateBy { favorite ->
                 favorite.bus
             }
         }
     }
 
     private fun updateBusContents() {
-        _busContents.value = buses.map { bus ->
-            BusContent(bus, arrivalInfoes[bus], favorites[bus])
+        _busContents.value = buses.map {
+            BusContent(it, arrivalInfoes[it], favorites[it])
         }
     }
 }
