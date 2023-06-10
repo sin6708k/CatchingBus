@@ -13,9 +13,9 @@ abstract class JsonFileRepo<T : Any>(
 ) {
     private lateinit var file: JsonFile
 
-    protected val flowValue = mutableListOf<T>()
-    protected val flow = MutableStateFlow<List<T>>(flowValue)
-    val data: StateFlow<List<T>> = flow
+    protected val dataValue = mutableListOf<T>()
+    protected val _data = MutableStateFlow<List<T>>(dataValue)
+    val data: StateFlow<List<T>> = _data
 
     protected val mutex = Mutex()
 
@@ -23,32 +23,32 @@ abstract class JsonFileRepo<T : Any>(
         mutex.withLock {
             file = JsonFile(Path(fileDirPath, fileName))
             val jsonElement = file.load()
-            flow.value = Json.deserialize(clazz, jsonElement)
+            _data.value = Json.deserialize(clazz, jsonElement)
         }
     }
 
     protected suspend fun save() {
-        val jsonString = Json.serialize(clazz, flowValue)
+        val jsonString = Json.serialize(clazz, dataValue)
         file.save(jsonString)
     }
 
     suspend fun clear() {
         mutex.withLock {
-            flow.value = flowValue.also { it.clear() }
+            _data.value = dataValue.also { it.clear() }
         }
         save()
     }
 
     suspend fun add(element: T) {
         mutex.withLock {
-            flow.value = flowValue.also { it.add(element) }
+            _data.value = dataValue.also { it.add(element) }
         }
         save()
     }
 
     open suspend fun remove(element: T) {
         mutex.withLock {
-            flow.value = flowValue.also { it.remove(element) }
+            _data.value = dataValue.also { it.remove(element) }
         }
         save()
     }
