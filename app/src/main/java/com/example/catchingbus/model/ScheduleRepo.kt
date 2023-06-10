@@ -6,7 +6,7 @@ import com.example.catchingbus.model.json.JsonFileRepo
 import kotlinx.coroutines.sync.withLock
 
 object ScheduleRepo: JsonFileRepo<Schedule>(Schedule::class,
-    "favorites.txt"
+    "schedules.txt"
 ) {
     suspend fun remove(favorite: Favorite) {
         mutex.withLock {
