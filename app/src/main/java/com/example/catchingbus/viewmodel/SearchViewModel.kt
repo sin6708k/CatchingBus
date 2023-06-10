@@ -102,12 +102,12 @@ class SearchViewModel: ViewModel() {
             if (busContent.favorite == null) {
                 Log.d(TAG, "addOrRemoveFavorite() add")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
-                busContent.favorite = Favorite(station,busContent.bus) //내가 추가
+               // busContent.favorite = Favorite(station,busContent.bus) //내가 추가
                 //favorites.values= listOf(Favorite(station,busContent.bus))
             } else {
                 Log.d(TAG, "addOrRemoveFavorite() remove")
                 FavoriteRepo.remove(busContent.favorite!!) //내가 추가
-                busContent.favorite=null
+                //busContent.favorite=null
             }
         }
         Log.d(TAG, "addOrRemoveFavorite() end")

@@ -24,12 +24,14 @@ abstract class JsonFileRepo<T : Any>(
         mutex.withLock {
             file = JsonFile(Path(fileDirPath, fileName))
             val jsonElement = file.load()
+            Log.d("problem","load , ${jsonElement}")
             _data.value = Json.deserialize(clazz, jsonElement)
         }
     }
 
     protected suspend fun save() {
         val jsonString = Json.serialize(clazz, data.value)
+        Log.d("problem","save , ${jsonString}")
         file.save(jsonString)
     }
 
