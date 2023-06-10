@@ -34,18 +34,12 @@ class BusSearchAdapter(
         Log.d("problem","${BusContent} : ${position}")
         holder.bind(BusContent) //반환된 station을 연결함.
         val imageView = holder.itemView.findViewById<ImageView>(R.id.book_mark)
-        /*
-        holder.itemView.setOnClickListener {
-            onBusClickListener?.onBusClick(Arrive)
-       }
-         */
         imageView.setOnClickListener{
             imageView.isSelected = !imageView.isSelected
             onBusClickListener?.onBusClick(BusContent)
         }
     }
     fun setOnBusClickListener(listener : BusSearchAdapter.OnBusClickListener){
-        Log.d("problem","setOnItemClickListener")
         onBusClickListener = listener
     }
     interface OnBusClickListener{
