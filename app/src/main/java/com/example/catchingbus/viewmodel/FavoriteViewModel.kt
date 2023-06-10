@@ -15,7 +15,7 @@ import kotlinx.datetime.LocalTime
 
 class FavoriteViewModel: ViewModel() {
     companion object {
-        const val TAG = "problem"
+        private const val TAG = "problem"
     }
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 Favorite들을 갱신해야 한다.
