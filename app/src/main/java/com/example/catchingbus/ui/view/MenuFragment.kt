@@ -63,9 +63,11 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         setupRecyclerView()
         FavoriteAdapter.setOnFavoriteClickListener(this)
         FavoriteAdapter.setRemoveFavoriteClickListener(this)
+
         favoriteViewModel.favorites.observe(viewLifecycleOwner) { newFavorite ->
             Log.d("problem","값 변화 : ${newFavorite}")
             FavoriteAdapter.submitList(newFavorite)
+
             FavoriteAdapter.notifyDataSetChanged() // 변경된 부분
         }
         return binding.root
