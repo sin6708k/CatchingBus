@@ -1,6 +1,7 @@
 package com.example.catchingbus.ui.adapter
 
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Favorite
@@ -11,7 +12,8 @@ import kotlin.time.Duration
 
 class BusSearchViewHolder(
     private val binding : ItemBusPreviewBinding,
-    private val listener: BusSearchAdapter.OnBusClickListener?
+    private val listener: BusSearchAdapter.OnBusClickListener?,
+    private val lifecycleOwner: LifecycleOwner
 ) :RecyclerView.ViewHolder(binding.root) {
 
     private lateinit var favoriteViewModel : FavoriteViewModel
@@ -21,12 +23,25 @@ class BusSearchViewHolder(
         val num  = bus.bus.name
         var first_arrive : Duration= Duration.ZERO
         var second_arrive :Duration=Duration.ZERO
+
         if(bus.remainingTimes.size==2) { //버스가 두 대일떄는 정상적으로 받음.
             first_arrive = bus.remainingTimes[0] //첫차 도착시간
             second_arrive = bus.remainingTimes[1] //뒷차 도착시간
         }
         else if(bus.remainingTimes.size==1) //남은 버스가 하나일때.
             first_arrive=bus.remainingTimes[0]
+        //var first_arrive: Duration = Duration.ZERO
+        //var second_arrive: Duration = Duration.ZERO
+
+
+        /*
+        bus.remainingTimes.observe(lifecycleOwner) { times ->
+            if (times.size >= 2) {
+                first_arrive = times[0]
+                second_arrive = times[1]
+            }
+        }
+         */
         itemView.apply{
             binding.busNum.text = num
             binding.firstArrive.text = first_arrive.toString()

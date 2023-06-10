@@ -89,8 +89,15 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
     }
 
     override fun onDestroyView() {
-        _binding = null
+        Log.d("problem","디스트로이")
         super.onDestroyView()
+        _binding = null // View binding 참조 해제
+    }
+
+    override fun onDestroy() {
+        _binding = null // View binding 참조 해제
+        // 다른 리소스 해제 코드 추가
+        super.onDestroy()
     }
 
     override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 화면 누를때.

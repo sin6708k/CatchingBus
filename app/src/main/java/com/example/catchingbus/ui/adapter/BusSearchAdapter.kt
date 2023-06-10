@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.catchingbus.R
@@ -14,7 +15,9 @@ import com.example.catchingbus.databinding.ItemStationPreviewBinding
 
 
 
-class BusSearchAdapter : ListAdapter<ArrivalInfo, BusSearchViewHolder>(BusDiffcallback){
+class BusSearchAdapter(
+    private val lifecycleOwner: LifecycleOwner
+): ListAdapter<ArrivalInfo, BusSearchViewHolder>(BusDiffcallback){
 
     private var onBusClickListener : OnBusClickListener? = null
 
@@ -22,7 +25,7 @@ class BusSearchAdapter : ListAdapter<ArrivalInfo, BusSearchViewHolder>(BusDiffca
         Log.d("problem","bussearch 어뎁터야")
         val binding = ItemBusPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
-        return BusSearchViewHolder(binding,onBusClickListener)
+        return BusSearchViewHolder(binding,onBusClickListener,lifecycleOwner)
     }
 
 

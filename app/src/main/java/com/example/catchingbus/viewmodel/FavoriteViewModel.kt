@@ -66,7 +66,6 @@ class FavoriteViewModel: ViewModel() {
             updateSchedules(it)
         }
     }
-
     // View에서 Schedule 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeSchedule(schedule: Schedule) = viewModelScope.launch {
         Log.d("problem","스케줄 삭제 ${schedule}")

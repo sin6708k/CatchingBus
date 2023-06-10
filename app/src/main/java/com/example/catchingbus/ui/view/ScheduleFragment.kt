@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -92,14 +93,19 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
             val first = dialogBinding.StartTimeText.text.toString().trim()
             val second = dialogBinding.endTimeText.text.toString().trim()
             //val formatter = DateTimeFormatter.ofPattern("HH:mm")
-            val startTime = LocalTime.parse(first)
-            val endTime = LocalTime.parse(second)
-            Log.d("problem","ADD버튼")
-            Log.d("problem","시간 : ${startTime}, ${endTime}")
-            favoriteViewModel.addSchedule(startTime,endTime)
-            //val newScheduleList = favoriteViewModel.schedules.value.orEmpty()
-            //scheduleAdapter.submitScheduleList(newScheduleList)
-            dialog?.dismiss()
+            if(first.length!=5 || second.length!=5){ //정확한 형식이 아니라면
+                Toast.makeText(requireContext(),"시간 형식을 지켜주세요\n(HH:MM)입니다",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val startTime = LocalTime.parse(first)
+                val endTime = LocalTime.parse(second)
+                Log.d("problem", "ADD버튼")
+                Log.d("problem", "시간 : ${startTime}, ${endTime}")
+                favoriteViewModel.addSchedule(startTime, endTime)
+                //val newScheduleList = favoriteViewModel.schedules.value.orEmpty()
+                //scheduleAdapter.submitScheduleList(newScheduleList)
+                dialog?.dismiss()
+            }
         }
         dialog?.window?.setLayout(1000, 1000)
     }

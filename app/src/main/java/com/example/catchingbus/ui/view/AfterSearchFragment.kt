@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -102,10 +103,17 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 이전 프래그먼트로 이동
+                parentFragmentManager.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun SetupRecyclerView(){
         Log.d("problem","after search 리사이클러뷰 만들거")
-        busSearchAdapter = BusSearchAdapter() //어뎁터 연결
+        busSearchAdapter = BusSearchAdapter(viewLifecycleOwner) //어뎁터 연결
         binding.busDetailLayout.apply { //리사이클러뷰 구성.
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
@@ -128,6 +136,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     }
 
     override fun onDestroy() {
+        Log.d("problem","이전버튼 애프터서치")
         super.onDestroy()
         mapView.onDestroy()
     }

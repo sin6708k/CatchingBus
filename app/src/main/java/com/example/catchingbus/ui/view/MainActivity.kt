@@ -41,7 +41,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onBackPressed() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
 
+        if (currentFragment is AfterSearchFragment) {
+            // 이전 프래그먼트로 이동
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
     private fun setBottomNavigationView(){ //바텀 네비게이션 작업. 아이콘 누르면 화면 이동.
         Log.d("problem","바텀네비게이션")
         binding.bottomNavigationView.setOnItemSelectedListener { item->
@@ -51,7 +60,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("problem","홈버튼")
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         HomeFragment()
-                    ).commit()
+                    )
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
                 R.id.fragment_search->{ //검색버튼
@@ -59,7 +70,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("problem","검색버튼")
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         SearchFragment()
-                    ).commit()
+                    )
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
                 R.id.fragment_menu->{ //메뉴버튼
@@ -67,12 +80,13 @@ class MainActivity : AppCompatActivity() {
                     Log.d("problem","메ㅙ버튼")
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         MenuFragment()
-                    ).commit()
+                    )
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
                 else->false //다른버튼 누르면 안댐.
             }
         }
-
     }
 }

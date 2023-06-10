@@ -16,6 +16,7 @@ import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 class SearchViewModel: ViewModel() {
     companion object {
@@ -40,6 +41,7 @@ class SearchViewModel: ViewModel() {
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 ArrivalInfo들을 갱신해야 한다
     val arrivalInfoes: LiveData<List<ArrivalInfo>> get() = _arrivalInfoes
     private val _arrivalInfoes = MutableLiveData(listOf<ArrivalInfo>())
+
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는, 각 Bus에 해당하는 Favorite을 갱신해야 한다.
     val favorites: LiveData<Map<Bus, Favorite>> get() = _favorites
