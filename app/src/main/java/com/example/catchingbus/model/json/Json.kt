@@ -5,10 +5,13 @@ import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import kotlinx.datetime.LocalTime
 import kotlin.reflect.KClass
+import kotlin.time.Duration
 
 object Json {
     private val gson by lazy {
         GsonBuilder()
+            .registerTypeAdapter(Duration::class.java, DurationDeserializer)
+            .registerTypeAdapter(Duration::class.java, DurationSerializer)
             .registerTypeAdapter(LocalTime::class.java, LocalTimeDeserializer)
             .registerTypeAdapter(LocalTime::class.java, LocalTimeSerializer)
             .setPrettyPrinting()
