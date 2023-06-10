@@ -23,6 +23,7 @@ import com.example.catchingbus.databinding.FragmentAfterSearchBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
+import com.example.catchingbus.viewmodel.BusContent
 import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -90,16 +91,16 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
         }
 
         //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
-        sharedViewModel.arrivalInfoes.observe(viewLifecycleOwner) { arriveinfo ->
-            Log.d("problem","값 변화 : ${arriveinfo}")
-            busSearchAdapter.submitList(arriveinfo)
+        sharedViewModel.busContents.observe(viewLifecycleOwner) { newBusContent ->
+            Log.d("problem","값 변화 : ${newBusContent}")
+            busSearchAdapter.submitList(newBusContent)
         }
         return binding.root
     }
 
-    override fun onBusClick(arrivalInfo: ArrivalInfo) { // 아이템뷰 클릭 이벤트 처리
+    override fun onBusClick(busContent: BusContent) { // 아이템뷰 클릭 이벤트 처리
         Log.d("problem","즐겨찾기 추가할래!")
-        sharedViewModel.addOrRemoveFavorite(arrivalInfo.bus) //즐겨찾기 추가 혹은 있으면 제거
+        sharedViewModel.addOrRemoveFavorite(busContent) //즐겨찾기 추가 혹은 있으면 제거
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

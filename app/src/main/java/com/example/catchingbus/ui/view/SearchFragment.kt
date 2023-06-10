@@ -114,8 +114,8 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         Log.d("problem", "아이템 클릭 , ${station.name}")
         mainBinding.searchText.setText(station.name)
         sharedViewModel.selectedStation.value = station
-        sharedViewModel.arrivalInfoes.observe(viewLifecycleOwner) { arrivalInfoes ->
-            if (arrivalInfoes.isNotEmpty()) {
+        sharedViewModel.busContents.observe(viewLifecycleOwner) { busContent ->
+            if (busContent.isNotEmpty()) {
                 // 값이 변경되었을 때만 프래그먼트 이동
                 Log.d("problem","도착정보 값이 바껴서 이동할거야")
                 val fragmentManager = requireActivity().supportFragmentManager
