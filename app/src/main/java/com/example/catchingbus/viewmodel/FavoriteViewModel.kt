@@ -33,6 +33,7 @@ class FavoriteViewModel: ViewModel() {
             Log.d(TAG, it.joinToString("\n * ", "on favorites.setValue()\n * "))
         }
         selectedFavorite.observeForever {
+            Log.d(TAG, "on selectedFavorite.setValue\n * $it")
             updateSchedules(it, ScheduleRepo.data.value)
         }
         schedules.observeForever {
@@ -42,29 +43,44 @@ class FavoriteViewModel: ViewModel() {
 
     // View에서 Favorite 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeFavorite(favorite: Favorite) = viewModelScope.launch {
+        Log.d(TAG, "removeFavorite() start")
+
         FavoriteRepo.remove(favorite)
+
+        Log.d(TAG, "removeFavorite() end")
     }
 
     // View에서 Schedule 등록 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun addSchedule(startTime: LocalTime, endTime: LocalTime) = viewModelScope.launch {
+        Log.d(TAG, "addSchedule() start")
+
         selectedFavorite.value?.let {
+            Log.d(TAG, "addSchedule($startTime, $endTime)")
             val schedule = Schedule(it, startTime, endTime)
             ScheduleRepo.add(schedule)
             updateSchedules(it, ScheduleRepo.data.value)
         }
+        Log.d(TAG, "addSchedule() end")
     }
 
     // View에서 Schedule 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeSchedule(schedule: Schedule) = viewModelScope.launch {
+        Log.d(TAG, "removeSchedule() start")
+
         selectedFavorite.value?.let {
+            Log.d(TAG, "removeSchedule()")
             ScheduleRepo.remove(schedule)
             updateSchedules(it, ScheduleRepo.data.value)
         }
+        Log.d(TAG, "removeSchedule() end")
     }
 
     private fun updateSchedules(favorite: Favorite?, allSchedules: List<Schedule>) {
+        Log.d(TAG, "updateSchedules() start")
+
         _schedules.value = allSchedules.filter { schedule ->
             schedule.favorite == favorite
         }
+        Log.d(TAG, "updateSchedules() end")
     }
 }

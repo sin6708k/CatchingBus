@@ -53,43 +53,56 @@ class SearchViewModel: ViewModel() {
         selectedStation.observeForever {
             searchBuses(it)
         }
-        updateFavorites()
+        collectFavorites()
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
     fun searchStations() = viewModelScope.launch {
+        Log.d(TAG, "searchStations() start")
         _stations.value = StationService.search(searchWord.value.orEmpty())
+        Log.d(TAG, "searchStations() end")
     }
 
     private fun searchBuses(station: Station?) = viewModelScope.launch {
+        Log.d(TAG, "searchBuses() start")
+
         buses = if (station != null) {
             BusService.search(station)
         } else {
             listOf()
         }
+        Log.d(TAG, "searchBuses() end")
     }
 
     // View에서 새로고침 버튼을 누를 때마다 이 function을 호출해야 한다
     fun updateArrivalInfoes() = viewModelScope.launch {
+        Log.d(TAG, "updateArrivalInfoes() start")
+
         selectedStation.value?.let { station ->
             arrivalInfoes = buses.associateWith { bus ->
                 ArrivalInfoService.search(station, bus)
             }
         }
+        Log.d(TAG, "updateArrivalInfoes() end")
     }
 
     // View에서 각 Bus의 즐겨찾기 버튼을 누를 때마다 이 function을 호출해야 한다
     fun addOrRemoveFavorite(busContent: BusContent) = viewModelScope.launch {
+        Log.d(TAG, "addOrRemoveFavorite() start")
+
         selectedStation.value?.let { station ->
             if (busContent.favorite == null) {
+                Log.d(TAG, "addOrRemoveFavorite() add")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
             } else {
+                Log.d(TAG, "addOrRemoveFavorite() remove")
                 FavoriteRepo.remove(busContent.favorite)
             }
         }
+        Log.d(TAG, "addOrRemoveFavorite() end")
     }
 
-    private fun updateFavorites() = viewModelScope.launch {
+    private fun collectFavorites() = viewModelScope.launch {
         FavoriteRepo.data.collectLatest {
             favorites = it.associateBy { favorite ->
                 favorite.bus
@@ -98,8 +111,11 @@ class SearchViewModel: ViewModel() {
     }
 
     private fun updateBusContents() {
+        Log.d(TAG, "updateBusContents() start")
+
         _busContents.value = buses.map {
             BusContent(it, arrivalInfoes[it], favorites[it])
         }
+        Log.d(TAG, "updateBusContents() end")
     }
 }
