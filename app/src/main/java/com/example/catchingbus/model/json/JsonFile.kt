@@ -16,7 +16,7 @@ class JsonFile(path: Path) {
     }
 
     suspend fun save(jsonString: String) {
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             file.printWriter().use { writer ->
                 writer.print(jsonString)
             }
@@ -27,7 +27,7 @@ class JsonFile(path: Path) {
         return try {
             val buffer = StringBuffer()
 
-            withContext(Dispatchers.Default) {
+            withContext(Dispatchers.IO) {
                 file.inputStream().use { stream ->
                     stream.reader().use { reader ->
                         reader.buffered().use { buffered ->

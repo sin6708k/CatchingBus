@@ -31,11 +31,9 @@ object ArrivalAlarm {
                 now > it.startTime && now < it.endTime
             }
             activeSchedules.forEach {
-                _alarmMessage.emit(
-                    AlarmMessage(
+                _alarmMessage.emit(AlarmMessage(
                     arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
-                )
-                )
+                ))
             }
             delay(delayTime)
         }
