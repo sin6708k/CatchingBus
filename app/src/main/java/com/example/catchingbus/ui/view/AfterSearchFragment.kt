@@ -102,6 +102,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
         Log.d("problem","북마크 클릭!\n ${busContent}")
         sharedViewModel.addOrRemoveFavorite(busContent) //즐겨찾기 추가 혹은 있으면 제거
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val callback = object : OnBackPressedCallback(true) {
