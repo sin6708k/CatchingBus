@@ -9,11 +9,11 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 object GlobalInitializer {
-    fun initialize() {
+    fun initialize(fileDirPath: String) {
         CoroutineScope(Dispatchers.Default).launch {
-            FavoriteRepo.load()
-            ScheduleRepo.load()
+            FavoriteRepo.load(fileDirPath)
+            ScheduleRepo.load(fileDirPath)
+            ArrivalAlarm.start(30.toDuration(DurationUnit.SECONDS))
         }
-        ArrivalAlarm.start(30.toDuration(DurationUnit.SECONDS))
     }
 }

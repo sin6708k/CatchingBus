@@ -14,7 +14,7 @@ import kotlin.time.toDuration
 class ScheduleRepoTest: StringSpec({
 
     beforeTest {
-        ScheduleRepo.load()
+        ScheduleRepo.load("")
     }
 
     "clear" {
