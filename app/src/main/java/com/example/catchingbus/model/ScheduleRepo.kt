@@ -10,11 +10,7 @@ object ScheduleRepo: JsonFileRepo<Schedule>(Schedule::class,
 ) {
     suspend fun remove(favorite: Favorite) {
         mutex.withLock {
-            _data.value = dataValue.also {
-                it.removeIf { schedule ->
-                    schedule.favorite == favorite
-                }
-            }
+            _data.value = dataValue.apply { removeIf { it.favorite == favorite } }
         }
         save()
     }
