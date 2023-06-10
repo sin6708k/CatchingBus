@@ -42,6 +42,7 @@ class FavoriteViewModel: ViewModel() {
 
     // View에서 Favorite 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeFavorite(favorite: Favorite) = viewModelScope.launch {
+        Log.d("problem","진짜 삭제 ${favorite}")
         FavoriteRepo.remove(favorite)
     }
 

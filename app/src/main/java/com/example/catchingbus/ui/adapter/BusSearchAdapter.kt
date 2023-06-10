@@ -43,7 +43,6 @@ class BusSearchAdapter(
        }
          */
         imageView.setOnClickListener{
-            Log.d("problem","이미지클")
             imageView.isSelected = !imageView.isSelected
             onBusClickListener?.onBusClick(BusContent)
         }

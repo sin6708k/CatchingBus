@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
     }
     private suspend fun performTask() {
         withContext(Dispatchers.IO) {
-            GlobalInitializer.initialize()
+            GlobalInitializer.initialize(applicationContext.filesDir.absolutePath)
             delay(3000)
 
         }

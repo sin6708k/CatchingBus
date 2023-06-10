@@ -99,7 +99,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     }
 
     override fun onBusClick(busContent: BusContent) { // 아이템뷰 클릭 이벤트 처리
-        Log.d("problem","즐겨찾기 추가할래!")
+        Log.d("problem","북마크 클릭!\n ${busContent}")
         sharedViewModel.addOrRemoveFavorite(busContent) //즐겨찾기 추가 혹은 있으면 제거
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

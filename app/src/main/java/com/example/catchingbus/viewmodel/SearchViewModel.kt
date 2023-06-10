@@ -79,15 +79,41 @@ class SearchViewModel: ViewModel() {
     }
 
     // View에서 각 Bus의 즐겨찾기 버튼을 누를 때마다 이 function을 호출해야 한다
+    /*
     fun addOrRemoveFavorite(busContent: BusContent) = viewModelScope.launch {
         selectedStation.value?.let { station ->
             if (busContent.favorite == null) {
+                Log.d("problem","즐겨찾기 추가")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
             } else {
+                Log.d("problem","즐겨찾기 삭제")
                 FavoriteRepo.remove(busContent.favorite)
             }
         }
     }
+     */
+    /*
+    fun addOrRemoveFavorite(bus: Bus) = viewModelScope.launch {
+        selectedStation.value?.let { station ->
+            favorites.value?.let { favorites ->
+                favorites[bus].let {
+                    if (it == null) {
+                        val favorite = Favorite(station, bus)
+                        Log.d("problem", "즐겨찾기 추가 : ${Favorite(station, bus)}")
+                        FavoriteRepo.add(favorite)
+                        _favorites.value = _favorites.value?.plus(favorite.bus to favorite)
+                    } else {
+                        Log.d("problem", "즐겨찾기 삭제 : ${Favorite(station, bus)}")
+                        FavoriteRepo.remove(it)
+                        @@ -135, 27+135, 4 @@ class SearchViewModel: ViewModel() {
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+     */
 
     private fun updateFavorites() = viewModelScope.launch {
         FavoriteRepo.data.collectLatest {
