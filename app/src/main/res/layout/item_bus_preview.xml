@@ -17,6 +17,7 @@
         app:layout_constraintWidth_percent="0.1" />
 
     <TextView
+        android:fontFamily="@font/worksans"
         android:id="@+id/bus_num"
         android:layout_width="0dp"
         android:layout_height="60dp"

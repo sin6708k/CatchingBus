@@ -20,8 +20,8 @@ class FavoriteViewHolder(
 
     private lateinit var favoriteViewModel : FavoriteViewModel
     fun bind(item : Favorite){
-        val station_name : String = item.station.name
-        val bus_num : String = item.bus.name
+        val station_name: String = item.station?.name ?: ""
+        val bus_num: String = item.bus?.name ?: ""
 
         itemView.apply{
             binding.StationTextView.text = station_name

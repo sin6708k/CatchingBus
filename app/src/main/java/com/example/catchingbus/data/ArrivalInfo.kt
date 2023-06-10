@@ -6,10 +6,22 @@ import kotlin.time.Duration
 data class ArrivalInfo(
     val station: Station,
     val bus: Bus,
-    val remainingTimes: List<Duration>, //영어 한글로 처리.
+    val remainingTimes: List<Duration>,
 ) {
-    val creationTime = LocalDateTime.now()
+    val creationTime = LocalDateTime.now() ?: null
+
     val velocity: Velocity by lazy {
-        Velocity.UNDETERMINED
+        if (remainingTimes.size >= 2) {
+            val firstTime = remainingTimes[0]
+            val secondTime = remainingTimes[1]
+
+            if (secondTime - firstTime < bus.intervalTime) {
+                Velocity.FAST
+            } else {
+                Velocity.SLOW
+            }
+        } else {
+            Velocity.UNDETERMINED
+        }
     }
 }

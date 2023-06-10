@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,6 +23,7 @@ import com.example.catchingbus.databinding.FragmentAfterSearchBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
 import com.example.catchingbus.ui.adapter.StationSearchAdapter
+import com.example.catchingbus.viewmodel.BusContent
 import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -89,23 +91,31 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
         }
 
         //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
-        sharedViewModel.arrivalInfoes.observe(viewLifecycleOwner) { arriveinfo ->
-            Log.d("problem","값 변화 : ${arriveinfo}")
-            busSearchAdapter.submitList(arriveinfo)
+        sharedViewModel.busContents.observe(viewLifecycleOwner) { newBusContent ->
+            Log.d("problem","값 변화 : ${newBusContent}")
+            busSearchAdapter.submitList(newBusContent)
         }
         return binding.root
     }
 
-    override fun onBusClick(arrivalInfo: ArrivalInfo) { // 아이템뷰 클릭 이벤트 처리
-        Log.d("problem","즐겨찾기 추가할래!")
-        sharedViewModel.addOrRemoveFavorite(arrivalInfo.bus) //즐겨찾기 추가 혹은 있으면 제거
+    override fun onBusClick(busContent: BusContent) { // 아이템뷰 클릭 이벤트 처리
+        Log.d("problem","북마크 클릭!\n ${busContent}")
+        sharedViewModel.addOrRemoveFavorite(busContent) //즐겨찾기 추가 혹은 있으면 제거
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 이전 프래그먼트로 이동
+                parentFragmentManager.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
     private fun SetupRecyclerView(){
         Log.d("problem","after search 리사이클러뷰 만들거")
-        busSearchAdapter = BusSearchAdapter() //어뎁터 연결
+        busSearchAdapter = BusSearchAdapter(viewLifecycleOwner) //어뎁터 연결
         binding.busDetailLayout.apply { //리사이클러뷰 구성.
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
@@ -128,6 +138,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     }
 
     override fun onDestroy() {
+        Log.d("problem","이전버튼 애프터서치")
         super.onDestroy()
         mapView.onDestroy()
     }

@@ -64,8 +64,9 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         FavoriteAdapter.setOnFavoriteClickListener(this)
         FavoriteAdapter.setRemoveFavoriteClickListener(this)
         favoriteViewModel.favorites.observe(viewLifecycleOwner) { newFavorite ->
-            //Log.d("problem","값 변화 : ${newStations[0]}")
+            Log.d("problem","값 변화 : ${newFavorite}")
             FavoriteAdapter.submitList(newFavorite)
+            FavoriteAdapter.notifyDataSetChanged() // 변경된 부분
         }
         return binding.root
     }
@@ -89,12 +90,20 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
     }
 
     override fun onDestroyView() {
-        _binding = null
+        Log.d("problem","디스트로이")
         super.onDestroyView()
+        _binding = null // View binding 참조 해제
+    }
+
+    override fun onDestroy() {
+        _binding = null // View binding 참조 해제
+        // 다른 리소스 해제 코드 추가
+        super.onDestroy()
     }
 
     override fun onFavoriteClick(favorite: Favorite) {  //즐겨찾기에서 화면 누를때.
         Log.d("problem","즐겨찾기 클릭")
+        favoriteViewModel.selectedFavorite.value=favorite
         val fragmentManager = requireActivity().supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.frame_layout, ScheduleFragment())
@@ -102,7 +111,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
             .commit()
     }
     override fun onFavoriteRemoveClick(favorite: Favorite) {
-        Log.d("problem","삭제")
+        Log.d("problem","삭제\n")
         favoriteViewModel.removeFavorite(favorite)
         //TODO("Not yet implemented")
     }
