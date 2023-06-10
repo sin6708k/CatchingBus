@@ -63,6 +63,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
         setupRecyclerView()
         FavoriteAdapter.setOnFavoriteClickListener(this)
         FavoriteAdapter.setRemoveFavoriteClickListener(this)
+
         favoriteViewModel.favorites.observe(viewLifecycleOwner) { newFavorite ->
             Log.d("problem","값 변화 : ${newFavorite}")
             FavoriteAdapter.submitList(newFavorite)
@@ -113,6 +114,7 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
     override fun onFavoriteRemoveClick(favorite: Favorite) {
         Log.d("problem","삭제\n")
         favoriteViewModel.removeFavorite(favorite)
+        FavoriteAdapter.notifyDataSetChanged()
         //TODO("Not yet implemented")
     }
 }

@@ -22,7 +22,6 @@ class ScheduleAdapter : ListAdapter<Schedule, ScheduleViewHolder>(ScheduleDiffca
     private  var onScheduleRemoveClickListener : ScheduleAdapter.OnScheduleRemoveClickListener?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
         val binding = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        Log.d("problem","스케쥴 어뎁터야")
         return ScheduleViewHolder(binding,onScheduleRemoveClickListener)
     }
 
@@ -30,7 +29,6 @@ class ScheduleAdapter : ListAdapter<Schedule, ScheduleViewHolder>(ScheduleDiffca
         val schedule = getItem(position)
         Log.d("problem","스케줄 어뎁터  : 값변화 ${schedule}")
         holder.bind(schedule)
-
         val imageView = holder.itemView.findViewById<ImageView>(R.id.delete_time)
         imageView.setOnClickListener{
             Log.d("problem","스케쥴 제거하기")

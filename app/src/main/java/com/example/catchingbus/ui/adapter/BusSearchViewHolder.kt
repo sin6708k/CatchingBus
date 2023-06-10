@@ -34,7 +34,6 @@ class BusSearchViewHolder(
         //var first_arrive: Duration = Duration.ZERO
         //var second_arrive: Duration = Duration.ZERO
 
-
         /*
         bus.remainingTimes.observe(lifecycleOwner) { times ->
             if (times.size >= 2) {
@@ -43,6 +42,11 @@ class BusSearchViewHolder(
             }
         }
          */
+        if(bus.favorite==null){
+            binding.bookMark.isSelected =false
+        }
+        else
+            binding.bookMark.isSelected=true
         itemView.apply{
             binding.busNum.text = num
             binding.firstArrive.text = first_arrive.toString()

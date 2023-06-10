@@ -38,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun performNextTask() {
-        Log.d("problem","작업 완료!!")
+        Log.d("problem","로드 작업완료!!")
         val intent = Intent(this@SplashActivity,MainActivity::class.java)
         startActivity(intent)
         finish()

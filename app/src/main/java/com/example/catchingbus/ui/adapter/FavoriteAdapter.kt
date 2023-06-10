@@ -21,7 +21,6 @@ class FavoriteAdapter: ListAdapter<Favorite, FavoriteViewHolder>(FavoriteDiffcal
     private var onFavoriteClickListener : OnFavoriteClickListener? = null
     private  var onFavoriteRemoveClickListener : OnFavoriteRemoveClickListener?=null
     override fun onCreateViewHolder(parent:ViewGroup, viewType: Int): FavoriteViewHolder{
-        Log.d("problem","즐겨찾기 어뎁터야")
         val binding = ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
         return FavoriteViewHolder(binding, onFavoriteClickListener, onFavoriteRemoveClickListener)

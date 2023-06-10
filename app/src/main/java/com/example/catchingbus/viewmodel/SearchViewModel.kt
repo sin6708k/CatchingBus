@@ -19,7 +19,7 @@ import kotlin.properties.Delegates.observable
 
 class SearchViewModel: ViewModel() {
     companion object {
-        const val TAG = "problem"
+        private const val TAG = "problem"
     }
 
     // View에서 검색 창에 입력할 때마다 이 field를 그 String으로 설정해야 한다
@@ -36,13 +36,16 @@ class SearchViewModel: ViewModel() {
     val busContents: LiveData<List<BusContent>> get() = _busContents
     private val _busContents = MutableLiveData<List<BusContent>>(emptyList())
 
-    private var buses: List<Bus> by observable(listOf()) { _, _, _ ->
+    private var buses: List<Bus> by observable(listOf()) { _, _, new ->
+        Log.d(TAG, new.joinToString("\n * ", "on buses.setValue()\n * "))
         updateArrivalInfoes()
     }
-    private var arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, _ ->
+    private var arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
+        Log.d(TAG, new.toList().joinToString("\n * ", "on arrivalInfoes.setValue()\n * "))
         updateBusContents()
     }
-    private var favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, _ ->
+    private var favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, new ->
+        Log.d(TAG, new.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
         updateBusContents()
     }
 
@@ -51,7 +54,11 @@ class SearchViewModel: ViewModel() {
             Log.d(TAG, it.joinToString("\n * ", "on stations.setValue()\n * "))
         }
         selectedStation.observeForever {
+            Log.d(TAG, "on selectedStation.setValue\n * $it")
             searchBuses(it)
+        }
+        busContents.observeForever {
+            Log.d(TAG, it.joinToString("\n * ", "on busContents.setValue()\n * "))
         }
         collectFavorites()
     }
@@ -91,12 +98,16 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "addOrRemoveFavorite() start")
 
         selectedStation.value?.let { station ->
+            Log.d("problem","${busContent}")
             if (busContent.favorite == null) {
                 Log.d(TAG, "addOrRemoveFavorite() add")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
+               // busContent.favorite = Favorite(station,busContent.bus) //내가 추가
+                //favorites.values= listOf(Favorite(station,busContent.bus))
             } else {
                 Log.d(TAG, "addOrRemoveFavorite() remove")
-                FavoriteRepo.remove(busContent.favorite)
+                FavoriteRepo.remove(busContent.favorite!!) //내가 추가
+                //busContent.favorite=null
             }
         }
         Log.d(TAG, "addOrRemoveFavorite() end")
@@ -104,9 +115,12 @@ class SearchViewModel: ViewModel() {
 
     private fun collectFavorites() = viewModelScope.launch {
         FavoriteRepo.data.collectLatest {
+            Log.d(TAG, it.joinToString("\n * ", "collectFavorite() start\n * "))
+
             favorites = it.associateBy { favorite ->
                 favorite.bus
             }
+            Log.d(TAG, "collectFavorite() end")
         }
     }
 

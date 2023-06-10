@@ -63,8 +63,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             googleMap=map
             onMapReady(googleMap!!)
         }
-        Log.d("problem","홈프래그먼트")
-
         return view
     }
     override fun onResume() {
@@ -87,7 +85,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         mapView.onLowMemory()
     }
     override fun onMapReady(p0: GoogleMap) {
-        Log.d("problem","지도호출")
         googleMap = p0
             //getCurrentLocation()
 //        checkLocationPermission() //위치권환 확인
@@ -95,7 +92,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         showCustomLocationOnMap()
     }
     private fun checkLocationPermission(){
-        Log.d("problem","위치권한 확인")
         // 현재 위치 표시를 위한 권한 확인
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -103,7 +99,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             // 위치 권한이 있는경우
-            Log.d("problem","위치권한이 있습니다")
            // showCurrentLocationOnMap()
         } else {
             // 위치 권한이 없는 경우 권한 요청

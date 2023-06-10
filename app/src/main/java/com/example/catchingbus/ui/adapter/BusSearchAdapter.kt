@@ -23,7 +23,6 @@ class BusSearchAdapter(
     private var onBusClickListener : OnBusClickListener? = null
 
     override fun onCreateViewHolder(parent:ViewGroup, viewType: Int): BusSearchViewHolder{
-        Log.d("problem","bussearch 어뎁터야")
         val binding = ItemBusPreviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
         return BusSearchViewHolder(binding,onBusClickListener,lifecycleOwner)
@@ -34,21 +33,13 @@ class BusSearchAdapter(
         val BusContent= getItem(position) //station은 list중에서 position을 반환
         Log.d("problem","${BusContent} : ${position}")
         holder.bind(BusContent) //반환된 station을 연결함.
-
-        //
         val imageView = holder.itemView.findViewById<ImageView>(R.id.book_mark)
-        /*
-        holder.itemView.setOnClickListener {
-            onBusClickListener?.onBusClick(Arrive)
-       }
-         */
         imageView.setOnClickListener{
             imageView.isSelected = !imageView.isSelected
             onBusClickListener?.onBusClick(BusContent)
         }
     }
     fun setOnBusClickListener(listener : BusSearchAdapter.OnBusClickListener){
-        Log.d("problem","setOnItemClickListener")
         onBusClickListener = listener
     }
     interface OnBusClickListener{
