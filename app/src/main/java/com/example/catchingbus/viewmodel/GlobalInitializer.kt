@@ -1,4 +1,4 @@
-package com.example.catchingbus.presentation
+package com.example.catchingbus.viewmodel
 
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.ScheduleRepo

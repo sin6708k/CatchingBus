@@ -1,4 +1,4 @@
-package com.example.catchingbus.data
+package com.example.catchingbus.viewmodel
 
 import com.example.catchingbus.data.ArrivalInfo
 

@@ -1,6 +1,5 @@
-package com.example.catchingbus.presentation
+package com.example.catchingbus.viewmodel
 
-import com.example.catchingbus.data.AlarmMessage
 import com.example.catchingbus.model.ScheduleRepo
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

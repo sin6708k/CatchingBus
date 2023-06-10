@@ -1,6 +1,5 @@
-package com.example.catchingbus.presentation
+package com.example.catchingbus.viewmodel
 
-import com.example.catchingbus.data.AlarmMessage
 import com.example.catchingbus.model.ArrivalInfoService
 import com.example.catchingbus.model.ScheduleRepo
 import kotlinx.coroutines.CoroutineScope
