@@ -13,7 +13,7 @@ import kotlin.time.toDuration
 class ArrivalAlarmTest: StringSpec({
 
     beforeTest {
-        ScheduleRepo.load()
+        ScheduleRepo.load("")
         println(ScheduleRepo.data.value.joinToString("\n * ", "Schedule\n * "))
     }
 

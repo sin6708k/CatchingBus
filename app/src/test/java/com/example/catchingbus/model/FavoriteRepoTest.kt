@@ -11,7 +11,7 @@ import kotlin.time.toDuration
 class FavoriteRepoTest: StringSpec({
 
     beforeTest {
-        FavoriteRepo.load()
+        FavoriteRepo.load("")
     }
 
     "clear" {
