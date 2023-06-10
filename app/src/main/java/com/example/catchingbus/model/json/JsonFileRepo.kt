@@ -45,7 +45,7 @@ abstract class JsonFileRepo<T : Any>(
         mutex.withLock {
             if (dataValue.indexOf(element) == -1) {
                 Log.d("problem", "JsonFileRepo.add() start\n * ${data.value}")
-                _data.value = dataValue.apply { add(element) }
+                _data.value = dataValue.apply { add(element) }.toList()
                 Log.d("problem", "JsonFileRepo.add end\n * ${data.value})")
             }
         }
@@ -55,7 +55,7 @@ abstract class JsonFileRepo<T : Any>(
     open suspend fun remove(element: T) {
         mutex.withLock {
             Log.d("problem", "JsonFileRepo.remove() start\n * ${data.value}")
-            _data.value = dataValue.apply { remove(element) }
+            _data.value = dataValue.apply { remove(element) }.toList()
             Log.d("problem", "JsonFileRepo.remove() end\n * ${data.value}")
         }
         save()
