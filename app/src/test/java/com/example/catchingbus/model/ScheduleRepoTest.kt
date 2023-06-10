@@ -2,22 +2,24 @@ package com.example.catchingbus.model
 
 import com.example.catchingbus.data.Bus
 import com.example.catchingbus.data.Favorite
+import com.example.catchingbus.data.Schedule
 import com.example.catchingbus.data.Station
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import kotlinx.datetime.toKotlinLocalTime
+import java.time.LocalTime
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class FavoriteRepoTest: StringSpec({
+class ScheduleRepoTest: StringSpec({
 
     beforeTest {
-        FavoriteRepo.load()
+        ScheduleRepo.load()
     }
 
     "clear" {
-        FavoriteRepo.clear()
-        println(FavoriteRepo.data.value.joinToString("\n", "\n"))
-        FavoriteRepo.data.value.isEmpty() shouldBe true
+        ScheduleRepo.clear()
+        ScheduleRepo.data.value.isEmpty() shouldBe true
     }
 
     "add" {
@@ -33,9 +35,12 @@ class FavoriteRepoTest: StringSpec({
             intervalTime = 0.toDuration(DurationUnit.MINUTES),
             type = "간선버스"
         )
-        val favorite = Favorite(station, bus)
-        FavoriteRepo.add(favorite)
-        println(FavoriteRepo.data.value.joinToString("\n", "\n"))
-        FavoriteRepo.data.value.isNotEmpty() shouldBe true
+        val schedule = Schedule(
+            favorite = Favorite(station, bus),
+            startTime = LocalTime.of(5, 30, 0).toKotlinLocalTime(),
+            endTime = LocalTime.of(23, 30, 0).toKotlinLocalTime()
+        )
+        ScheduleRepo.add(schedule)
+        ScheduleRepo.data.value.isNotEmpty() shouldBe true
     }
 })

@@ -8,10 +8,10 @@ class BusServiceTest: StringSpec({
 
     "search" {
         val station = Station(
-            "DGB7021025800",
-            "경북대학교북문앞",
-            35.89294,
-            128.60996
+            id = "DGB7021025800",
+            name = "경북대학교북문앞",
+            latitude = 35.89294,
+            longitude = 128.60996
         )
         val buses = BusService.search(station)
         println(buses.joinToString("\n", "\n"))

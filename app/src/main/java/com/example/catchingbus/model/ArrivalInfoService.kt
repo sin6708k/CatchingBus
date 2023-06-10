@@ -1,6 +1,5 @@
 package com.example.catchingbus.model
 
-import androidx.lifecycle.MutableLiveData
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Bus
 import com.example.catchingbus.data.City
@@ -16,8 +15,8 @@ object ArrivalInfoService {
         city: City = City.default
     ): ArrivalInfo {
         val jsons = ArrivalJsonApi.request(city.code.toString(), station.id, bus.id)
-        val remainingTimes = jsons.map { it.arrtime.toDuration(DurationUnit.SECONDS) }
-        //val remainingTimes = MutableLiveData(jsons.map { it.arrtime.toDuration(DurationUnit.SECONDS) })
-        return ArrivalInfo(station, bus, remainingTimes)
+        return ArrivalInfo(station, bus,
+            remainingTimes = jsons.map { it.arrtime.toDuration(DurationUnit.SECONDS) }.sortedBy { it }
+        )
     }
 }

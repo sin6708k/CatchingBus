@@ -13,10 +13,9 @@ import com.example.catchingbus.model.ArrivalInfoService
 import com.example.catchingbus.model.BusService
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.StationService
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
+import kotlin.properties.Delegates.observable
 
 class SearchViewModel: ViewModel() {
     companion object {
@@ -28,59 +27,33 @@ class SearchViewModel: ViewModel() {
 
     // 이 field의 값이 바뀔 때마다 View에서 보여주는 Station들을 갱신해야 한다
     val stations: LiveData<List<Station>> get() = _stations
-    private val _stations = MutableLiveData(listOf<Station>())
+    private val _stations = MutableLiveData<List<Station>>(emptyList())
 
     // View에서 Station을 선택할 때마다 이 field를 그 Station로 설정해야 한다
     val selectedStation = MutableLiveData<Station?>()
 
-    // 이 field의 값이 바뀔 때마다 View에서 보여주는 Bus들을 갱신해야 한다
-    // 그러나 View에서 ArrivalInfo를 보여주는 것만으로 충분하면 하지 않아도 된다
-    val buses: LiveData<List<Bus>> get() = _buses
-    private val _buses = MutableLiveData(listOf<Bus>())
+    // 이 field의 값이 바뀔 때마다 View에서 보여주는 BusContent들을 갱신해야 한다
+    val busContents: LiveData<List<BusContent>> get() = _busContents
+    private val _busContents = MutableLiveData<List<BusContent>>(emptyList())
 
-    // 이 field의 값이 바뀔 때마다 View에서 보여주는 ArrivalInfo들을 갱신해야 한다
-    val arrivalInfoes: LiveData<List<ArrivalInfo>> get() = _arrivalInfoes
-    private val _arrivalInfoes = MutableLiveData(listOf<ArrivalInfo>())
-
-
-    // 이 field의 값이 바뀔 때마다 View에서 보여주는, 각 Bus에 해당하는 Favorite을 갱신해야 한다.
-    val favorites: LiveData<Map<Bus, Favorite>> get() = _favorites
-    private val _favorites = MutableLiveData(mapOf<Bus, Favorite>())
+    private var buses: List<Bus> by observable(listOf()) { _, _, _ ->
+        updateArrivalInfoes()
+    }
+    private var arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, _ ->
+        updateBusContents()
+    }
+    private var favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, _ ->
+        updateBusContents()
+    }
 
     init {
-        viewModelScope.launch {
-            FavoriteRepo.load()
-        }
         stations.observeForever {
             Log.d(TAG, it.joinToString("\n * ", "on stations.setValue()\n * "))
         }
         selectedStation.observeForever {
-            onSelectStation(it)
+            searchBuses(it)
         }
-        buses.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on buses.setValue()\n * "))
-            refresh()
-            onChangeBuses(it)
-        }
-        arrivalInfoes.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on arrivalInfoes.setValue()\n * "))
-        }
-        favorites.observeForever {
-            //Log.d(TAG, it.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
-            if (it != null) {
-                Log.d(TAG, it.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
-            } else {
-                Log.d(TAG, "favorites is null")
-            }
-        }
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    override fun onCleared() {
-        super.onCleared()
-        GlobalScope.launch {
-            FavoriteRepo.save()
-        }
+        updateFavorites()
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
@@ -88,53 +61,45 @@ class SearchViewModel: ViewModel() {
         _stations.value = StationService.search(searchWord.value.orEmpty())
     }
 
-    private fun onSelectStation(station: Station?) = viewModelScope.launch {
-        _buses.value = if (station != null) {
+    private fun searchBuses(station: Station?) = viewModelScope.launch {
+        buses = if (station != null) {
             BusService.search(station)
         } else {
-            emptyList()
+            listOf()
         }
     }
 
     // View에서 새로고침 버튼을 누를 때마다 이 function을 호출해야 한다
-    fun refresh() = viewModelScope.launch {
+    fun updateArrivalInfoes() = viewModelScope.launch {
         selectedStation.value?.let { station ->
-            _arrivalInfoes.value = buses.value?.map { bus ->
+            arrivalInfoes = buses.associateWith { bus ->
                 ArrivalInfoService.search(station, bus)
-            } ?: emptyList()
-        }
-    }
-    private fun onChangeBuses(buses: List<Bus>?) = viewModelScope.launch {
-        _favorites.value = if (buses != null) {
-            selectedStation.value?.let { station ->
-                val filtered = FavoriteRepo.data.value.filter {
-                    it.station == station && buses.contains(it.bus)
-                }
-                filtered.associateBy({it.bus}, {it})
             }
-        } else {
-            emptyMap()
         }
     }
 
     // View에서 각 Bus의 즐겨찾기 버튼을 누를 때마다 이 function을 호출해야 한다
-
-
-    fun addOrRemoveFavorite(bus: Bus) = viewModelScope.launch {
+    fun addOrRemoveFavorite(busContent: BusContent) = viewModelScope.launch {
         selectedStation.value?.let { station ->
-            favorites.value?.let { favorites ->
-                favorites[bus].let {
-                    if (it == null) {
-                        val favorite = Favorite(station, bus)
-                        Log.d("problem","즐겨찾기 추가 : ${Favorite(station, bus)}")
-                        FavoriteRepo.add(favorite)
-                        _favorites.value = _favorites.value?.plus(favorite.bus to favorite)
-                    } else {
-                        Log.d("problem","즐겨찾기 삭제 : ${Favorite(station, bus)}")
-                        FavoriteRepo.remove(it)
-                    }
-                }
+            if (busContent.favorite == null) {
+                FavoriteRepo.add(Favorite(station, busContent.bus))
+            } else {
+                FavoriteRepo.remove(busContent.favorite)
             }
+        }
+    }
+
+    private fun updateFavorites() = viewModelScope.launch {
+        FavoriteRepo.data.collectLatest {
+            favorites = it.associateBy { favorite ->
+                favorite.bus
+            }
+        }
+    }
+
+    private fun updateBusContents() {
+        _busContents.value = buses.map {
+            BusContent(it, arrivalInfoes[it], favorites[it])
         }
     }
 }

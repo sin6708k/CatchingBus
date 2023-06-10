@@ -1,9 +1,10 @@
-package com.example.catchingbus.model
+package com.example.catchingbus.viewmodel
 
 import com.example.catchingbus.data.ArrivalInfo
 
-class AlarmMessage(private val arrivalInfo: ArrivalInfo) {
-
+class AlarmMessage(
+    private val arrivalInfo: ArrivalInfo
+) {
     override fun toString(): String {
         return arrivalInfo.toString()
     }

@@ -17,7 +17,18 @@ data class ArrivalInfo(
 ) {
     val creationTime = LocalDateTime.now()
     val velocity: Velocity by lazy {
-        Velocity.UNDETERMINED
+        if (remainingTimes.size >= 2) {
+            val firstTime = remainingTimes[0]
+            val secondTime = remainingTimes[1]
+
+            if (secondTime - firstTime < bus.intervalTime) {
+                Velocity.FAST
+            } else {
+                Velocity.SLOW
+            }
+        } else {
+            Velocity.UNDETERMINED
+        }
     }
 }
 /*

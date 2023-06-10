@@ -8,6 +8,8 @@ import com.example.catchingbus.model.json.BusJsonApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 object BusService {
     suspend fun search(
@@ -21,7 +23,7 @@ object BusService {
             }.awaitAll()
         }
         return busJsons.map {
-            Bus(it.routeid, it.routeno, it.intervaltime, it.routetp)
+            Bus(it.routeid, it.routeno, it.intervaltime.toDuration(DurationUnit.MINUTES), it.routetp)
         }
     }
 }
