@@ -132,7 +132,7 @@
 
         <ImageView
             android:id="@+id/submit_button"
-            android:layout_width="238dp"
+            android:layout_width="193dp"
             android:layout_height="46dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
