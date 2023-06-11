@@ -31,22 +31,7 @@ class BusSearchViewHolder(
         }
         else if(bus.arrivalInfo.remainingTimes.size==1) //남은 버스가 하나일때.
             first_arrive=bus.arrivalInfo!!.remainingTimes[0]
-        //var first_arrive: Duration = Duration.ZERO
-        //var second_arrive: Duration = Duration.ZERO
-
-        /*
-        bus.remainingTimes.observe(lifecycleOwner) { times ->
-            if (times.size >= 2) {
-                first_arrive = times[0]
-                second_arrive = times[1]
-            }
-        }
-         */
-        if(bus.favorite==null){
-            binding.bookMark.isSelected =false
-        }
-        else
-            binding.bookMark.isSelected=true
+        binding.bookMark.isSelected = bus.favorite != null
         itemView.apply{
             binding.busNum.text = num
             binding.firstArrive.text = first_arrive.toString()
