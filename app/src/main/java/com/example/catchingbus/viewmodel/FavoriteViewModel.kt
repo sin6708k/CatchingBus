@@ -10,6 +10,7 @@ import com.example.catchingbus.data.Favorite
 import com.example.catchingbus.data.Schedule
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.ScheduleRepo
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
 
@@ -39,6 +40,11 @@ class FavoriteViewModel: ViewModel() {
         schedules.observeForever {
             Log.d(TAG, it.joinToString("\n * ", "on schedules.setValue()\n * "))
         }
+        viewModelScope.launch {
+            ScheduleRepo.data.collectLatest {
+                updateSchedules(selectedFavorite.value, it)
+            }
+        }
     }
 
     // View에서 Favorite 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
@@ -57,7 +63,6 @@ class FavoriteViewModel: ViewModel() {
         selectedFavorite.value?.let {
             val schedule = Schedule(it, startTime, endTime)
             ScheduleRepo.add(schedule)
-            updateSchedules(it, ScheduleRepo.data.value)
         }
         Log.d(TAG, "addSchedule() end")
     }
@@ -68,7 +73,6 @@ class FavoriteViewModel: ViewModel() {
 
         selectedFavorite.value?.let {
             ScheduleRepo.remove(schedule)
-            updateSchedules(it, ScheduleRepo.data.value)
         }
         Log.d(TAG, "removeSchedule() end")
     }
@@ -76,9 +80,8 @@ class FavoriteViewModel: ViewModel() {
     private fun updateSchedules(favorite: Favorite?, allSchedules: List<Schedule>) {
         Log.d(TAG, "updateSchedules() start")
 
-        _schedules.value = allSchedules.filter { schedule ->
-            schedule.favorite == favorite
-        }
+        _schedules.value = allSchedules.filter { it.favorite == favorite }
+
         Log.d(TAG, "updateSchedules() end")
     }
 }
