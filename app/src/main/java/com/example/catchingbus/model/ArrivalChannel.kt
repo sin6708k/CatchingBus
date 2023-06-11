@@ -1,7 +1,6 @@
-package com.example.catchingbus.viewmodel
+package com.example.catchingbus.model
 
-import com.example.catchingbus.model.ArrivalInfoService
-import com.example.catchingbus.model.ScheduleRepo
+import com.example.catchingbus.data.ArrivalChannelMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,11 +12,11 @@ import kotlinx.datetime.toKotlinLocalTime
 import java.time.LocalTime
 import kotlin.time.Duration
 
-object ArrivalAlarm {
+object ArrivalChannel {
     private var job: Job? = null
 
-    val alarmMessage: SharedFlow<AlarmMessage> get() = _alarmMessage
-    private val _alarmMessage = MutableSharedFlow<AlarmMessage>()
+    val message: SharedFlow<ArrivalChannelMessage> get() = _message
+    private val _message = MutableSharedFlow<ArrivalChannelMessage>()
 
     fun start(delayTime: Duration) {
         job?.cancel()
@@ -32,9 +31,11 @@ object ArrivalAlarm {
                     now > it.startTime && now < it.endTime
                 }
                 activeSchedules.forEach {
-                    _alarmMessage.emit(AlarmMessage(
+                    _message.emit(
+                        ArrivalChannelMessage(
                         arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
-                    ))
+                    )
+                    )
                 }
             }
             delay(delayTime)

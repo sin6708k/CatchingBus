@@ -1,5 +1,6 @@
 package com.example.catchingbus.viewmodel
 
+import com.example.catchingbus.model.ArrivalChannel
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.ScheduleRepo
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +14,7 @@ object GlobalInitializer {
         CoroutineScope(Dispatchers.Default).launch {
             FavoriteRepo.load(fileDirPath)
             ScheduleRepo.load(fileDirPath)
-            ArrivalAlarm.start(30.toDuration(DurationUnit.SECONDS))
+            ArrivalChannel.start(30.toDuration(DurationUnit.SECONDS))
         }
     }
 }
