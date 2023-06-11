@@ -8,8 +8,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.toKotlinLocalTime
-import java.time.LocalTime
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration
 
 object ArrivalChannel {
@@ -20,23 +21,21 @@ object ArrivalChannel {
 
     fun start(delayTime: Duration) {
         job?.cancel()
-        job = CoroutineScope(Dispatchers.Default).launch { run(delayTime) }
+        job = CoroutineScope(Dispatchers.Default).launch {
+            run(delayTime)
+        }
     }
 
     private suspend fun run(delayTime: Duration) {
         while (true) {
-            val now = LocalTime.now()?.toKotlinLocalTime()
-            if (now != null) {
-                val activeSchedules = ScheduleRepo.data.value.filter {
-                    now > it.startTime && now < it.endTime
-                }
-                activeSchedules.forEach {
-                    _message.emit(
-                        ArrivalChannelMessage(
-                        arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
-                    )
-                    )
-                }
+            val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+
+            val activeSchedules = ScheduleRepo.data.value.filter {
+                now > it.startTime && now < it.endTime
+            }
+            activeSchedules.forEach {
+                val arrivalInfo = ArrivalInfoService.search(it.favorite.station, it.favorite.bus)
+                _message.emit(ArrivalChannelMessage(arrivalInfo))
             }
             delay(delayTime)
         }

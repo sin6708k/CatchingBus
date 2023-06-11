@@ -6,8 +6,6 @@ import com.example.catchingbus.model.json.CityJsonApi
 object CityService {
     suspend fun search(): List<City> {
         val jsons = CityJsonApi.request()
-        return jsons.map {
-            City(it.citycode, it.cityname)
-        }
+        return jsons.map { City(it.citycode, it.cityname) }
     }
 }
