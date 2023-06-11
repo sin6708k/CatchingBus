@@ -7,28 +7,29 @@
 
     <ImageView
         android:id="@+id/book_mark"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/click_bookmark"
-        app:layout_constraintEnd_toStartOf="@+id/bus_num"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.1" />
 
     <TextView
-        android:fontFamily="@font/worksans"
         android:id="@+id/bus_num"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginEnd="112dp"
+        android:fontFamily="@font/worksans"
         android:gravity="center"
         android:hint="버스 번호"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/circle"
+        app:layout_constraintEnd_toStartOf="@+id/second_arrive"
+        app:layout_constraintStart_toEndOf="@+id/book_mark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.3" />
 
@@ -36,37 +37,11 @@
         android:id="@+id/circle"
         android:layout_width="30dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/ic_green_circle"
-        app:layout_constraintEnd_toStartOf="@+id/second_arrive"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.1" />
-
-    <LinearLayout
-        android:id="@+id/inforlayout"
-        android:layout_width="40dp"
-        android:layout_height="59dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@id/first_arrive"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/circle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.2">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="이번 :"
-            android:textAlignment="center" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="다음 :"
-            android:textAlignment="center" />
-    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/first_arrive"
@@ -77,9 +52,7 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/circle"
+        app:layout_constraintEnd_toStartOf="@+id/circle"
         app:layout_constraintWidth_percent="0.2"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -92,8 +65,8 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/first_arrive"
-        app:layout_constraintWidth_percent="0.2" />
+        app:layout_constraintEnd_toStartOf="@+id/circle"
+        app:layout_constraintWidth_percent="0.2"
+        tools:layout_editor_absoluteY="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
