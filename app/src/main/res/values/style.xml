@@ -3,4 +3,10 @@
     <style name="ImageViewClickableStyle">
         <item name="android:clickable">true</item>
     </style>
+
+    <style name="HintText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">15sp</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColorHint">#000000</item>
+    </style>
 </resources>
