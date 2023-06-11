@@ -7,11 +7,12 @@
     <TextView
         android:id="@+id/station_name"
         android:layout_width="match_parent"
-        android:text="정류장이름"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="60dp"
         android:fontFamily="@font/worksans"
-        android:layout_height="60dp"/>
+        android:gravity="center"
+        android:text="정류장이름"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

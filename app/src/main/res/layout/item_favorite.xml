@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_view"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:background="@drawable/round_view">
 
+    <ImageView
+        android:id="@+id/leftImageView"
+        android:layout_width="37dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.507"
+        app:srcCompat="@drawable/ic_bus_black" />
 
     <ImageView
         android:id="@+id/delete_favorite"
         android:layout_width="27dp"
         android:layout_height="22dp"
         android:layout_marginEnd="10dp"
-        android:layout_gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_x" />
-
-    <!--(임시)데이터의 정류소 이름을 표시하는 텍스트-->
 
     <TextView
         android:id="@+id/StationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginTop="10dp"
         android:hint="버스정류장"
-        android:textColorHint="@color/black"
+        android:padding="10dp"
         android:textColor="#000000"
-        android:textSize="18sp" />
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--(임시)데이터의 버스 번호을 표시하는 텍스트-->
     <TextView
         android:id="@+id/BusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="버스번호"
-        android:textColorHint="@color/black"
-        android:textColor="#000000"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        android:hint="버스번호"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/StationTextView" />
 
-</LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
