@@ -28,15 +28,14 @@
     <TextView
         android:id="@+id/google_map"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintTop_toBottomOf="@id/after_text_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="302dp"
+        android:gravity="center"
         android:text="임시 구글맵입니다!"
         android:textSize="30sp"
-        android:gravity="center"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/after_text_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bus_detail_layout"
@@ -44,19 +43,24 @@
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.4"
         android:scrollbars="vertical"
+        android:background="@drawable/border_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/google_map"
         />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintTop_toBottomOf="@id/bus_detail_layout"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="60dp"
+        android:background="#DCDCDC"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_navigation_menu"
-        />
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bus_detail_layout"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
