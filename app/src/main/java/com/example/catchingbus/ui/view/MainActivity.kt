@@ -1,5 +1,7 @@
 package com.example.catchingbus.ui.view
 
+import android.app.NotificationManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
+import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val sharedViewModel: SearchViewModel by lazy {
         ViewModelProvider(this).get(SearchViewModel::class.java)
     }
+    private lateinit var favoriteViewModel : FavoriteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,9 @@ class MainActivity : AppCompatActivity() {
                 ).commit()
             }
         }
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        favoriteViewModel.initialize(notificationManager)
     }
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)

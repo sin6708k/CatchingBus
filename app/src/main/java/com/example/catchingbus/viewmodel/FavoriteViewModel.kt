@@ -1,15 +1,21 @@
 package com.example.catchingbus.viewmodel
 
+import android.app.NotificationManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.catchingbus.data.ArrivalChannelMessage
 import com.example.catchingbus.data.Favorite
 import com.example.catchingbus.data.Schedule
+import com.example.catchingbus.model.ArrivalChannel
+import com.example.catchingbus.model.ArrivalChannelObserver
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.ScheduleRepo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
@@ -29,6 +35,11 @@ class FavoriteViewModel: ViewModel() {
     val schedules: LiveData<List<Schedule>> get() = _schedules
     private val _schedules = MutableLiveData<List<Schedule>>(emptyList())
 
+    private lateinit var arrivalChannelObserver: ArrivalChannelObserver
+
+    // ViewModel이 소멸될 때 ArrivalChannelObserver를 정리합니다.
+
+
     init {
         favorites.observeForever {
             Log.d(TAG, it.joinToString("\n * ", "on favorites.setValue()\n * "))
@@ -46,7 +57,6 @@ class FavoriteViewModel: ViewModel() {
             }
         }
     }
-
     // View에서 Favorite 삭제 버튼을 누를 때마다 이 function을 호출해야 한다.
     fun removeFavorite(favorite: Favorite) = viewModelScope.launch {
         Log.d(TAG, "removeFavorite() start")
@@ -54,6 +64,12 @@ class FavoriteViewModel: ViewModel() {
         FavoriteRepo.remove(favorite)
 
         Log.d(TAG, "removeFavorite() end")
+    }
+    fun initialize(notificationManager: NotificationManager) {
+        Log.d("problem","알람을 옵저빙하겠습니다, ${ArrivalChannel.message.toString()}")
+        arrivalChannelObserver = ArrivalChannelObserver(notificationManager)
+        arrivalChannelObserver.startObserving(ArrivalChannel.message)
+
     }
 
     // View에서 Schedule 등록 버튼을 누를 때마다 이 function을 호출해야 한다.
