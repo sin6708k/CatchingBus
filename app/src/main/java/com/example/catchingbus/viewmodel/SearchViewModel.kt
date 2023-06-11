@@ -36,15 +36,15 @@ class SearchViewModel: ViewModel() {
     val busContents: LiveData<List<BusContent>> get() = _busContents
     private val _busContents = MutableLiveData<List<BusContent>>(emptyList())
 
-    private var buses: List<Bus> by observable(listOf()) { _, _, new ->
+    private var _buses: List<Bus> by observable(listOf()) { _, _, new ->
         Log.d(TAG, new.joinToString("\n * ", "on buses.setValue()\n * "))
         updateArrivalInfoes()
     }
-    private var arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
+    private var _arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
         Log.d(TAG, new.toList().joinToString("\n * ", "on arrivalInfoes.setValue()\n * "))
         updateBusContents()
     }
-    private var favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, new ->
+    private var _favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, new ->
         Log.d(TAG, new.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
         updateBusContents()
     }
@@ -60,7 +60,11 @@ class SearchViewModel: ViewModel() {
         busContents.observeForever {
             Log.d(TAG, it.joinToString("\n * ", "on busContents.setValue()\n * "))
         }
-        collectFavorites()
+        viewModelScope.launch {
+            FavoriteRepo.data.collectLatest {
+                updateFavorites(it)
+            }
+        }
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
@@ -73,7 +77,7 @@ class SearchViewModel: ViewModel() {
     private fun searchBuses(station: Station?) = viewModelScope.launch {
         Log.d(TAG, "searchBuses() start")
 
-        buses = if (station != null) {
+        _buses = if (station != null) {
             BusService.search(station)
         } else {
             listOf()
@@ -86,7 +90,7 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "updateArrivalInfoes() start")
 
         selectedStation.value?.let { station ->
-            arrivalInfoes = buses.associateWith { bus ->
+            _arrivalInfoes = _buses.associateWith { bus ->
                 ArrivalInfoService.search(station, bus)
             }
         }
@@ -113,22 +117,19 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "addOrRemoveFavorite() end")
     }
 
-    private fun collectFavorites() = viewModelScope.launch {
-        FavoriteRepo.data.collectLatest {
-            Log.d(TAG, it.joinToString("\n * ", "collectFavorite() start\n * "))
+    private fun updateFavorites(favorites: List<Favorite>) {
+        Log.d(TAG, "updateFavorites() start")
 
-            favorites = it.associateBy { favorite ->
-                favorite.bus
-            }
-            Log.d(TAG, "collectFavorite() end")
-        }
+        _favorites = favorites.associateBy { it.bus }
+
+        Log.d(TAG, "updateFavorites() end")
     }
 
     private fun updateBusContents() {
         Log.d(TAG, "updateBusContents() start")
 
-        _busContents.value = buses.map {
-            BusContent(it, arrivalInfoes[it], favorites[it])
+        _busContents.value = _buses.map {
+            BusContent(it, _arrivalInfoes[it], _favorites[it])
         }
         Log.d(TAG, "updateBusContents() end")
     }

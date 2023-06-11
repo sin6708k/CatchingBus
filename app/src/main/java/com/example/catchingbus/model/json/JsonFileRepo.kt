@@ -1,7 +1,5 @@
 package com.example.catchingbus.model.json
 
-import android.util.Log
-import com.example.catchingbus.viewmodel.SearchViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.sync.Mutex
@@ -15,6 +13,7 @@ abstract class JsonFileRepo<T : Any>(
 ) {
     private lateinit var file: JsonFile
 
+    // StateFlow는 mutableList를 사용할 수 없다.
     protected val _data = MutableStateFlow<List<T>>(emptyList())
     val data: StateFlow<List<T>> = _data
 
@@ -37,16 +36,14 @@ abstract class JsonFileRepo<T : Any>(
 
     suspend fun clear() {
         mutex.withLock {
-            _data.value = data.value.apply { clear() }
+            _data.value = emptyList()
         }
         save()
     }
     suspend fun add(element: T) {
         mutex.withLock {
             if (data.value.indexOf(element) == -1) {
-                Log.d("problem", "JsonFileRepo.add() start\n * ${data.value}")
                 _data.value = data.value.plus(element)
-                Log.d("problem", "JsonFileRepo.add end\n * ${data.value})")
             }
         }
         save()
@@ -54,9 +51,7 @@ abstract class JsonFileRepo<T : Any>(
 
     open suspend fun remove(element: T) {
         mutex.withLock {
-            Log.d("problem", "JsonFileRepo.remove() start\n * ${data.value}")
             _data.value = data.value.minus(element)
-            Log.d("problem", "JsonFileRepo.remove() end\n * ${data.value}")
         }
         save()
     }
