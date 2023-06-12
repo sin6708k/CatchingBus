@@ -12,7 +12,7 @@ data class ArrivalInfo(
 
     val nowRemainingTime: List<Duration> get() {
         return remainingTimes.map {
-            it - (creationTime - Clock.System.now())
+            it - (Clock.System.now() - creationTime)
         }
     }
 
