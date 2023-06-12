@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_after_bookmark" android:state_selected="true" /> <!-- 누른 상태일때-->
+    <item android:drawable="@drawable/ic_before_bookmark"/> <!-- 누르지 않는 상태일때 -->
+    <!-- 아무 상태도 지정하지 않으면 기본 값 -->
+</selector>
