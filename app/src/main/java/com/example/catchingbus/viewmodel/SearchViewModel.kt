@@ -109,16 +109,12 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "addOrRemoveFavorite() start")
 
         selectedStation.value?.let { station ->
-            Log.d("problem","${busContent}")
             if (busContent.favorite == null) {
                 Log.d(TAG, "addOrRemoveFavorite() add")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
-               // busContent.favorite = Favorite(station,busContent.bus) //내가 추가
-                //favorites.values= listOf(Favorite(station,busContent.bus))
             } else {
                 Log.d(TAG, "addOrRemoveFavorite() remove")
-                FavoriteRepo.remove(busContent.favorite!!) //내가 추가
-                //busContent.favorite=null
+                FavoriteRepo.remove(busContent.favorite)
             }
         }
         Log.d(TAG, "addOrRemoveFavorite() end")
@@ -144,7 +140,11 @@ class SearchViewModel: ViewModel() {
     private fun refreshBusContents() {
         Log.d(TAG, "refreshBusContents() start")
 
-        _busContents.value = busContents.value //null 예외처리 필요
+        busContents.value?.let {
+            if (it.isNotEmpty()) {
+                _busContents.value = it
+            }
+        }
 
         Log.d(TAG, "refreshBusContents() end")
     }
