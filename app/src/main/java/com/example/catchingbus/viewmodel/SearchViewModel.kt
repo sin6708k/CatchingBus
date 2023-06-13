@@ -128,7 +128,7 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "updateFavorites() end")
     }
 
-    private fun updateBusContents() {
+    private fun updateBusContents() = viewModelScope.launch {
         Log.d(TAG, "updateBusContents() start")
 
         _busContents.value = _buses.map {
@@ -137,7 +137,7 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "updateBusContents() end")
     }
 
-    private fun refreshBusContents() {
+    private fun refreshBusContents() = viewModelScope.launch {
         Log.d(TAG, "refreshBusContents() start")
 
         busContents.value?.let {
