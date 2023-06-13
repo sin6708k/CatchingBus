@@ -140,7 +140,11 @@ class SearchViewModel: ViewModel() {
     private fun refreshBusContents() {
         Log.d(TAG, "refreshBusContents() start")
 
-        _busContents.value = busContents.value
+        busContents.value?.let {
+            if (it.isNotEmpty()) {
+                _busContents.value = it
+            }
+        }
 
         Log.d(TAG, "refreshBusContents() end")
     }
