@@ -48,10 +48,12 @@ class BusSearchAdapter(
     companion object {
         private val BusDiffcallback = object : DiffUtil.ItemCallback<BusContent>(){ //데이터 변경 감지 하는 놈. 삭제 추가 식별
             override fun areContentsTheSame(oldItem: BusContent, newItem: BusContent): Boolean {
-                return oldItem == newItem
+                Log.d("jaehan","버스콜백")
+                return oldItem.arrivalInfo?.nowRemainingTime== newItem.arrivalInfo?.nowRemainingTime
             }
             override fun areItemsTheSame(oldItem: BusContent, newItem: BusContent): Boolean {
-                return oldItem.bus == newItem.bus
+                Log.d("jaehan","버스콜백12")
+                return oldItem.arrivalInfo == newItem.arrivalInfo
             }
         }
     }

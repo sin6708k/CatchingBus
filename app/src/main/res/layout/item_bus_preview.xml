@@ -28,10 +28,26 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/second_arrive"
+
         app:layout_constraintStart_toEndOf="@+id/book_mark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.3" />
+
+
+    <TextView
+        android:id="@+id/first_arrive"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="없음"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/circle"
+        app:layout_constraintWidth_percent="0.5"
+        tools:layout_editor_absoluteY="0dp" />
+
 
     <ImageView
         android:id="@+id/circle"
@@ -43,20 +59,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.1" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/first_arrive"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="없음"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/circle"
-        app:layout_constraintWidth_percent="0.2"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/second_arrive"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -65,8 +68,9 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/first_arrive"
         app:layout_constraintEnd_toStartOf="@+id/circle"
-        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintWidth_percent="0.5"
         tools:layout_editor_absoluteY="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,16 @@ data class ArrivalInfo(
         }
     }
 
+    /*
+    val nowRemainingTime: List<String> get() {
+        return remainingTimes.map { duration ->
+            val minutes = duration.inWholeMinutes
+            val seconds = duration.inWholeSeconds % 60
+            String.format("%02d:%02d", minutes, seconds)
+        }
+    }
+
+     */
     val velocity: Velocity by lazy {
         if (remainingTimes.size >= 2) {
             if (remainingTimes[1] - remainingTimes[0] < bus.intervalTime) {

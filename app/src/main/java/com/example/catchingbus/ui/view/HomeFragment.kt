@@ -17,6 +17,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import android.print.PrintAttributes.Margins
 import android.util.Log
 import android.widget.Toast
+import com.example.catchingbus.databinding.FragmentHomeBinding
+import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -42,6 +44,8 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var fusedLocationClient:FusedLocationProviderClient
+    private var _binding: FragmentHomeBinding? = null
+    private val binding: FragmentHomeBinding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +60,9 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home,container,false)
-        mapView = view.findViewById(R.id.map_view)
+        //val view = inflater.inflate(R.layout.fragment_home,container,false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        mapView = binding.homeMapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
             googleMap=map
@@ -162,8 +167,11 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
      */
     @SuppressLint("MissingPermission")
     private fun showCustomLocationOnMap() {
-        val latitude = 35.888085 // 지정할 위도 값
-        val longitude = 128.611408 // 지정할 경도 값
+        //val latitude = 35.888085 // 지정할 위도 값
+        //val longitude = 128.611408 // 지정할 경도 값
+        val latitude: Double? = 35.888085 // 지정할 위도 값
+        val longitude: Double? = 128.611408 // 지정할 경도 값
+
 
         val customLatLng = LatLng(latitude!!, longitude!!)
         Log.d("problem","위도 : $latitude, 경도 : $longitude")
