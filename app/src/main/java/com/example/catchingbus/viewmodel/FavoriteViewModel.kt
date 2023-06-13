@@ -31,17 +31,18 @@ class FavoriteViewModel: ViewModel() {
 
     init {
         favorites.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on favorites.setValue()\n * "))
+            Log.d(TAG, it.joinToString("\n ", "on favorites.setValue()\n "))
         }
         selectedFavorite.observeForever {
-            Log.d(TAG, "on selectedFavorite.setValue\n * $it")
+            Log.d(TAG, "on selectedFavorite.setValue\n $it")
             updateSchedules(it, ScheduleRepo.data.value)
         }
         schedules.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on schedules.setValue()\n * "))
+            Log.d(TAG, it.joinToString("\n ", "on schedules.setValue()\n "))
         }
         viewModelScope.launch {
             ScheduleRepo.data.collectLatest {
+                Log.d(TAG, it.joinToString("\n ", "on ScheduleRepo.data.setValue()\n "))
                 updateSchedules(selectedFavorite.value, it)
             }
         }
