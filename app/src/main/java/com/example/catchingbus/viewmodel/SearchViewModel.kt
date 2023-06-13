@@ -67,17 +67,17 @@ class SearchViewModel: ViewModel() {
                 updateFavorites(it)
             }
         }
-        viewModelScope.launch {
-            fixedRateTimer(period = 1000) { // 1초마다
-                refreshBusContents()
-            }
+        fixedRateTimer(period = 1000) { // 1초마다
+            refreshBusContents()
         }
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
     fun searchStations() = viewModelScope.launch {
         Log.d(TAG, "searchStations() start")
+
         _stations.value = StationService.search(searchWord.value.orEmpty())
+
         Log.d(TAG, "searchStations() end")
     }
 
