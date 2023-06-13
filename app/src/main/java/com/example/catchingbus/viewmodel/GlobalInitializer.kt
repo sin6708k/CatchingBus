@@ -1,7 +1,6 @@
 package com.example.catchingbus.viewmodel
 
 import com.example.catchingbus.model.ArrivalChannel
-import com.example.catchingbus.model.ArrivalInfoService
 import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.ScheduleRepo
 import com.example.catchingbus.model.json.ArrivalJsonApi
@@ -20,17 +19,20 @@ object GlobalInitializer {
     const val SERVICE_KEY = "TdvBzglDeCrmafwGrqqjOSj7ZnRi9AR5JMUTPozZRnaaqpUTnlYtwgFWeejzhWXLvboD81F1fsk%2FtL2Br9TEjA%3D%3D"
 
     fun initialize(fileDirPath: String) {
-        CoroutineScope(Dispatchers.Default).launch {
-            CityJsonApi.initialize(SERVICE_KEY)
-            StationJsonApi.initialize(SERVICE_KEY)
-            BusByStationJsonApi.initialize(SERVICE_KEY)
-            BusJsonApi.initialize(SERVICE_KEY)
-            ArrivalJsonApi.initialize(SERVICE_KEY)
+        CityJsonApi.initialize(SERVICE_KEY)
+        StationJsonApi.initialize(SERVICE_KEY)
+        BusByStationJsonApi.initialize(SERVICE_KEY)
+        BusJsonApi.initialize(SERVICE_KEY)
+        ArrivalJsonApi.initialize(SERVICE_KEY)
 
+        CoroutineScope(Dispatchers.Default).launch {
             FavoriteRepo.load(Path(fileDirPath, "favorites.txt"))
             ScheduleRepo.load(Path(fileDirPath, "schedules.txt"))
 
-            ArrivalChannel.start(30.toDuration(DurationUnit.SECONDS))
+            ArrivalChannel.start(
+                period = 1.toDuration(DurationUnit.MINUTES),
+                remainingTimeToSend = 5.toDuration(DurationUnit.MINUTES)
+            )
         }
     }
 }
