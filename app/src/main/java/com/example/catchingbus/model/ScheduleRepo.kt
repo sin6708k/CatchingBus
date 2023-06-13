@@ -11,6 +11,5 @@ object ScheduleRepo: JsonFileRepo<Schedule>(Schedule::class) {
         mutex.withLock {
             _data.value = data.value.filter { it.favorite != favorite }
         }
-        save()
     }
 }
