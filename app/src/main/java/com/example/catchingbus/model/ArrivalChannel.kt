@@ -13,6 +13,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration
 
+// ArrivalInfo를 주기적으로 수신하는 객체
 object ArrivalChannel {
     private var job: Job? = null
 
