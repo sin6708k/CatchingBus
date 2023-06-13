@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toKotlinLocalTime
 import java.time.LocalTime
+import kotlin.io.path.Path
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -20,15 +21,12 @@ class ScheduleRepoTest: StringSpec({
 
     lateinit var schedule: Schedule
 
-    beforeTest {
-        ScheduleRepo.load("")
-
+    beforeSpec {
         CoroutineScope(Dispatchers.Default).launch {
             ScheduleRepo.data.collectLatest {
                 println(it.joinToString("\n * ", "collectLatest\n * "))
             }
         }
-
         schedule = Schedule(
             favorite = Favorite(
                 station = Station(
@@ -46,6 +44,10 @@ class ScheduleRepoTest: StringSpec({
             startTime = LocalTime.of(5, 30, 0).toKotlinLocalTime(),
             endTime = LocalTime.of(23, 30, 0).toKotlinLocalTime()
         )
+    }
+
+    beforeTest {
+        ScheduleRepo.load(Path("schedules.txt"))
     }
 
     "clear" {

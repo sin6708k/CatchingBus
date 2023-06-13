@@ -1,10 +1,18 @@
 package com.example.catchingbus.model
 
 import com.example.catchingbus.data.Station
+import com.example.catchingbus.model.json.BusByStationJsonApi
+import com.example.catchingbus.model.json.BusJsonApi
+import com.example.catchingbus.viewmodel.GlobalInitializer
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class BusServiceTest: StringSpec({
+
+    beforeSpec {
+        BusByStationJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
+        BusJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
+    }
 
     "search" {
         val station = Station(

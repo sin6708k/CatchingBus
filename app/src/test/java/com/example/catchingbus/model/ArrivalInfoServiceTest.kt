@@ -2,12 +2,18 @@ package com.example.catchingbus.model
 
 import com.example.catchingbus.data.Bus
 import com.example.catchingbus.data.Station
+import com.example.catchingbus.model.json.ArrivalJsonApi
+import com.example.catchingbus.viewmodel.GlobalInitializer
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 class ArrivalInfoServiceTest: StringSpec({
+
+    beforeSpec {
+        ArrivalJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
+    }
 
     "search" {
         val station = Station(

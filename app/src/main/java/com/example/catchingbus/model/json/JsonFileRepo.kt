@@ -4,13 +4,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlin.io.path.Path
+import java.nio.file.Path
 import kotlin.reflect.KClass
 
-abstract class JsonFileRepo<T : Any>(
-    private val clazz: KClass<T>,
-    private val fileName: String
-) {
+abstract class JsonFileRepo<T : Any>(private val clazz: KClass<T>) {
     private lateinit var file: JsonFile
 
     // StateFlow는 mutableList를 사용할 수 없다.
@@ -19,9 +16,9 @@ abstract class JsonFileRepo<T : Any>(
 
     protected val mutex = Mutex()
 
-    suspend fun load(fileDirPath: String) {
+    suspend fun load(filePath: Path) {
         mutex.withLock {
-            file = JsonFile(Path(fileDirPath, fileName))
+            file = JsonFile(filePath)
             val jsonElement = file.load()
             _data.value = Json.deserialize(clazz, jsonElement)
         }
