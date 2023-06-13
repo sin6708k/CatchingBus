@@ -114,7 +114,7 @@ class SearchViewModel: ViewModel() {
                 FavoriteRepo.add(Favorite(station, busContent.bus))
             } else {
                 Log.d(TAG, "addOrRemoveFavorite() remove")
-                FavoriteRepo.remove(busContent.favorite)
+                FavoriteRepo.remove(busContent.favorite!!)
             }
         }
         Log.d(TAG, "addOrRemoveFavorite() end")
