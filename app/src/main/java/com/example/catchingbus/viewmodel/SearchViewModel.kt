@@ -144,7 +144,7 @@ class SearchViewModel: ViewModel() {
     private fun refreshBusContents() {
         Log.d(TAG, "refreshBusContents() start")
 
-        _busContents.value = busContents.value
+        _busContents.value = busContents.value //null 예외처리 필요
 
         Log.d(TAG, "refreshBusContents() end")
     }
