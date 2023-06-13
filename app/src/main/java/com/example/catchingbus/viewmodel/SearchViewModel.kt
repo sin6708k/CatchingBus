@@ -15,6 +15,7 @@ import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.Delegates.observable
 
 class SearchViewModel: ViewModel() {
@@ -64,6 +65,11 @@ class SearchViewModel: ViewModel() {
             FavoriteRepo.data.collectLatest {
                 Log.d(TAG, it.joinToString("\n ", "on FavoriteRepo.data.setValue()\n "))
                 updateFavorites(it)
+            }
+        }
+        viewModelScope.launch {
+            fixedRateTimer(period = 1000) { // 1초마다
+                refreshBusContents()
             }
         }
     }
@@ -129,5 +135,13 @@ class SearchViewModel: ViewModel() {
             BusContent(it, _arrivalInfoes[it], _favorites[it])
         }
         Log.d(TAG, "updateBusContents() end")
+    }
+
+    private fun refreshBusContents() {
+        Log.d(TAG, "refreshBusContents() start")
+
+        _busContents.value = busContents.value
+
+        Log.d(TAG, "refreshBusContents() end")
     }
 }
