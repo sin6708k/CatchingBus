@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.io.path.Path
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -17,15 +18,12 @@ class FavoriteRepoTest: StringSpec({
 
     lateinit var favorite: Favorite
 
-    beforeTest {
-        FavoriteRepo.load("")
-
+    beforeSpec {
         CoroutineScope(Dispatchers.Default).launch {
             FavoriteRepo.data.collectLatest {
                 println(it.joinToString("\n * ", "collectLatest\n * "))
             }
         }
-
         favorite = Favorite(
             station = Station(
                 id = "DGB7021025800",
@@ -40,6 +38,10 @@ class FavoriteRepoTest: StringSpec({
                 type = "간선버스"
             )
         )
+    }
+
+    beforeTest {
+        FavoriteRepo.load(Path("favorites.txt"))
     }
 
     "clear" {

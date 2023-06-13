@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.nio.file.Path
 
+// JSON 데이터가 저장된 파일을 읽고 쓰는 객체
 class JsonFile(path: Path) {
     private val file = path.toFile()
 

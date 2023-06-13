@@ -10,8 +10,6 @@ object StationService {
         city: City = City.default
     ): List<Station> {
         val jsons = StationJsonApi.request(city.code.toString(), word)
-        return jsons.map {
-            Station(it.nodeid, it.nodenm, it.gpslati, it.gpslong)
-        }
+        return jsons.map { Station(it.nodeid, it.nodenm, it.gpslati, it.gpslong) }
     }
 }
