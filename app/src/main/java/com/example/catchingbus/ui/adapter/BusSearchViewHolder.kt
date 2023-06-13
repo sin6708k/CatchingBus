@@ -39,8 +39,8 @@ class BusSearchViewHolder(
         //var second_arrive : String = ""
 
         if(bus.arrivalInfo!!.remainingTimes.size==2) { //버스가 두 대일떄는 정상적으로 받음.
-            first_arrive=bus.arrivalInfo.nowRemainingTime[0]
-            second_arrive=bus.arrivalInfo.nowRemainingTime[1]
+            first_arrive=bus.arrivalInfo.nowRemainingTimes[0]
+            second_arrive=bus.arrivalInfo.nowRemainingTimes[1]
             val (firstMinutes, firstSeconds) = first_arrive.toComponents { _, minutes, seconds, _ -> minutes to seconds }
             val (secondMinutes, secondSeconds) = second_arrive.toComponents { _, minutes, seconds, _ -> minutes to seconds }
             first_arrive_string = String.format("%02d:%02d", firstMinutes, firstSeconds)
@@ -52,7 +52,7 @@ class BusSearchViewHolder(
         }
         else if(bus.arrivalInfo.remainingTimes.size==1) //남은 버스가 하나일때.
         {
-            first_arrive=bus.arrivalInfo.nowRemainingTime[0]
+            first_arrive=bus.arrivalInfo.nowRemainingTimes[0]
             val (firstMinutes, firstSeconds) = first_arrive.toComponents { _, minutes, seconds, _ -> minutes to seconds }
             first_arrive_string = String.format("%02d:%02d", firstMinutes, firstSeconds)
         }

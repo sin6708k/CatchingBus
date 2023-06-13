@@ -17,8 +17,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import android.print.PrintAttributes.Margins
 import android.util.Log
 import android.widget.Toast
-import com.example.catchingbus.databinding.FragmentHomeBinding
-import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -44,8 +42,6 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var fusedLocationClient:FusedLocationProviderClient
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +56,15 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        //val view = inflater.inflate(R.layout.fragment_home,container,false)
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        mapView = binding.homeMapView
+        val view = inflater.inflate(R.layout.fragment_home,container,false)
+        mapView = view.findViewById(R.id.home_map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
             googleMap=map
             onMapReady(googleMap!!)
         }
+        Log.d("problem","홈프래그먼트")
+
         return view
     }
     override fun onResume() {
@@ -90,13 +87,15 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         mapView.onLowMemory()
     }
     override fun onMapReady(p0: GoogleMap) {
+        Log.d("problem","지도호출")
         googleMap = p0
-            //getCurrentLocation()
+        //getCurrentLocation()
 //        checkLocationPermission() //위치권환 확인
-    //showCurrentLocationOnMap() //
+        //showCurrentLocationOnMap() //
         showCustomLocationOnMap()
     }
     private fun checkLocationPermission(){
+        Log.d("problem","위치권한 확인")
         // 현재 위치 표시를 위한 권한 확인
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -104,10 +103,11 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             // 위치 권한이 있는경우
-           // showCurrentLocationOnMap()
+            Log.d("problem","위치권한이 있습니다")
+            // showCurrentLocationOnMap()
         } else {
             // 위치 권한이 없는 경우 권한 요청
-                ActivityCompat.requestPermissions(
+            ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
@@ -124,7 +124,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         when(requestCode){
             REQUEST_LOCATION_PERMISSION ->{
                 if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                   // showCurrentLocationOnMap()
+                    // showCurrentLocationOnMap()
                 }
                 else{
                     Log.d("problem","위치권한이 없어요!")
@@ -147,7 +147,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
                 }
             }
             .addOnFailureListener{
-                e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
+                    e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -167,11 +167,8 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
      */
     @SuppressLint("MissingPermission")
     private fun showCustomLocationOnMap() {
-        //val latitude = 35.888085 // 지정할 위도 값
-        //val longitude = 128.611408 // 지정할 경도 값
-        val latitude: Double? = 35.888085 // 지정할 위도 값
-        val longitude: Double? = 128.611408 // 지정할 경도 값
-
+        val latitude = 35.888085 // 지정할 위도 값
+        val longitude = 128.611408 // 지정할 경도 값
 
         val customLatLng = LatLng(latitude!!, longitude!!)
         Log.d("problem","위도 : $latitude, 경도 : $longitude")

@@ -92,7 +92,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
 
         //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
         sharedViewModel.busContents.observe(viewLifecycleOwner) { newBusContent ->
-            Log.d("problem","값 변화 : ${newBusContent[0].arrivalInfo?.nowRemainingTime}")
+            Log.d("problem","값 변화 : ${newBusContent[0].arrivalInfo?.nowRemainingTimes}")
             busSearchAdapter.submitList(newBusContent)
             busSearchAdapter.notifyDataSetChanged()
         }
