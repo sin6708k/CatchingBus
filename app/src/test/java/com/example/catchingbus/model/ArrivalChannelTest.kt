@@ -21,7 +21,7 @@ class ArrivalChannelTest: StringSpec({
 
     beforeTest {
         ScheduleRepo.load(Path("schedules.txt"))
-        println(ScheduleRepo.data.value.joinToString("\n * ", "Schedule\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "Schedule\n "))
     }
 
     "start" {
