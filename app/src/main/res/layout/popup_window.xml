@@ -23,17 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_close_clear_cancel" />
-    </LinearLayout>
+        </LinearLayout>
 
     <!--Create Alarm Text-->
     <TextView
-        android:fontFamily="@font/worksans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="알람 등록"
-        android:textSize="23sp"
         android:layout_gravity="center"
-        android:textAppearance="?attr/textAppearanceHeadline5" />
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/archivo_black"
+        android:text="알람 설정"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
 
     <!--Start Text-->
@@ -41,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="90dp"
@@ -50,12 +53,13 @@
 
 
             <TextView
-                android:fontFamily="@font/worksans"
                 android:id="@+id/start_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="시작"
+                android:fontFamily="@font/archivo_black"
+                android:text="시작 시간"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,8 +74,8 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:background="@drawable/rounded_rec_gray"
-            android:hint="00:00"
-            android:textAlignment="center"
+            android:hint="시작시간입력"
+            android:textAppearance="@style/HintText"
             android:inputType="time" />
 
 
@@ -90,14 +94,17 @@
             android:background="@drawable/rounded_rec_gray">
 
             <TextView
-                android:fontFamily="@font/worksans"
                 android:id="@+id/end_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:text="종료"
+
+
+                android:fontFamily="@font/archivo_black"
+                android:text="종료 시간"
                 android:textAlignment="center"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,8 +118,8 @@
             android:id="@+id/end_time_text"
             android:layout_width="93dp"
             android:layout_height="40dp"
-            android:hint="00:00"
-            android:textAlignment="center"
+            android:hint="종료시간입력"
+            android:textAppearance="@style/HintText"
             android:layout_margin="5dp"
             android:background="@drawable/rounded_rec_gray"
             android:inputType="time" />
@@ -128,20 +135,24 @@
 
         <ImageView
             android:id="@+id/submit_button"
-            android:layout_width="200dp"
-            android:layout_height="45dp"
+            android:layout_width="193dp"
+            android:layout_height="46dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:background="@drawable/rounded_rec_gray"
+            android:background="@drawable/rounded_rec_blue"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="55dp" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADD"
+            android:text="알람 추가"
+            android:textColor="#FEFEFE"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/submit_button"
             app:layout_constraintEnd_toEndOf="@+id/submit_button"
             app:layout_constraintStart_toStartOf="@+id/submit_button"
