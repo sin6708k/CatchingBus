@@ -145,7 +145,6 @@ class SearchViewModel: ViewModel() {
                 _busContents.value = it
             }
         }
-
         Log.d(TAG, "refreshBusContents() end")
     }
 }
