@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:fontFamily="@font/archivo_black"
+        android:fontFamily="@font/orbit_regular_font"
         android:text="알람 설정"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textSize="34sp"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:fontFamily="@font/archivo_black"
+                android:fontFamily="@font/orbit_regular_font"
                 android:text="시작 시간"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +74,8 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:background="@drawable/rounded_rec_gray"
-            android:hint="시작시간입력"
+            android:hint="00:00"
+            android:textAlignment="center"
             android:textAppearance="@style/HintText"
             android:inputType="time" />
 
@@ -99,9 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-
-
-                android:fontFamily="@font/archivo_black"
+                android:fontFamily="@font/orbit_regular_font"
                 android:text="종료 시간"
                 android:textAlignment="center"
                 android:textStyle="bold"
@@ -118,7 +117,8 @@
             android:id="@+id/end_time_text"
             android:layout_width="93dp"
             android:layout_height="40dp"
-            android:hint="종료시간입력"
+            android:hint="00:00"
+            android:textAlignment="center"
             android:textAppearance="@style/HintText"
             android:layout_margin="5dp"
             android:background="@drawable/rounded_rec_gray"
@@ -144,7 +144,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="55dp" />
+            tools:layout_editor_absoluteY="55dp"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/textView3"
