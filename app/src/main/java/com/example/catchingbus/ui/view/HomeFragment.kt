@@ -57,12 +57,14 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home,container,false)
-        mapView = view.findViewById(R.id.map_view)
+        mapView = view.findViewById(R.id.home_map_view)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { map->
             googleMap=map
             onMapReady(googleMap!!)
         }
+        Log.d("problem","홈프래그먼트")
+
         return view
     }
     override fun onResume() {
@@ -85,13 +87,15 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         mapView.onLowMemory()
     }
     override fun onMapReady(p0: GoogleMap) {
+        Log.d("problem","지도호출")
         googleMap = p0
-            //getCurrentLocation()
+        //getCurrentLocation()
 //        checkLocationPermission() //위치권환 확인
-    //showCurrentLocationOnMap() //
+        //showCurrentLocationOnMap() //
         showCustomLocationOnMap()
     }
     private fun checkLocationPermission(){
+        Log.d("problem","위치권한 확인")
         // 현재 위치 표시를 위한 권한 확인
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -99,10 +103,11 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             // 위치 권한이 있는경우
-           // showCurrentLocationOnMap()
+            Log.d("problem","위치권한이 있습니다")
+            // showCurrentLocationOnMap()
         } else {
             // 위치 권한이 없는 경우 권한 요청
-                ActivityCompat.requestPermissions(
+            ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
@@ -119,7 +124,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         when(requestCode){
             REQUEST_LOCATION_PERMISSION ->{
                 if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                   // showCurrentLocationOnMap()
+                    // showCurrentLocationOnMap()
                 }
                 else{
                     Log.d("problem","위치권한이 없어요!")
@@ -142,7 +147,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
                 }
             }
             .addOnFailureListener{
-                e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
+                    e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
             }
     }
 

@@ -1,11 +1,14 @@
 package com.example.catchingbus.model.json
 
+import com.example.catchingbus.viewmodel.GlobalInitializer
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class ArrivalJsonApiTest: StringSpec({
+
+    beforeSpec {
+        ArrivalJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
+    }
 
     "request correctly" {
         val jsons = ArrivalJsonApi.request("22", "DGB7021025800", "DGB3000719000")
