@@ -132,6 +132,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     override fun onResume() {
         super.onResume()
         mainbinding.textLayout.visibility=View.VISIBLE
+        mainbinding.myLayout.visibility=View.GONE
         mapView.onResume()
     }
     override fun onPause() {

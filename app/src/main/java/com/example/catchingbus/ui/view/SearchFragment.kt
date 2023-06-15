@@ -116,6 +116,7 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
     override fun onResume() {
         Log.d("test","검색 resume")
         mainbinding.textLayout.visibility=View.VISIBLE
+        mainbinding.myLayout.visibility=View.GONE
         super.onResume()
     }
     override fun onItemClick(station: Station) {

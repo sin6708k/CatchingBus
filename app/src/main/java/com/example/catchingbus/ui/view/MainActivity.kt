@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId){
                 R.id.fragment_home->{ //홈버튼 누를시.
                     binding.textLayout.visibility=View.VISIBLE
+                    binding.myLayout.visibility=View.GONE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         HomeFragment()
                     )
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.fragment_search->{ //검색버튼
                     binding.textLayout.visibility=View.VISIBLE
+                    binding.myLayout.visibility=View.GONE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         SearchFragment()
                     )
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.fragment_menu->{ //메뉴버튼
                     binding.textLayout.visibility=View.GONE
+                    binding.myLayout.visibility=View.VISIBLE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         FavoriteFragment()
                     )

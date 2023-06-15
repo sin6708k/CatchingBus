@@ -79,6 +79,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         Mainbinding.textLayout.visibility = View.VISIBLE
+        Mainbinding.myLayout.visibility=View.GONE
         mapView.onResume()
     }
 
