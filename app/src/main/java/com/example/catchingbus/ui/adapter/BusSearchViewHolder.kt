@@ -45,8 +45,6 @@ class BusSearchViewHolder(
             val (secondMinutes, secondSeconds) = second_arrive.toComponents { _, minutes, seconds, _ -> minutes to seconds }
             first_arrive_string = String.format("%02d:%02d", firstMinutes, firstSeconds)
             second_arrive_string = String.format("%02d:%02d", secondMinutes, secondSeconds)
-
-
             first_arrive_string = String.format("%02d:%02d", firstMinutes, firstSeconds)
             second_arrive_string = String.format("%02d:%02d", secondMinutes, secondSeconds)
         }
@@ -60,8 +58,16 @@ class BusSearchViewHolder(
 
         itemView.apply{
             binding.busNum.text = num
-            binding.firstArrive.text = first_arrive_string
-            binding.secondArrive.text= second_arrive_string
+            if(first_arrive< Duration.ZERO){
+                binding.firstArrive.text="도착예정"
+            }
+            else
+                binding.firstArrive.text = first_arrive_string
+            if(second_arrive<Duration.ZERO){
+                binding.secondArrive.text="도착예정"
+            }
+            else
+                binding.secondArrive.text= second_arrive_string
         }
         if (first_arrive == Duration.ZERO)  //초기화한값 그대로라면, 시간이 없으므로, 버스 없음을 출력.
             binding.firstArrive.text="버스 없음"
