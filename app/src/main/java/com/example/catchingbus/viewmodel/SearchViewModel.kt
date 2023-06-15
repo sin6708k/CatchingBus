@@ -38,32 +38,32 @@ class SearchViewModel: ViewModel() {
     private val _busContents = MutableLiveData<List<BusContent>>(emptyList())
 
     private var _buses: List<Bus> by observable(listOf()) { _, _, new ->
-        Log.d(TAG, new.joinToString("\n ", "on buses.setValue()\n "))
+       // Log.d(TAG, new.joinToString("\n ", "on buses.setValue()\n "))
         updateArrivalInfoes()
     }
     private var _arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
-        Log.d(TAG, new.toList().joinToString("\n ", "on arrivalInfoes.setValue()\n "))
+       // Log.d(TAG, new.toList().joinToString("\n ", "on arrivalInfoes.setValue()\n "))
         updateBusContents()
     }
     private var _favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, new ->
-        Log.d(TAG, new.toList().joinToString("\n ", "on favorites.setValue()\n "))
+      //  Log.d(TAG, new.toList().joinToString("\n ", "on favorites.setValue()\n "))
         updateBusContents()
     }
 
     init {
         stations.observeForever {
-            Log.d(TAG, it.joinToString("\n ", "on stations.setValue()\n "))
+            //Log.d(TAG, it.joinToString("\n ", "on stations.setValue()\n "))
         }
         selectedStation.observeForever {
-            Log.d(TAG, "on selectedStation.setValue\n $it")
+            //Log.d(TAG, "on selectedStation.setValue\n $it")
             searchBuses(it)
         }
         busContents.observeForever {
-            Log.d(TAG, it.joinToString("\n ", "on busContents.setValue()\n "))
+           // Log.d(TAG, it.joinToString("\n ", "on busContents.setValue()\n "))
         }
         viewModelScope.launch {
             FavoriteRepo.data.collectLatest {
-                Log.d(TAG, it.joinToString("\n ", "on FavoriteRepo.data.setValue()\n "))
+               // Log.d(TAG, it.joinToString("\n ", "on FavoriteRepo.data.setValue()\n "))
                 updateFavorites(it)
             }
         }
@@ -129,16 +129,16 @@ class SearchViewModel: ViewModel() {
     }
 
     private fun updateBusContents() = viewModelScope.launch {
-        Log.d(TAG, "updateBusContents() start")
+        //Log.d(TAG, "updateBusContents() start")
 
         _busContents.value = _buses.map {
             BusContent(it, _arrivalInfoes[it], _favorites[it])
         }
-        Log.d(TAG, "updateBusContents() end")
+        //Log.d(TAG, "updateBusContents() end")
     }
 
     private fun refreshBusContents() = viewModelScope.launch {
-        Log.d(TAG, "refreshBusContents() start")
+        //Log.d(TAG, "refreshBusContents() start")
 
         busContents.value?.let {
             if (it.isNotEmpty()) {
@@ -146,6 +146,6 @@ class SearchViewModel: ViewModel() {
             }
         }
 
-        Log.d(TAG, "refreshBusContents() end")
+        //Log.d(TAG, "refreshBusContents() end")
     }
 }
