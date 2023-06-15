@@ -21,7 +21,7 @@ class FavoriteRepoTest: StringSpec({
     beforeSpec {
         CoroutineScope(Dispatchers.Default).launch {
             FavoriteRepo.data.collectLatest {
-                println(it.joinToString("\n * ", "collectLatest\n * "))
+                println(it.joinToString("\n ", "collectLatest\n "))
             }
         }
         favorite = Favorite(
@@ -46,14 +46,14 @@ class FavoriteRepoTest: StringSpec({
 
     "clear" {
         FavoriteRepo.clear()
-        println(FavoriteRepo.data.value.joinToString("\n * ", "clear\n * "))
+        println(FavoriteRepo.data.value.joinToString("\n ", "clear\n "))
         FavoriteRepo.data.value.isEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }
 
     "add" {
         FavoriteRepo.add(favorite)
-        println(FavoriteRepo.data.value.joinToString("\n * ", "add\n * "))
+        println(FavoriteRepo.data.value.joinToString("\n ", "add\n "))
         FavoriteRepo.data.value.isNotEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }

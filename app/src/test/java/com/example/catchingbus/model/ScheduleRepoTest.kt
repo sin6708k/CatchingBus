@@ -24,7 +24,7 @@ class ScheduleRepoTest: StringSpec({
     beforeSpec {
         CoroutineScope(Dispatchers.Default).launch {
             ScheduleRepo.data.collectLatest {
-                println(it.joinToString("\n * ", "collectLatest\n * "))
+                println(it.joinToString("\n ", "collectLatest\n "))
             }
         }
         schedule = Schedule(
@@ -52,14 +52,14 @@ class ScheduleRepoTest: StringSpec({
 
     "clear" {
         ScheduleRepo.clear()
-        println(ScheduleRepo.data.value.joinToString("\n * ", "clear\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "clear\n "))
         ScheduleRepo.data.value.isEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }
 
     "add" {
         ScheduleRepo.add(schedule)
-        println(ScheduleRepo.data.value.joinToString("\n * ", "add\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "add\n "))
         ScheduleRepo.data.value.isNotEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }

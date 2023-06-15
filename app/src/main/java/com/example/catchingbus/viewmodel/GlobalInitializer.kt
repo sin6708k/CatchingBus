@@ -31,7 +31,8 @@ object GlobalInitializer {
 
             ArrivalChannel.start(
                 period = 1.toDuration(DurationUnit.MINUTES),
-                remainingTimeToSend = 5.toDuration(DurationUnit.MINUTES)
+                remainingTimeToSend = 10.toDuration(DurationUnit.MINUTES),
+                passCountWhenHit = 4
             )
         }
     }

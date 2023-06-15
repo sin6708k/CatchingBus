@@ -21,7 +21,7 @@ class ArrivalChannelTest: StringSpec({
 
     beforeTest {
         ScheduleRepo.load(Path("schedules.txt"))
-        println(ScheduleRepo.data.value.joinToString("\n * ", "Schedule\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "Schedule\n "))
     }
 
     "start" {
@@ -33,11 +33,15 @@ class ArrivalChannelTest: StringSpec({
                 result.add(it)
             }
         }
-
-        ArrivalChannel.start(1.toDuration(DurationUnit.SECONDS))
-
-        eventually(3.toDuration(DurationUnit.SECONDS)) {
-            result.size shouldBe 3
+        ArrivalChannel.start(
+            period = 1.toDuration(DurationUnit.SECONDS),
+            passCountWhenHit = 2
+        )
+        eventually(500.toDuration(DurationUnit.MILLISECONDS)) {
+            result.size shouldBe 1
+        }
+        eventually(3500.toDuration(DurationUnit.SECONDS)) {
+            result.size shouldBe 2
         }
     }
 })
