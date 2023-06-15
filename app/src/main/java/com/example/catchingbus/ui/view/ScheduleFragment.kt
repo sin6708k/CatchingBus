@@ -116,6 +116,7 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
     private fun setupRecyclerView() { //리사이클러뷰 규성.
         Log.d("problem", "스케쥴 리사이클러뷰구성합니다.")
         scheduleAdapter = ScheduleAdapter()
+
         binding.scheduleRecycler.apply {
             setHasFixedSize(true)
             layoutManager =
