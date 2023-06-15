@@ -18,36 +18,20 @@
 
     <TextView
         android:id="@+id/bus_num"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="112dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:fontFamily="@font/worksans"
-        android:gravity="center"
+        android:gravity="left"
         android:hint="버스 번호"
-        android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/deepgray"
         android:textSize="15sp"
         android:textStyle="bold"
-
+        app:flow_verticalAlign="center"
         app:layout_constraintStart_toEndOf="@+id/book_mark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.3" />
-
-
-    <TextView
-        android:id="@+id/first_arrive"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="없음"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/circle"
-        app:layout_constraintWidth_percent="0.5"
-        tools:layout_editor_absoluteY="0dp" />
-
 
     <ImageView
         android:id="@+id/circle"
@@ -59,18 +43,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.1" />
 
-    <TextView
-        android:id="@+id/second_arrive"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:gravity="center"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/first_arrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="없음"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/first_arrive"
         app:layout_constraintEnd_toStartOf="@+id/circle"
-        app:layout_constraintWidth_percent="0.5"
-        tools:layout_editor_absoluteY="30dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/second_arrive"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.2"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/second_arrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="없음"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="15dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/circle"
+        app:layout_constraintTop_toBottomOf="@+id/first_arrive"
+        app:layout_constraintWidth_percent="0.2"
+        tools:layout_editor_absoluteY="30dp"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

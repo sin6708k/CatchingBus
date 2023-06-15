@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/place"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_place"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:flow_verticalAlign="center"
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:id="@+id/station_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="정류장이름"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="left"
+        android:paddingLeft="0dp"
+        app:layout_constraintStart_toEndOf="@+id/place"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:flow_verticalAlign="center"
         android:fontFamily="@font/worksans"
-        android:layout_height="60dp"/>
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
