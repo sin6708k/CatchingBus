@@ -100,9 +100,9 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         Log.d("problem","지도호출")
         googleMap = p0
         //getCurrentLocation()
-//        checkLocationPermission() //위치권환 확인
-        //showCurrentLocationOnMap() //
-        showCustomLocationOnMap()
+        checkLocationPermission() //위치권환 확인
+        //getCurrentLocation()
+
     }
     private fun checkLocationPermission(){
         Log.d("problem","위치권한 확인")
@@ -114,35 +114,32 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         ) {
             // 위치 권한이 있는경우
             Log.d("problem","위치권한이 있습니다")
-            // showCurrentLocationOnMap()
+            //showCurrentLocationOnMap()
+            enableMyLocation()
         } else {
             // 위치 권한이 없는 경우 권한 요청
+            Log.d("problem","위치권한 요청")
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
             )
+            showCustomLocationOnMap()
+
         }
     }
-
-    override fun onRequestPermissionsResult( //위치권한 요청
+    override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d("problem","위치권한을 요청합니다..")
-        when(requestCode){
-            REQUEST_LOCATION_PERMISSION ->{
-                if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    // showCurrentLocationOnMap()
-                }
-                else{
-                    Log.d("problem","위치권한이 없어요!")
-                }
-            }
+        Log.d("problem", "위치권한을 요청합니다..")
+        if (requestCode == REQUEST_LOCATION_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            enableMyLocation()
+        } else {
+            Log.d("problem", "위치권한이 없어요!")
         }
     }
-
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         Log.d("problem","현재 위치를 파악하고있습니다")
@@ -160,21 +157,34 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
                     e-> Toast.makeText(context,"위치정보를 못가져왓습니다",Toast.LENGTH_SHORT).show()
             }
     }
-
-    /*
     @SuppressLint("MissingPermission")
-    private fun showCurrentLocationOnMap() {
+    private fun enableMyLocation() {
         googleMap?.isMyLocationEnabled = true
-        getCurrentLocation { location ->
-            location?.let {
-                val currentLatLng = LatLng(it.latitude, it.longitude)
-                Log.d("problem","위도 : ${currentLatLng.latitude}, 경도 : ${currentLatLng.longitude}")
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-                googleMap?.addMarker(MarkerOptions().position(currentLatLng).title("현재 위치"))
+        googleMap?.uiSettings?.isMyLocationButtonEnabled = true
+        googleMap?.setOnMyLocationButtonClickListener {
+            getCurrentLocation { location ->
+                location?.let {
+                    val currentLatLng = LatLng(it.latitude, it.longitude)
+                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                }
             }
+            true
         }
+        getCurrentLocation()
     }
-     */
+
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation(callback: (Location?) -> Unit) {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                callback(location) // 콜백 함수에 위치 정보 전달
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
+                callback(null) // 콜백 함수에 null 전달
+            }
+    }
     @SuppressLint("MissingPermission")
     private fun showCustomLocationOnMap() {
         val latitude = 35.888085 // 지정할 위도 값
@@ -190,17 +200,5 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
 
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         googleMap?.addMarker(MarkerOptions().position(customLatLng).title("지정한 위치"))
-    }
-    @SuppressLint("MissingPermission")
-    private fun getCurrentLocation(callback: (Location?) -> Unit) {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                callback(location) // 콜백 함수에 위치 정보 전달
-            }
-            .addOnFailureListener {
-                    e -> Toast.makeText(requireContext(), "위치 정보를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show()
-                callback(null) // 콜백 함수에 null 전달
-            }
     }
 }

@@ -4,8 +4,6 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -13,8 +11,6 @@ import com.example.catchingbus.R
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,10 +31,7 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationView.selectedItemId=R.id.fragment_home
         }
         binding.searchText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                // 포커스를 얻었을 때의 동작을 여기에 작성합니다.
-                // 예시: 클릭되었을 때의 동작
-                Toast.makeText(this, "EditText 클릭됨", Toast.LENGTH_SHORT).show()
+            if (hasFocus) { // 포커스를 얻었을 때의 동작을 여기에 작성합니다. // 예시: 클릭되었을 때의 동작
                 supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                     SearchFragment()
                 ).commit()
@@ -62,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item->
             when(item.itemId){
                 R.id.fragment_home->{ //홈버튼 누를시.
-                    Toast.makeText(this,"홈버튼을 눌렀습니다",Toast.LENGTH_SHORT).show()
                     binding.textLayout.visibility=View.VISIBLE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         HomeFragment()
@@ -72,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.fragment_search->{ //검색버튼
-                    Toast.makeText(this,"검색버튼을 눌렀습니다",Toast.LENGTH_SHORT).show()
                     binding.textLayout.visibility=View.VISIBLE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
                         SearchFragment()
@@ -82,10 +73,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.fragment_menu->{ //메뉴버튼
-                    Toast.makeText(this,"메뉴튼을 눌렀습니다",Toast.LENGTH_SHORT).show()
                     binding.textLayout.visibility=View.GONE
                     supportFragmentManager.beginTransaction().replace(R.id.frame_layout,
-                        MenuFragment()
+                        FavoriteFragment()
                     )
                         .addToBackStack(null)
                         .commit()

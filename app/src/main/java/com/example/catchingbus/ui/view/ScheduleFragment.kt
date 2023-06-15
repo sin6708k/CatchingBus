@@ -29,7 +29,9 @@ import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalTime
+import java.time.DateTimeException
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,18 +98,17 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
         dialogBinding.submitButton.setOnClickListener {
             val first = dialogBinding.StartTimeText.text.toString().trim()
             val second = dialogBinding.endTimeText.text.toString().trim()
-            //val formatter = DateTimeFormatter.ofPattern("HH:mm")
-            if(first.length!=5 || second.length!=5){ //정확한 형식이 아니라면
-                Toast.makeText(requireContext(),"시간 형식을 지켜주세요\n(HH:MM)입니다",Toast.LENGTH_SHORT).show()
-            }
-            else {
+            val timePattern = Regex("""^([01]\d|2[0-3]):([0-5]\d)$""")
+            if (!first.matches(timePattern) || !second.matches(timePattern)) {
+                dialogBinding.StartTimeText.text=null
+                dialogBinding.endTimeText.text=null
+                Toast.makeText(requireContext(), "올바른 시간 형식을 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
                 val startTime = LocalTime.parse(first)
                 val endTime = LocalTime.parse(second)
                 Log.d("problem", "ADD버튼")
-                Log.d("problem", "시간 : ${startTime}, ${endTime}")
+                Log.d("problem", "시간 : $startTime, $endTime")
                 favoriteViewModel.addSchedule(startTime, endTime)
-                //val newScheduleList = favoriteViewModel.schedules.value.orEmpty()
-                //scheduleAdapter.submitScheduleList(newScheduleList)
                 dialog?.dismiss()
             }
         }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -78,8 +79,11 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
                 sharedViewModel.searchWord.value = searchText
 
                 Log.d("problem", "${sharedViewModel.searchWord.value.toString()}")
-                sharedViewModel.searchStations()
-                //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
+                sharedViewModel.searchStations() //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
+                val inputMethodManager =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(mainbinding.searchText.windowToken, 0)
+
                 true
             } else {
                 Log.d("problem", "검색실패")
