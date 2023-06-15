@@ -50,6 +50,9 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
     private lateinit var sharedViewModel : SearchViewModel
     private lateinit var favoriteViewModel : FavoriteViewModel
     private lateinit var scheduleAdapter: ScheduleAdapter
+    val Mainbinding: ActivityMainBinding by lazy{
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -60,6 +63,7 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Mainbinding.textLayout.visibility=View.VISIBLE
         _binding = FragmentScheduleBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
         favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
@@ -134,5 +138,9 @@ class ScheduleFragment : Fragment(),ScheduleAdapter.OnScheduleRemoveClickListene
     override fun onScheduleRemoveClick(schedule: Schedule) {
         Log.d("problem","스케줄프래그먼트, 삭제스케줄")
         favoriteViewModel.removeSchedule(schedule)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }

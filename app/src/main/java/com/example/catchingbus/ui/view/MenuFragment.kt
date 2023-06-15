@@ -46,16 +46,19 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
     private lateinit var favoriteViewModel : FavoriteViewModel
     private lateinit var FavoriteAdapter: FavoriteAdapter
     private lateinit  var onFavoriteRemoveClickListener: FavoriteAdapter.OnFavoriteRemoveClickListener
+    val Mainbinding: ActivityMainBinding by lazy{
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Mainbinding.textLayout.visibility = View.GONE
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
         favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)

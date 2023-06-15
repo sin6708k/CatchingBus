@@ -11,12 +11,14 @@ import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import com.example.catchingbus.R
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.core.app.ActivityCompat
 import android.location.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import android.print.PrintAttributes.Margins
 import android.util.Log
 import android.widget.Toast
+import com.example.catchingbus.databinding.ActivityMainBinding
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -38,7 +40,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment(),OnMapReadyCallback {
     // TODO: Rename and change types of parameters
-
+    private lateinit var mainActivity: MainActivity
+    private val Mainbinding: ActivityMainBinding
+        get() = mainActivity.binding
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
     private lateinit var fusedLocationClient:FusedLocationProviderClient
@@ -56,6 +64,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        Mainbinding.textLayout.visibility=View.VISIBLE
         val view = inflater.inflate(R.layout.fragment_home,container,false)
         mapView = view.findViewById(R.id.home_map_view)
         mapView.onCreate(savedInstanceState)
@@ -69,6 +78,7 @@ class HomeFragment : Fragment(),OnMapReadyCallback {
     }
     override fun onResume() {
         super.onResume()
+        Mainbinding.textLayout.visibility = View.VISIBLE
         mapView.onResume()
     }
 
