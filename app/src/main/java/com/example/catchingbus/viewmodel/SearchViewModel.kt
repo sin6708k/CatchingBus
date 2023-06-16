@@ -50,6 +50,8 @@ class SearchViewModel: ViewModel() {
         updateBusContents()
     }
 
+    private var passCountForUpdate = 0
+
     init {
         stations.observeForever {
             Log.d(TAG, it.joinToString("\n ", "on stations.setValue()\n "))
@@ -68,7 +70,7 @@ class SearchViewModel: ViewModel() {
             }
         }
         fixedRateTimer(period = 1000) { // 1초마다
-            refreshBusContents()
+            runRefreshTask()
         }
     }
 
@@ -146,5 +148,15 @@ class SearchViewModel: ViewModel() {
             }
         }
         Log.d(TAG, "refreshBusContents() end")
+    }
+
+    private fun runRefreshTask() {
+        if (passCountForUpdate <= 0) {
+            updateArrivalInfoes()
+            passCountForUpdate = 9
+        } else {
+            refreshBusContents()
+            passCountForUpdate -= 1
+        }
     }
 }
