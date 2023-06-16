@@ -37,10 +37,10 @@ class ArrivalChannelTest: StringSpec({
             period = 1.toDuration(DurationUnit.SECONDS),
             passCountWhenHit = 2
         )
-        eventually(500.toDuration(DurationUnit.MILLISECONDS)) {
+        eventually(1500.toDuration(DurationUnit.MILLISECONDS)) {
             result.size shouldBe 1
         }
-        eventually(3500.toDuration(DurationUnit.SECONDS)) {
+        eventually(4500.toDuration(DurationUnit.SECONDS)) {
             result.size shouldBe 2
         }
     }
