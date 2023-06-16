@@ -6,7 +6,12 @@ object BusJsonApi: JsonApi(
 ) {
     suspend fun request(cityCode: String, routeId: String): List<BusJson> {
         val jsonString = download("&cityCode=${cityCode}&routeId=${routeId}")
-        val jsonElement = parse(jsonString)
-        return Json.deserialize(BusJson::class, jsonElement)
+
+        return if (jsonString.isNotEmpty()) {
+            val jsonElement = parse(jsonString)
+            Json.deserialize(BusJson::class, jsonElement)
+        } else {
+            emptyList()
+        }
     }
 }
