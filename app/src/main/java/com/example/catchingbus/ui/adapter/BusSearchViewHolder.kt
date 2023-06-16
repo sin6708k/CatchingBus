@@ -64,15 +64,17 @@ class BusSearchViewHolder(
             }
             else
                 binding.secondArrive.text= second_arrive_string
+            Log.d("ttttttt","${velocity.toString()},${bus.toString()}")
             when(velocity){
+
                 Velocity.FAST -> {
-                    binding.circle.setBackgroundResource(R.drawable.ic_green_circle)
+                    binding.circle.setImageResource(R.drawable.ic_green_circle)
                 }
                 Velocity.SLOW ->{
-                    binding.circle.setBackgroundResource(R.drawable.ic_rec_circle)
+                    binding.circle.setImageResource(R.drawable.ic_rec_circle)
                 }
                 else -> {
-                    binding.circle.setBackgroundResource(R.drawable.ic_yellow_circle)
+                    binding.circle.setImageResource(R.drawable.ic_yellow_circle)
                 }
             }
         }
