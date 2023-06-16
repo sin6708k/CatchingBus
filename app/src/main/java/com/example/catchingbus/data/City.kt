@@ -5,7 +5,8 @@ data class City(
     val name: String
 ) {
     companion object {
-        val default = City(22, "대구광역시")
+        val default = City(21, "부산광역시")
+        // City(22, "대구광역시")
     }
 
     override fun hashCode(): Int {

@@ -3,8 +3,10 @@ package com.example.catchingbus.ui.adapter
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.example.catchingbus.R
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Favorite
+import com.example.catchingbus.data.Velocity
 import com.example.catchingbus.databinding.ItemBusPreviewBinding
 import com.example.catchingbus.viewmodel.BusContent
 import com.example.catchingbus.viewmodel.FavoriteViewModel
@@ -29,14 +31,8 @@ class BusSearchViewHolder(
         var second_arrive :Duration=Duration.ZERO
         var first_arrive_string =""
         var second_arrive_string=""
+        val velocity = bus.arrivalInfo?.velocity
 
-
-
-
-
-
-        //var first_arrive : String=""
-        //var second_arrive : String = ""
 
         if(bus.arrivalInfo!!.remainingTimes.size==2) { //버스가 두 대일떄는 정상적으로 받음.
             first_arrive=bus.arrivalInfo.nowRemainingTimes[0]
@@ -68,6 +64,19 @@ class BusSearchViewHolder(
             }
             else
                 binding.secondArrive.text= second_arrive_string
+            Log.d("ttttttt","${velocity.toString()},${bus.toString()}")
+            when(velocity){
+
+                Velocity.FAST -> {
+                    binding.circle.setImageResource(R.drawable.ic_green_circle)
+                }
+                Velocity.SLOW ->{
+                    binding.circle.setImageResource(R.drawable.ic_rec_circle)
+                }
+                else -> {
+                    binding.circle.setImageResource(R.drawable.ic_yellow_circle)
+                }
+            }
         }
         if (first_arrive == Duration.ZERO)  //초기화한값 그대로라면, 시간이 없으므로, 버스 없음을 출력.
             binding.firstArrive.text="버스 없음"

@@ -39,7 +39,7 @@ class SearchViewModel: ViewModel() {
 
     private var _buses: List<Bus> by observable(listOf()) { _, _, new ->
         Log.d(TAG, new.joinToString("\n ", "on buses.setValue()\n "))
-        updateArrivalInfoes()
+        searchArrivalInfoes()
     }
     private var _arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
         Log.d(TAG, new.toList().joinToString("\n ", "on arrivalInfoes.setValue()\n "))
@@ -93,7 +93,7 @@ class SearchViewModel: ViewModel() {
     }
 
     // View에서 새로고침 버튼을 누를 때마다 이 function을 호출해야 한다
-    fun updateArrivalInfoes() = viewModelScope.launch {
+    fun searchArrivalInfoes() = viewModelScope.launch {
         Log.d(TAG, "updateArrivalInfoes() start")
 
         selectedStation.value?.let { station ->
