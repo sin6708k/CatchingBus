@@ -6,7 +6,12 @@ object CityJsonApi: JsonApi(
 ) {
     suspend fun request(): List<CityJson> {
         val jsonString = download("")
-        val jsonElement = parse(jsonString)
-        return Json.deserialize(CityJson::class, jsonElement)
+
+        return if (jsonString.isNotEmpty()) {
+            val jsonElement = parse(jsonString)
+            Json.deserialize(CityJson::class, jsonElement)
+        } else {
+            emptyList()
+        }
     }
 }

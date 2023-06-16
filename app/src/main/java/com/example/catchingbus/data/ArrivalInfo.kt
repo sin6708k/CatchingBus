@@ -1,6 +1,6 @@
 package com.example.catchingbus.data
 
-import java.time.LocalDateTime
+import kotlinx.datetime.Clock
 import kotlin.time.Duration
 
 data class ArrivalInfo(
@@ -8,14 +8,27 @@ data class ArrivalInfo(
     val bus: Bus,
     val remainingTimes: List<Duration>,
 ) {
+    val creationTime = Clock.System.now()
 
-    val creationTime = LocalDateTime.now() ?: null
+    val nowRemainingTimes: List<Duration> get() {
+        return remainingTimes.map {
+            it - (Clock.System.now() - creationTime)
+        }
+    }
+
+    /*
+    val nowRemainingTime: List<String> get() {
+        return remainingTimes.map { duration ->
+            val minutes = duration.inWholeMinutes
+            val seconds = duration.inWholeSeconds % 60
+            String.format("%02d:%02d", minutes, seconds)
+        }
+    }
+
+     */
     val velocity: Velocity by lazy {
         if (remainingTimes.size >= 2) {
-            val firstTime = remainingTimes[0]
-            val secondTime = remainingTimes[1]
-
-            if (secondTime - firstTime < bus.intervalTime) {
+            if (remainingTimes[1] - remainingTimes[0] < bus.intervalTime) {
                 Velocity.FAST
             } else {
                 Velocity.SLOW

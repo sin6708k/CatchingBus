@@ -13,7 +13,12 @@ object StationJsonApi: JsonApi(
             encode(nodeNm, "UTF-8")
         }
         val jsonString = download("&cityCode=${cityCode}&nodeNm=${encodedNodeNm}&pageNo=1&numOfRows=10")
-        val jsonElement = parse(jsonString)
-        return Json.deserialize(StationJson::class, jsonElement)
+
+        return if (jsonString.isNotEmpty()) {
+            val jsonElement = parse(jsonString)
+            Json.deserialize(StationJson::class, jsonElement)
+        } else {
+            emptyList()
+        }
     }
 }

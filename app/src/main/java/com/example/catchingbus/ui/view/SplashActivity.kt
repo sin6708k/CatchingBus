@@ -33,13 +33,12 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         splashScope.launch {
             val permissionGranted = performPermission()
-            someFunction()
             if (permissionGranted) {
                 performTask()
                 performNextTask()
             } else {
                 // 권한이 허용되지 않았을 경우 처리할 내용
-                Toast.makeText(this@SplashActivity,"알림을 허용하지 않으면\n버스 알림을 받을 수 없습니다",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@SplashActivity,"알림을 허용하지 않으면\n버스 알림을 받을 수 없습니다",Toast.LENGTH_SHORT).show()
                 performTask()
                 performNextTask()
             }
@@ -58,20 +57,12 @@ class SplashActivity : AppCompatActivity() {
         }
         val builder = TedPermission.create()
             .setPermissionListener(permissionListener)
-            .setDeniedMessage("알림 권한을 거절하신다면 알림 기능을 사용할 수 없습니다")
-            //.setPermissions(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM, Manifest.permission.USE_EXACT_ALARM, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-            .setPermissions(Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+            //.setDeniedMessage("알림 권한을 거절하신다면 알림 기능을 사용할 수 없습니다")
+            .setPermissions(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.SCHEDULE_EXACT_ALARM, Manifest.permission.USE_EXACT_ALARM, Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+            //.setPermissions(Manifest.permission.ACCESS_NOTIFICATION_POLICY)
         builder.check()
     }
     // 사용 예시
-    private suspend fun someFunction() {
-        val isPermissionGranted = performPermission()
-        if (isPermissionGranted) {
-            Log.d("problem", "알림 권한이 있습니다.")
-        } else {
-            Log.d("problem", "알림 권한이 없습니다.")
-        }
-    }
 
     private suspend fun performTask() {
         withContext(Dispatchers.IO) {

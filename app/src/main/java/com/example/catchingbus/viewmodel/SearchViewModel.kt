@@ -15,6 +15,7 @@ import com.example.catchingbus.model.FavoriteRepo
 import com.example.catchingbus.model.StationService
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.concurrent.fixedRateTimer
 import kotlin.properties.Delegates.observable
 
 class SearchViewModel: ViewModel() {
@@ -37,40 +38,46 @@ class SearchViewModel: ViewModel() {
     private val _busContents = MutableLiveData<List<BusContent>>(emptyList())
 
     private var _buses: List<Bus> by observable(listOf()) { _, _, new ->
-        Log.d(TAG, new.joinToString("\n * ", "on buses.setValue()\n * "))
+        Log.d(TAG, new.joinToString("\n ", "on buses.setValue()\n "))
         updateArrivalInfoes()
     }
     private var _arrivalInfoes: Map<Bus, ArrivalInfo> by observable(emptyMap()) { _, _, new ->
-        Log.d(TAG, new.toList().joinToString("\n * ", "on arrivalInfoes.setValue()\n * "))
+        Log.d(TAG, new.toList().joinToString("\n ", "on arrivalInfoes.setValue()\n "))
         updateBusContents()
     }
     private var _favorites: Map<Bus, Favorite> by observable(emptyMap()) { _, _, new ->
-        Log.d(TAG, new.toList().joinToString("\n * ", "on favorites.setValue()\n * "))
+        Log.d(TAG, new.toList().joinToString("\n ", "on favorites.setValue()\n "))
         updateBusContents()
     }
 
     init {
         stations.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on stations.setValue()\n * "))
+            Log.d(TAG, it.joinToString("\n ", "on stations.setValue()\n "))
         }
         selectedStation.observeForever {
-            Log.d(TAG, "on selectedStation.setValue\n * $it")
+            Log.d(TAG, "on selectedStation.setValue\n $it")
             searchBuses(it)
         }
         busContents.observeForever {
-            Log.d(TAG, it.joinToString("\n * ", "on busContents.setValue()\n * "))
+            Log.d(TAG, it.joinToString("\n ", "on busContents.setValue()\n "))
         }
         viewModelScope.launch {
             FavoriteRepo.data.collectLatest {
+                Log.d(TAG, it.joinToString("\n ", "on FavoriteRepo.data.setValue()\n "))
                 updateFavorites(it)
             }
+        }
+        fixedRateTimer(period = 1000) { // 1초마다
+            refreshBusContents()
         }
     }
 
     // View에서 검색 창에 입력을 마칠 때마다 이 function을 호출해야 한다
     fun searchStations() = viewModelScope.launch {
         Log.d(TAG, "searchStations() start")
+
         _stations.value = StationService.search(searchWord.value.orEmpty())
+
         Log.d(TAG, "searchStations() end")
     }
 
@@ -102,16 +109,12 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "addOrRemoveFavorite() start")
 
         selectedStation.value?.let { station ->
-            Log.d("problem","${busContent}")
             if (busContent.favorite == null) {
                 Log.d(TAG, "addOrRemoveFavorite() add")
                 FavoriteRepo.add(Favorite(station, busContent.bus))
-               // busContent.favorite = Favorite(station,busContent.bus) //내가 추가
-                //favorites.values= listOf(Favorite(station,busContent.bus))
             } else {
                 Log.d(TAG, "addOrRemoveFavorite() remove")
-                FavoriteRepo.remove(busContent.favorite!!) //내가 추가
-                //busContent.favorite=null
+                FavoriteRepo.remove(busContent.favorite!!)
             }
         }
         Log.d(TAG, "addOrRemoveFavorite() end")
@@ -125,12 +128,23 @@ class SearchViewModel: ViewModel() {
         Log.d(TAG, "updateFavorites() end")
     }
 
-    private fun updateBusContents() {
+    private fun updateBusContents() = viewModelScope.launch {
         Log.d(TAG, "updateBusContents() start")
 
         _busContents.value = _buses.map {
             BusContent(it, _arrivalInfoes[it], _favorites[it])
         }
         Log.d(TAG, "updateBusContents() end")
+    }
+
+    private fun refreshBusContents() = viewModelScope.launch {
+        Log.d(TAG, "refreshBusContents() start")
+
+        busContents.value?.let {
+            if (it.isNotEmpty()) {
+                _busContents.value = it
+            }
+        }
+        Log.d(TAG, "refreshBusContents() end")
     }
 }

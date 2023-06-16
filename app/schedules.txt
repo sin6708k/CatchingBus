@@ -1,0 +1,20 @@
+[
+  {
+    "favorite": {
+      "station": {
+        "id": "DGB7021025800",
+        "name": "경북대학교북문앞",
+        "latitude": 35.89294,
+        "longitude": 128.60996
+      },
+      "bus": {
+        "id": "DGB3000719000",
+        "name": "719",
+        "intervalTime": 0,
+        "type": "간선버스"
+      }
+    },
+    "startTime": 19800,
+    "endTime": 84600
+  }
+]

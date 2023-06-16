@@ -22,8 +22,6 @@ object BusService {
                 async { BusJsonApi.request(city.code.toString(), it.routeid).first() }
             }.awaitAll()
         }
-        return busJsons.map {
-            Bus(it.routeid, it.routeno, it.intervaltime.toDuration(DurationUnit.MINUTES), it.routetp)
-        }
+        return busJsons.map { Bus(it.routeid, it.routeno, it.intervaltime.toDuration(DurationUnit.MINUTES), it.routetp) }
     }
 }

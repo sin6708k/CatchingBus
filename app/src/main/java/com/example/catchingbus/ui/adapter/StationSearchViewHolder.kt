@@ -22,7 +22,6 @@ class StationSearchViewHolder(
         val longitude = station.longitude //경도
         val latitude = station.latitude //위도
         val id = station.id //
-
         itemView.apply { //각각의 데이터와 구성요소를 연결함.
             binding.stationName.text=name
         }

@@ -83,8 +83,9 @@ class ArrivalChannelObserver(private val notificationManager: NotificationManage
             }
         )
         //알림창 제목
-        builder.setContentTitle("Catching Bus") //회의명노출
-        builder.setContentText(message.arrivalInfo.station.name+"에"+message.arrivalInfo.bus.name+"오고 있습니다!")
+        builder.setContentTitle("버스 알림") //회의명노출
+        builder.setContentText(message.arrivalInfo.station.name+"에\n"+message.arrivalInfo.bus.name+"오고있습니다!\n")
+
         builder.setSmallIcon(R.mipmap.ic_bus)
         //.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_bus)) // 큰 아이콘 설정
         builder.setAutoCancel(true) //알림창 터치시 자동 삭제

@@ -18,6 +18,7 @@ object Json {
             .create()
     }
 
+    // JSON 데이터를 우리가 사용할 수 있는 형식의 리스트로 변환한다.
     fun <T : Any> deserialize(clazz: KClass<T>, jsonElement: JsonElement): List<T> {
         return try {
             if (jsonElement.isJsonArray) {
@@ -35,6 +36,7 @@ object Json {
         }
     }
 
+    // 리스트를 JSON 데이터로 변환한다.
     fun <T : Any> serialize(clazz: KClass<T>, list: List<T>): String {
         return try {
             gson.toJson(

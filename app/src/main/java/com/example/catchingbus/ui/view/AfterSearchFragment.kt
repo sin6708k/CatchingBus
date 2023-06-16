@@ -1,6 +1,7 @@
 package com.example.catchingbus.ui.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.text.Editable
@@ -19,6 +20,7 @@ import com.example.catchingbus.R
 import com.example.catchingbus.data.ArrivalInfo
 import com.example.catchingbus.data.Favorite
 import com.example.catchingbus.data.Station
+import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentAfterSearchBinding
 import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.BusSearchAdapter
@@ -53,16 +55,13 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
 
     private var _binding: FragmentAfterSearchBinding? = null
     private val binding: FragmentAfterSearchBinding get() = _binding!!
-    /*
-    private val sharedViewModel: SearchViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+    private lateinit var mainActivity: MainActivity
+    private val mainbinding: ActivityMainBinding
+        get() = mainActivity.binding
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
     }
-     */
-    /*
-    private val favoriteViewModel: FavoriteViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
-    }
-     */
     private lateinit var sharedViewModel : SearchViewModel
     private lateinit var favoriteViewModel : FavoriteViewModel
 
@@ -71,6 +70,7 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("problem","afterSearch 프래그먼트")
+
         super.onCreate(savedInstanceState)
     }
     override fun onCreateView(
@@ -92,8 +92,9 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
 
         //arrivalinfoes를 관찰해서, 어뎁터에 넣어줌.
         sharedViewModel.busContents.observe(viewLifecycleOwner) { newBusContent ->
-            Log.d("problem","값 변화 : ${newBusContent}")
+            Log.d("problem","값 변화 : ${newBusContent[0].arrivalInfo?.nowRemainingTimes}")
             busSearchAdapter.submitList(newBusContent)
+            busSearchAdapter.notifyDataSetChanged()
         }
         return binding.root
     }
@@ -130,6 +131,8 @@ class AfterSearchFragment : Fragment(),OnMapReadyCallback, BusSearchAdapter.OnBu
     }
     override fun onResume() {
         super.onResume()
+        mainbinding.textLayout.visibility=View.VISIBLE
+        mainbinding.myLayout.visibility=View.GONE
         mapView.onResume()
     }
     override fun onPause() {

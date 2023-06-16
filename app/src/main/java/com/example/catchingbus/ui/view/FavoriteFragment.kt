@@ -6,24 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catchingbus.R
 import com.example.catchingbus.data.Favorite
-import com.example.catchingbus.data.Station
 import com.example.catchingbus.databinding.ActivityMainBinding
 import com.example.catchingbus.databinding.FragmentMenuBinding
-import com.example.catchingbus.databinding.FragmentSearchBinding
 import com.example.catchingbus.ui.adapter.FavoriteAdapter
-import com.example.catchingbus.ui.adapter.StationSearchAdapter
 import com.example.catchingbus.viewmodel.FavoriteViewModel
 import com.example.catchingbus.viewmodel.SearchViewModel
-import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +28,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,FavoriteAdapter.OnFavoriteRemoveClickListener {
+class FavoriteFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,FavoriteAdapter.OnFavoriteRemoveClickListener {
     // TODO: Rename and change types of parameters
 
     private var _binding: FragmentMenuBinding? = null
@@ -46,16 +39,19 @@ class MenuFragment : Fragment(), FavoriteAdapter.OnFavoriteClickListener,Favorit
     private lateinit var favoriteViewModel : FavoriteViewModel
     private lateinit var FavoriteAdapter: FavoriteAdapter
     private lateinit  var onFavoriteRemoveClickListener: FavoriteAdapter.OnFavoriteRemoveClickListener
+    val Mainbinding: ActivityMainBinding by lazy{
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Mainbinding.textLayout.visibility = View.GONE
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
         favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)

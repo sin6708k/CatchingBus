@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -35,13 +36,15 @@ private const val ARG_PARAM2 = "param2"
 class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var _binding: FragmentSearchBinding? = null
+    private val mainbinding: ActivityMainBinding
+        get() = mainActivity.binding
     private val binding: FragmentSearchBinding get() = _binding!!
+
     private lateinit var mainActivity: MainActivity
-    private lateinit var mainBinding: ActivityMainBinding
+
     private lateinit var sharedViewModel : SearchViewModel
     private lateinit var favoriteViewModel : FavoriteViewModel
     private lateinit var stationSearchAdapter: StationSearchAdapter
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -55,7 +58,6 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
         favoriteViewModel = ViewModelProvider(requireActivity()).get(FavoriteViewModel::class.java)
-        mainBinding = mainActivity.binding
         // = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         search()
@@ -70,15 +72,18 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
 
     private fun search() {
         Log.d("problem", "search를 합니다")
-        mainBinding.searchText.setOnEditorActionListener { _, actionId, _ ->
+        mainbinding.searchText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                val searchText = mainBinding.searchText.text.toString()
+                val searchText = mainbinding.searchText.text.toString()
                 Log.d("problem", "검색 텍스트는 ${searchText}")
                 sharedViewModel.searchWord.value = searchText
 
                 Log.d("problem", "${sharedViewModel.searchWord.value.toString()}")
-                sharedViewModel.searchStations()
-                //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
+                sharedViewModel.searchStations() //이렇게 하면 viewmodel에 스테이션이 들어가게됩니다.
+                val inputMethodManager =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(mainbinding.searchText.windowToken, 0)
+
                 true
             } else {
                 Log.d("problem", "검색실패")
@@ -108,11 +113,16 @@ class SearchFragment : Fragment(), StationSearchAdapter.OnItemClickListener {
         _binding = null
         super.onDestroyView()
     }
-
+    override fun onResume() {
+        Log.d("test","검색 resume")
+        mainbinding.textLayout.visibility=View.VISIBLE
+        mainbinding.myLayout.visibility=View.GONE
+        super.onResume()
+    }
     override fun onItemClick(station: Station) {
         // 아이템뷰 클릭 이벤트 처리
         Log.d("problem", "아이템 클릭 , ${station.name}")
-        mainBinding.searchText.setText(station.name)
+        mainbinding.searchText.setText(station.name)
         sharedViewModel.selectedStation.value = station
         sharedViewModel.busContents.observe(viewLifecycleOwner) { busContent ->
             if (busContent.isNotEmpty()) {

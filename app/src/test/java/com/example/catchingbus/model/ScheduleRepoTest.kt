@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toKotlinLocalTime
 import java.time.LocalTime
+import kotlin.io.path.Path
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -20,15 +21,12 @@ class ScheduleRepoTest: StringSpec({
 
     lateinit var schedule: Schedule
 
-    beforeTest {
-        ScheduleRepo.load("")
-
+    beforeSpec {
         CoroutineScope(Dispatchers.Default).launch {
             ScheduleRepo.data.collectLatest {
-                println(it.joinToString("\n * ", "collectLatest\n * "))
+                println(it.joinToString("\n ", "collectLatest\n "))
             }
         }
-
         schedule = Schedule(
             favorite = Favorite(
                 station = Station(
@@ -48,16 +46,20 @@ class ScheduleRepoTest: StringSpec({
         )
     }
 
-    "clear" {
+    beforeTest {
+        ScheduleRepo.load(Path("schedules.txt"))
+    }
+
+    "clear()가 잘 되는가?" {
         ScheduleRepo.clear()
-        println(ScheduleRepo.data.value.joinToString("\n * ", "clear\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "clear\n "))
         ScheduleRepo.data.value.isEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }
 
-    "add" {
+    "add()가 잘 되는가?" {
         ScheduleRepo.add(schedule)
-        println(ScheduleRepo.data.value.joinToString("\n * ", "add\n * "))
+        println(ScheduleRepo.data.value.joinToString("\n ", "add\n "))
         ScheduleRepo.data.value.isNotEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }

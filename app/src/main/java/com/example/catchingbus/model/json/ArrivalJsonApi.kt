@@ -6,7 +6,12 @@ object ArrivalJsonApi: JsonApi(
 ) {
     suspend fun request(cityCode: String, nodeId: String, routeId: String): List<ArrivalJson> {
         val jsonString = download("&cityCode=${cityCode}&nodeId=${nodeId}&routeId=${routeId}")
-        val jsonElement = parse(jsonString)
-        return Json.deserialize(ArrivalJson::class, jsonElement)
+
+        return if (jsonString.isNotEmpty()) {
+            val jsonElement = parse(jsonString)
+            Json.deserialize(ArrivalJson::class, jsonElement)
+        } else {
+            emptyList()
+        }
     }
 }
