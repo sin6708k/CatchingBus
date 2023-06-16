@@ -33,7 +33,7 @@ class ArrivalInfoServiceTest: StringSpec({
         )
     }
 
-    "search" {
+    "search()가 잘 되는가?" {
         val arrivalInfo = ArrivalInfoService.search(station, bus)
         println(arrivalInfo)
         arrivalInfo.remainingTimes.isNotEmpty() shouldBe true

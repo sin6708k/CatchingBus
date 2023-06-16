@@ -44,14 +44,14 @@ class FavoriteRepoTest: StringSpec({
         FavoriteRepo.load(Path("favorites.txt"))
     }
 
-    "clear" {
+    "clear()가 잘 되는가?" {
         FavoriteRepo.clear()
         println(FavoriteRepo.data.value.joinToString("\n ", "clear\n "))
         FavoriteRepo.data.value.isEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }
 
-    "add" {
+    "add()가 잘 되는가?" {
         FavoriteRepo.add(favorite)
         println(FavoriteRepo.data.value.joinToString("\n ", "add\n "))
         FavoriteRepo.data.value.isNotEmpty() shouldBe true

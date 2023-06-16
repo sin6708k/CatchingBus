@@ -11,7 +11,7 @@ class StationServiceTest: StringSpec({
         StationJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
     }
 
-    "search" {
+    "search()가 잘 되는가?" {
         val stations = StationService.search("경북대학교북문")
         println(stations.joinToString("\n", "\n"))
         stations.isNotEmpty() shouldBe true

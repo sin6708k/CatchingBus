@@ -10,13 +10,13 @@ class ArrivalJsonApiTest: StringSpec({
         ArrivalJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
     }
 
-    "request correctly" {
+    "입력을 올바르게 넣었을 때 request()가 잘 되는가?" {
         val jsons = ArrivalJsonApi.request("22", "DGB7021025800", "DGB3000719000")
         println(jsons.joinToString("\n", "\n"))
         jsons.isNotEmpty() shouldBe true
     }
 
-    "request incorrectly" {
+    "입력을 이상하게 넣었을 때 request()가 빈 결과값을 return하는가?" {
         val jsons = ArrivalJsonApi.request("22", "", "")
         println(jsons.joinToString("\n", "\n"))
         jsons.isEmpty() shouldBe true

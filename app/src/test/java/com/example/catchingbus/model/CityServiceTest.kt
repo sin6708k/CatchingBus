@@ -11,7 +11,7 @@ class CityServiceTest: StringSpec({
         CityJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
     }
 
-    "search" {
+    "search()가 잘 되는가?" {
         val cities = CityService.search()
         println(cities.joinToString("\n", "\n"))
         cities.isNotEmpty() shouldBe true

@@ -25,7 +25,7 @@ class BusServiceTest: StringSpec({
         )
     }
 
-    "search" {
+    "search()가 잘 되는가?" {
         val buses = BusService.search(station)
         println(buses.joinToString("\n", "\n"))
         buses.isNotEmpty() shouldBe true

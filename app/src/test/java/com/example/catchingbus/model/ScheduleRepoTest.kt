@@ -50,14 +50,14 @@ class ScheduleRepoTest: StringSpec({
         ScheduleRepo.load(Path("schedules.txt"))
     }
 
-    "clear" {
+    "clear()가 잘 되는가?" {
         ScheduleRepo.clear()
         println(ScheduleRepo.data.value.joinToString("\n ", "clear\n "))
         ScheduleRepo.data.value.isEmpty() shouldBe true
         delay(1.toDuration(DurationUnit.SECONDS))
     }
 
-    "add" {
+    "add()가 잘 되는가?" {
         ScheduleRepo.add(schedule)
         println(ScheduleRepo.data.value.joinToString("\n ", "add\n "))
         ScheduleRepo.data.value.isNotEmpty() shouldBe true

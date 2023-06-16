@@ -24,7 +24,7 @@ class ArrivalChannelTest: StringSpec({
         println(ScheduleRepo.data.value.joinToString("\n ", "Schedule\n "))
     }
 
-    "start" {
+    "start() 후에 message collection이 잘 되는가?" {
         val result = mutableListOf<ArrivalChannelMessage>()
 
         CoroutineScope(Dispatchers.Default).launch {
