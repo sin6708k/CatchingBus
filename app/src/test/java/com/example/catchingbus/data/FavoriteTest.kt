@@ -41,11 +41,11 @@ class FavoriteTest: StringSpec({
         )
     }
 
-    "equals" {
+    "id는 같은데 그외의 값이 다를 때 동등한 객체로 취급되는가?" {
         favorite1 shouldBeEqual favorite2
     }
 
-    "equals in map" {
+    "id는 같은데 그외의 값이 다를 때 map에서 같은 key로 취급되는가?" {
         val map = mutableMapOf<Bus, Favorite>()
         map[favorite1.bus] = favorite1
 

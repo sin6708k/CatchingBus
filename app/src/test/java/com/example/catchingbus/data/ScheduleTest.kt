@@ -51,7 +51,7 @@ class ScheduleTest: StringSpec({
         )
     }
 
-    "equals" {
+    "favorite 값이 id만 같을 때 동등한 객체로 취급되는가?" {
         schedule1 shouldBeEqual schedule2
     }
 })

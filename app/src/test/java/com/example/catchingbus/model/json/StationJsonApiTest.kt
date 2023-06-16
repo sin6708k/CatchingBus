@@ -10,7 +10,7 @@ class StationJsonApiTest: StringSpec({
         StationJsonApi.initialize(GlobalInitializer.SERVICE_KEY)
     }
 
-    "request correctly" {
+    "request()가 잘 되는가?" {
         val jsons = StationJsonApi.request("22", "경북대학교북문")
         println(jsons.joinToString("\n", "\n"))
         jsons.isNotEmpty() shouldBe true
